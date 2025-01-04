@@ -13,8 +13,16 @@
 
 a {
   text-decoration: none;
-  color: var(--dark-col);
-  font-weight: bold;
+}
+ul li {
+  list-style-type: none;
+}
+input {
+    border: none;
+    outline: none;
+}
+input[type=text] {
+    padding-left: 10px;
 }
 
 .nav-container {
@@ -49,8 +57,6 @@ a {
 
 .search-input {
   background-color: var(--light-col);
-  border: none;
-  outline: none;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
   width: 100%;
@@ -76,6 +82,11 @@ a {
 
 .nav-options li:hover::after {
   width: 100%;
+}
+.nav-options li a {
+  width: 100%;
+  color: var(--dark-col);
+  font-weight: bold;
 }
 
 .responsive-search {
@@ -121,7 +132,7 @@ a {
   padding: 0;
 }
 .responsive-menu.active {
-    max-height: 300px;
+  max-height: 300px;
 }
 
 @media (max-width: 700px) {
@@ -139,4 +150,36 @@ a {
   .menu-pop {
     display: block;
   }
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--dark-col);
+  text-align: center;
+  height: 160px;
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem 1rem;
+}
+
+.footer-links ul li a {
+  color: var(--null-white);
+  font-weight: bold;
+}
+
+.footer-links ul li {
+    padding: 3px;
+}
+
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footer-socials .fa {
+  font-size: 24px;
 }
