@@ -1,6 +1,13 @@
 import React from "react";
+import Button3 from "./Buttons/Button3";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <>
       <footer className="footer">
@@ -20,7 +27,9 @@ const Footer = () => {
         <div className="footer-socials">
           <div className="fa fa-linkedin"></div>
           <div className="fa fa-github"></div>
-          <button className="">Back to top</button>
+          <div>
+            <Button3 text={"Back to top"} onClick={scrollToTop}/>
+          </div>
         </div>
       </footer>
     </>

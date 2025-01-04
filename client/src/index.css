@@ -29,18 +29,17 @@ input[type="text"] {
 .nav-container {
   position: sticky;
   top: 0;
+  z-index: 100;
   width: 100%;
-  height: 4rem;
+  height: 3.5rem;
   background-color: var(--secondary-col);
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-
 .nav-name {
   color: var(--dark-col);
 }
-
 .nav-search {
   display: flex;
   height: 26px;
@@ -55,14 +54,12 @@ input[type="text"] {
   border-bottom-left-radius: 20px;
   border-top-left-radius: 20px;
 }
-
 .search-input {
   background-color: var(--light-col);
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
   width: 100%;
 }
-
 .nav-options {
   display: flex;
   list-style: none;
@@ -70,7 +67,6 @@ input[type="text"] {
   justify-content: space-between;
   width: 100%;
 }
-
 .nav-options li::after {
   content: "";
   width: 0%;
@@ -80,7 +76,6 @@ input[type="text"] {
   margin: auto;
   transition: 0.5s;
 }
-
 .nav-options li:hover::after {
   width: 100%;
 }
@@ -105,7 +100,6 @@ input[type="text"] {
   border-top-left-radius: 20px;
   width: 8%;
 }
-
 .menu-pop {
   display: none;
   width: 28px;
@@ -157,30 +151,27 @@ footer {
   position: fixed;
   left: 0;
   bottom: 0;
+  overflow: hidden;
   width: 100%;
   background-color: var(--dark-col);
   text-align: center;
   height: 160px;
   display: flex;
   justify-content: space-around;
-  padding: 2rem 1rem;
+  padding: 2rem 0rem;
 }
-
 .footer-links ul li a {
   color: var(--null-white);
   font-weight: bold;
 }
-
 .footer-links ul li {
   padding: 3px;
 }
-
 .footer-socials {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 .footer-socials .fa {
   font-size: 24px;
 }
@@ -201,7 +192,6 @@ footer {
   cursor: pointer;
   box-shadow: 2px 3px black;
 }
-
 .button1:after {
   content: "";
   background: var(--light-col);
@@ -214,7 +204,6 @@ footer {
   opacity: 0;
   transition: all 0.8s;
 }
-
 .button1:active:after {
   padding: 0;
   margin: 0;
@@ -223,7 +212,7 @@ footer {
 }
 
 .button2 {
-  background-color: var(--light-col);
+  background-color: var(--beige-col);
   border: none;
   padding: 5px 15px;
   border-radius: 20px;
@@ -231,7 +220,6 @@ footer {
   box-shadow: 1px 1px black, 1px 1px black, 2px 2px black, 2px 2px black,
     2px 2px black, 3px 3px black, 3px 3px black, 4px 4px black;
 }
-
 .button2:active {
   transform: translateY(2px);
   box-shadow: 0px 0px black, 0px 0px black, 1px 1px black, 1px 1px black,
@@ -250,14 +238,12 @@ footer {
   cursor: pointer;
   margin: 5px;
 }
-
 .button3 span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .button3 span:after {
   content: "\00bb";
   position: absolute;
@@ -266,12 +252,53 @@ footer {
   right: -20px;
   transition: 0.5s;
 }
-
 .button3:hover span {
   padding-right: 25px;
 }
-
 .button3:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+.card {
+    height: 360px;
+    width: 235px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border: 2px var(--secondary-col) solid;
+    overflow: hidden;
+    background-color: var(--null-white);
+}
+.img-container {
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-container img {
+    width: 100%;
+    height: 100%;
+}
+.card-info {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    height: 30%;
+    text-align: center;
+}
+.card-info span {
+    font-size: 14px;
+    word-wrap: break-word;
+}
+.card-info p {
+    font-size: 14px;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+.card:hover {
+    box-shadow: -12px 0 17px -12px rgba(0, 0, 0, 0.35), 12px 0 17px -12px rgba(0, 0, 0, 0.35);
+    /* box-shadow:0 0 15px 0 rgba(0,0,0,.35) */
 }
