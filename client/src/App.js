@@ -6,16 +6,18 @@ import Button1 from "./Components/Buttons/Button1";
 import Button2 from "./Components/Buttons/Button2";
 import Button3 from "./Components/Buttons/Button3";
 import Card from "./Components/Card";
+import CategoryCard from "./Components/CategoryCard";
 
 function App() {
   return (
     <>
     <Navbar />
-    <Button1 text={"Click MEEEEEE"}/>
+    <CategoryCard />
+    {/* <Button1 text={"Click MEEEEEE"}/>
     <Button2 text={"Click MEEEEEE"} />
     <Button3 text={"Back to top"}/>
-    <Card />
-    <Footer />
+    <Card /> */}
+    {/* <Footer /> */}
     </>
   );
 }
