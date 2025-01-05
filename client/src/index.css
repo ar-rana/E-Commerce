@@ -111,6 +111,7 @@ input[type="text"] {
 }
 .responsive-menu {
   margin: 0;
+  display: none;
   padding-bottom: 5px;
   background-color: var(--secondary-col);
   max-height: 0;
@@ -135,6 +136,9 @@ input[type="text"] {
     display: flex;
     width: 96%;
     margin-top: 4px;
+  }
+  .responsive-menu {
+    display: block;
   }
   .nav-menu {
     display: none;
@@ -341,14 +345,64 @@ footer {
   font-weight: 500;
   color: var(--dark-col);
   font-size: 26px;
-  bottom: 0;
-  left:60%;
   transform: translateX(-50%);
   position: absolute;
+  bottom: 0;
+  left: 50%;
   opacity: 0;
   transition: 0.5s;
 }
 .layer:hover h3{
   bottom: 49%;
   opacity: 1;
+}
+@media (max-width: 700px) {
+  .layer h3 {
+    font-size: 12px;
+  }
+}
+
+.review{
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+  overflow-x: scroll;
+  flex-shrink: 0;
+}
+.review-container{
+  width: 85%;
+  margin: auto;
+  padding-top: 100px;
+  text-align: center;
+}
+.review-col{
+  border-radius: 10px;
+  margin-bottom: 5%;
+  margin-right: 30px;
+  text-align: left;
+  background: var(--null-white);
+  padding: 25px;
+  padding-right: 25px;
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  width: 50%;
+}
+.review-col span{
+  font-size: 25px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.review-col p{
+  padding: 0;
+  word-wrap: break-word;
+}
+.review-col h3{
+  margin-top: 15px;
+  text-align: left;
+}
+@media(max-width:700px){
+  .review-container {
+     width:auto;
+  }
 }
