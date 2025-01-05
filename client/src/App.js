@@ -15,8 +15,8 @@ function App() {
   return (
     <>
     <Navbar />
-    <ProductView />
-    {/* <Hero /> */}
+    {/* <ProductView /> */}
+    <Hero />
     {/* <CategoryCard /> */}
     {/* <Reviews />  */}
     {/* <Button1 text={"Click MEEEEEE"}/>

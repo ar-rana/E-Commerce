@@ -426,15 +426,21 @@ footer {
 }
 .logo {
   width: 2rem;
-  transform: rotate(-45deg) translate(-15px, 10px);
-  animation: rotate-center .6s ease-in-out both
+  position: relative;
+  animation: fall 5s ease-in-out both
 }
-@keyframes rotate-center {
+@keyframes fall {
   0% {
-    transform: rotate(0);
+    transform: rotate(-10deg) translate(-60px, -50px);
+  }
+  35% {
+    transform: rotate(-70deg) translate(50px, 30px);
+  }
+  63% {
+    transform: rotate(-15deg) translate(-35px, -25px);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(-45deg) translate(-25px, 15px);
   }
 }
 
