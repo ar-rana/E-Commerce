@@ -8,13 +8,15 @@ import Button3 from "./Components/Buttons/Button3";
 import Card from "./Components/Card";
 import CategoryCard from "./Components/CategoryCard";
 import Reviews from "./Components/Reviews";
+import Hero from "./Components/Hero";
 
 function App() {
   return (
     <>
     <Navbar />
-    <CategoryCard />
-    <Reviews />
+    <Hero />
+    {/* <CategoryCard />
+    <Reviews /> */}
     {/* <Button1 text={"Click MEEEEEE"}/>
     <Button2 text={"Click MEEEEEE"} />
     <Button3 text={"Back to top"}/>

@@ -8,8 +8,8 @@
   --secondary-col: #d7c0ae;
   --dark-col: #b4846c;
   --light-col: #eee3cb;
-  --null-white: #f9f7f7;
-  --beige-col: rgb(231, 204, 163);
+  --null-white: #f8f6f6;
+  --beige-col: #e7cca3;
 }
 
 a {
@@ -314,7 +314,7 @@ footer {
   justify-content: space-around;
 }
 
-.category-card{
+.category-card {
   flex-basis: 32%;
   border-radius: 10px;
   margin-bottom: 30px;
@@ -322,12 +322,11 @@ footer {
   overflow: hidden;
   width: 20%;
 }
-.category-card img{
+.category-card img {
   width: 100%;
   display: block;
-  
 }
-.layer{
+.layer {
   background: transparent;
   height: 100%;
   width: 100%;
@@ -336,11 +335,11 @@ footer {
   left: 0;
   transition: 0.5s;
 }
-.layer:hover{
+.layer:hover {
   opacity: 0.6;
   background: var(--light-col);
 }
-.layer h3{
+.layer h3 {
   width: 70%;
   font-weight: 500;
   color: var(--dark-col);
@@ -352,7 +351,7 @@ footer {
   opacity: 0;
   transition: 0.5s;
 }
-.layer:hover h3{
+.layer:hover h3 {
   bottom: 49%;
   opacity: 1;
 }
@@ -362,20 +361,20 @@ footer {
   }
 }
 
-.review{
+.review {
   margin-top: 5%;
   display: flex;
   justify-content: space-between;
   overflow-x: scroll;
   flex-shrink: 0;
 }
-.review-container{
+.review-container {
   width: 85%;
   margin: auto;
   padding-top: 100px;
   text-align: center;
 }
-.review-col{
+.review-col {
   border-radius: 10px;
   margin-bottom: 5%;
   margin-right: 30px;
@@ -388,21 +387,40 @@ footer {
   flex-shrink: 0;
   width: 50%;
 }
-.review-col span{
+.review-col span {
   font-size: 25px;
   margin-left: 5px;
   margin-right: 10px;
 }
-.review-col p{
+.review-col p {
   padding: 0;
   word-wrap: break-word;
 }
-.review-col h3{
+.review-col h3 {
   margin-top: 15px;
   text-align: left;
 }
-@media(max-width:700px){
+@media (max-width: 700px) {
   .review-container {
-     width:auto;
+    width: auto;
   }
+}
+
+.hero {
+  min-height: 90vh;
+  width: 100%;
+  background-image: linear-gradient(#f8f6f6d8, #d7c0ae75),
+    url(./Assets/heroimg2.png);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+.hero-box {
+  width: 90%;
+  color: var(--dark-col);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
