@@ -320,7 +320,6 @@ footer {
   margin-bottom: 30px;
   position: relative;
   overflow: hidden;
-  width: 20%;
 }
 .category-card img {
   width: 100%;
@@ -347,6 +346,7 @@ footer {
   transform: translateX(-50%);
   position: absolute;
   bottom: 0;
+  text-align: center;
   left: 50%;
   opacity: 0;
   transition: 0.5s;
@@ -423,4 +423,40 @@ footer {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+}
+.logo {
+  width: 2rem;
+  transform: rotate(-45deg) translate(-15px, 10px);
+  animation: rotate-center .6s ease-in-out both
+}
+@keyframes rotate-center {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.horizontal-slide {
+  margin-top: 5%;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+.horizontal-slide-content {
+  display: flex;
+  animation: scroll-horizontal 15s linear infinite;
+}
+.horizontal-slide-content > * {
+  flex-shrink: 0;
+  margin: 0px 1.5rem;
+}
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

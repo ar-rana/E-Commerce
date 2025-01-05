@@ -9,18 +9,20 @@ import Card from "./Components/Card";
 import CategoryCard from "./Components/CategoryCard";
 import Reviews from "./Components/Reviews";
 import Hero from "./Components/Hero";
+import ProductView from "./Components/ProductView";
 
 function App() {
   return (
     <>
     <Navbar />
-    <Hero />
-    {/* <CategoryCard />
-    <Reviews /> */}
+    <ProductView />
+    {/* <Hero /> */}
+    {/* <CategoryCard /> */}
+    {/* <Reviews />  */}
     {/* <Button1 text={"Click MEEEEEE"}/>
     <Button2 text={"Click MEEEEEE"} />
-    <Button3 text={"Back to top"}/>
-    <Card /> */}
+    <Button3 text={"Back to top"}/>  */}
+    {/* <Card /> */}
     {/* <Footer /> */}
     </>
   );
