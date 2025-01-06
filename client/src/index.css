@@ -475,6 +475,15 @@ footer {
   }
 }
 
+.contact-col input, .contact-col textarea, .contact-col input{
+  width: 95%;
+  padding: 12px;
+  margin-bottom: 17px;
+  outline: none;
+  border: 1.5px solid var(--primary-col);
+  box-sizing: border-box;
+}
+
 .home {
   display: flex;
   flex-direction: column;
