@@ -5,12 +5,12 @@ const ProductView = () => {
   return (
     <div className='horizontal-slide'>
       <div className="horizontal-slide-content">
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
+        <CategoryCard text={"Checkout"}/>
+        <CategoryCard text={"Checkout"}/>
+        <CategoryCard text={"Checkout"}/>
+        <CategoryCard text={"Checkout"}/>
+        <CategoryCard text={"Checkout"}/>
+        <CategoryCard text={"Checkout"}/>
       </div>
     </div>
   )

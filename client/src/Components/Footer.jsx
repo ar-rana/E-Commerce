@@ -1,5 +1,5 @@
 import React from "react";
-import Button3 from "./Buttons/Button3";
+import Button2 from "./Buttons/Button2";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="fa fa-linkedin"></div>
           <div className="fa fa-github"></div>
           <div>
-            <Button3 text={"Back to top"} onClick={scrollToTop}/>
+            <Button2 text={"Back to top"} onClick={scrollToTop}/>
           </div>
         </div>
       </footer>

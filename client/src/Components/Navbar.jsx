@@ -5,7 +5,7 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setOpen((prev) => !prev);
-  }
+  };
   return (
     <>
       <nav className="nav-container">
@@ -32,14 +32,20 @@ const Navbar = () => {
         </div>
         <div className="nav-menu">
           <ul className="nav-options">
-            <li>
+            <li className="underline">
               <a href="#">Home</a>
             </li>
-            <li>
+            <li className="underline">
               <a href="#">About</a>
             </li>
-            <li>
+            <li className="underline">
               <a href="#">Contact</a>
+            </li>
+            <li className="underline">
+              <span style={{ color: "#b4846c", fontSize: "24px" }} className="fa fa-shopping-cart"></span>
+            </li>
+            <li className="underline">
+              <span style={{ color: "#b4846c", fontSize: "24px" }} className="fa fa-user-circle-o"></span>
             </li>
           </ul>
         </div>
@@ -61,16 +67,22 @@ const Navbar = () => {
           </svg>
         </button>
       </nav>
-      <div className={`responsive-menu ${open? "active": ""}`}>
+      <div className={`responsive-menu ${open ? "active" : ""}`}>
         <ul className="nav-options">
-          <li>
+          <li className="underline">
             <a href="#">Home</a>
           </li>
-          <li>
+          <li className="underline">
             <a href="#">About</a>
           </li>
-          <li>
+          <li className="underline">
             <a href="#">Contact</a>
+          </li>
+          <li className="underline">
+            <a href="#">Profile</a>
+          </li>
+          <li className="underline">
+            <a href="#">Cart</a>
           </li>
         </ul>
       </div>

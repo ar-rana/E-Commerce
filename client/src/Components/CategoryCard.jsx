@@ -5,7 +5,7 @@ const CategoryCard = (props) => {
     <div class="category-card">
       <img src="https://picsum.photos/200/200" alt="error" />
       <div class="layer">
-        <h3>Hello</h3>
+        <h3>{props.text}</h3>
       </div>
     </div>
   );
