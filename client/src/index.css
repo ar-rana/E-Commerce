@@ -474,9 +474,12 @@ footer {
     transform: translateX(-100%);
   }
 }
-
+.contact-col {
+  margin-inline: 1.5rem;
+  margin-bottom: 2rem;
+}
 .contact-col input, .contact-col textarea, .contact-col input{
-  width: 95%;
+  width: 100%;
   padding: 12px;
   margin-bottom: 17px;
   outline: none;
@@ -502,6 +505,12 @@ footer {
   align-items: center;
 }
 
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .heading {
   margin: 2rem 4rem;
   padding: 1px 0px;
@@ -511,6 +520,14 @@ footer {
   text-align: center;
   box-shadow: 3px 3px 17px 3px var(--beige-col);
   border-radius: 20px;
+}
+.heading2 {
+  margin: 0rem 4rem;
+  padding: 1px 0px;
+  width: 85%;
+  color: var(--dark-col);
+  font-weight: bold;
+  text-align: center;
 }
 
 .underline::after {

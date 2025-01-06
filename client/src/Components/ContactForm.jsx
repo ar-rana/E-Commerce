@@ -1,7 +1,7 @@
 import React from "react";
 import Button1 from "./Buttons/Button1.jsx";
 
-const Contact = () => {
+const ContactForm = () => {
   return (
     <>
       <div className="contact-col">
@@ -22,4 +22,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactForm;

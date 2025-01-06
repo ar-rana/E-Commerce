@@ -33,13 +33,13 @@ const Navbar = () => {
         <div className="nav-menu">
           <ul className="nav-options">
             <li className="underline">
-              <a href="#">Home</a>
+              <a href="/">Home</a>
             </li>
             <li className="underline">
               <a href="#">About</a>
             </li>
             <li className="underline">
-              <a href="#">Contact</a>
+              <a href="/connectwithus">Contact</a>
             </li>
             <li className="underline">
               <span style={{ color: "#b4846c", fontSize: "24px" }} className="fa fa-shopping-cart"></span>
@@ -70,13 +70,13 @@ const Navbar = () => {
       <div className={`responsive-menu ${open ? "active" : ""}`}>
         <ul className="nav-options">
           <li className="underline">
-            <a href="#">Home</a>
+            <a href="/">Home</a>
           </li>
           <li className="underline">
             <a href="#">About</a>
           </li>
           <li className="underline">
-            <a href="#">Contact</a>
+            <a href="/connectwithus">Contact</a>
           </li>
           <li className="underline">
             <a href="#">Profile</a>
