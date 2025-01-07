@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = new useState(false);
@@ -36,16 +37,23 @@ const Navbar = () => {
               <a href="/">Home</a>
             </li>
             <li className="underline">
-              <a href="#">About</a>
-            </li>
-            <li className="underline">
               <a href="/connectwithus">Contact</a>
             </li>
             <li className="underline">
-              <span style={{ color: "#b4846c", fontSize: "24px" }} className="fa fa-shopping-cart"></span>
+              <Link to="/cart">
+                <span
+                  style={{ color: "#b4846c", fontSize: "24px" }}
+                  className="fa fa-shopping-cart"
+                ></span>
+              </Link>
             </li>
             <li className="underline">
-              <span style={{ color: "#b4846c", fontSize: "24px" }} className="fa fa-user-circle-o"></span>
+              <Link to="#">
+                <span
+                  style={{ color: "#b4846c", fontSize: "24px" }}
+                  className="fa fa-user-circle-o"
+                ></span>
+              </Link>
             </li>
           </ul>
         </div>
@@ -73,16 +81,13 @@ const Navbar = () => {
             <a href="/">Home</a>
           </li>
           <li className="underline">
-            <a href="#">About</a>
-          </li>
-          <li className="underline">
             <a href="/connectwithus">Contact</a>
           </li>
           <li className="underline">
             <a href="#">Profile</a>
           </li>
           <li className="underline">
-            <a href="#">Cart</a>
+            <a href="/cart">Cart</a>
           </li>
         </ul>
       </div>

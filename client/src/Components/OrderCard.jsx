@@ -1,6 +1,6 @@
 import React from "react";
 
-const OrderCard = () => {
+const OrderCard = (props) => {
   const data = {
     name: "Some name for the item",
     base: "XXXX",
