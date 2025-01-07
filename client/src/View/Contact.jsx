@@ -1,6 +1,7 @@
 import React from "react";
 import ContactForm from "../Components/ContactForm";
 import Footer from "../Components/Footer";
+import ParticleEffect from "../Components/ParticleEffect";
 
 const Contact = () => {
   return (
@@ -12,6 +13,7 @@ const Contact = () => {
       <br />
       <ContactForm />
       <Footer />
+      <ParticleEffect />
     </div>
   );
 };
