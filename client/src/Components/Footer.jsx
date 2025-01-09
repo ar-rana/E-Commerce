@@ -14,13 +14,10 @@ const Footer = () => {
         <div className="footer-links">
           <ul>
             <li>
-              <a href="#">Home</a>
+              <a href="/">Home</a>
             </li>
             <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
+              <a href="/connectwithus">Contact</a>
             </li>
           </ul>
         </div>

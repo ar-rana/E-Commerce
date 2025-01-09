@@ -114,14 +114,14 @@ input[type="text"] {
 .responsive-menu {
   margin: 0;
   display: none;
-  padding-bottom: 5px;
+  padding-bottom: 12px;
   padding-top: 7px;
   background-color: var(--secondary-col);
-  max-height: 0;
+  max-height: 300px;
   overflow: hidden;
-  transition: max-height 0.7s ease-in-out;
   position: fixed;
-  top: 2.8rem;
+  top: -9rem;
+  transition: top 0.7s ease-in-out;
   width: 100%;
   z-index: 100;
 }
@@ -135,7 +135,38 @@ input[type="text"] {
   padding: 0;
 }
 .responsive-menu.active {
-  max-height: 300px;
+  top: 3.5rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  right: 0;
+  background-color: var(--secondary-col);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  text-align: left;
+  min-width: 100px;
+}
+.dropdown-menu li {
+  margin: 0;
+  padding: 5px 10px;
+}
+.dropdown-menu li a {
+  color: var(--dark-col);
+  display: block;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
 
 @media (max-width: 700px) {

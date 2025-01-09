@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Button1 from "./Buttons/Button1";
 
 const Navbar = () => {
   const [open, setOpen] = new useState(false);
@@ -47,13 +48,21 @@ const Navbar = () => {
                 ></span>
               </Link>
             </li>
-            <li className="underline">
+            <li className="dropdown">
               <Link to="#">
                 <span
                   style={{ color: "#b4846c", fontSize: "24px" }}
                   className="fa fa-user-circle-o"
                 ></span>
               </Link>
+              <ul className="dropdown-menu">
+                <li className="underline">
+                  <a href="/wishlist">Wishlist</a>
+                </li>
+                <li>
+                  <Button1 text={"Logout"} />
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -84,10 +93,13 @@ const Navbar = () => {
             <a href="/connectwithus">Contact</a>
           </li>
           <li className="underline">
-            <a href="#">Profile</a>
+            <a href="/cart">Cart</a>
           </li>
           <li className="underline">
-            <a href="/cart">Cart</a>
+            <a href="#">WishList</a>
+          </li>
+          <li>
+            <Button1 text={"Logout"} />
           </li>
         </ul>
       </div>
