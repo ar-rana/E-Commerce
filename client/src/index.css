@@ -488,7 +488,7 @@ footer {
 .logo {
   width: 2rem;
   position: relative;
-  animation: fall 5s ease-in-out both
+  animation: fall 5s ease-in-out both;
 }
 @keyframes fall {
   0% {
@@ -531,7 +531,9 @@ footer {
   margin-inline: 1.5rem;
   margin-bottom: 2rem;
 }
-.contact-col input, .contact-col textarea, .contact-col input{
+.contact-col input,
+.contact-col textarea,
+.contact-col input {
   width: 100%;
   padding: 12px;
   margin-bottom: 17px;
@@ -553,7 +555,7 @@ footer {
 .home-category {
   width: 95%;
   margin: 0.5rem 0rem;
-  display: flex;  
+  display: flex;
   justify-content: space-around;
   align-items: center;
 }
@@ -596,7 +598,7 @@ footer {
   width: 98%;
 }
 
-.particle-container{
+.particle-container {
   position: fixed;
   top: 0;
   z-index: -1;
@@ -617,17 +619,15 @@ footer {
   background: var(--beige-col);
   margin: 0px 11px;
   border-radius: 50%;
-  box-shadow: 0 0 0 10px #e7cca344,
-  0 0 50px var(--beige-col),
-  0 0 100px var(--beige-col);
+  box-shadow: 0 0 0 10px #e7cca344, 0 0 50px var(--beige-col),
+    0 0 100px var(--beige-col);
   animation: animate 15s linear infinite;
   animation-duration: calc(150s / var(--i));
 }
 .bubble span:nth-child(even) {
   background: var(--secondary-col);
-  box-shadow: 0 0 0 10px #d7c0ae44,
-  0 0 50px var(--secondary-col),
-  0 0 100px var(--secondary-col);
+  box-shadow: 0 0 0 10px #d7c0ae44, 0 0 50px var(--secondary-col),
+    0 0 100px var(--secondary-col);
 }
 @keyframes animate {
   0% {
@@ -670,5 +670,33 @@ footer {
 @media (max-width: 700px) {
   .main-cart {
     flex-direction: column;
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+}
+.error-container img {
+  width: 50%;
+}
+.error-container h1 {
+  color: var(--primary-col);
+  text-decoration: double;
+  font-weight: bolder;
+  font-size: xx-large;
+  margin-bottom: 4rem;
+  border-radius: 20px;
+  padding: 5px 20px;
+  box-shadow:0 12px 20px -12px rgba(0,0,0,.35)
+}
+
+@media (max-width: 700px) {
+  .footer {
+    position: absolute;
+    bottom: 0;
   }
 }
