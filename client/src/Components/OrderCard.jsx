@@ -20,6 +20,10 @@ const OrderCard = (props) => {
             </span>
             <p>₹{data.price}</p>
           </div>
+          <span style={{ top: "25px", color: 'red' }} className="fa fa-trash-o position-cart" title="Delete"></span>
+          {props.wish? (
+            <span style={{ top: "50px" }} className="fa fa-plus-square position-cart" title="Add to Cart"></span>
+          ): ''}
         </div>
       </div>
     </>

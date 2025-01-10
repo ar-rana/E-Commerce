@@ -203,12 +203,12 @@ footer {
   justify-content: space-around;
   padding: 2rem 0rem;
 }
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   footer {
     position: absolute;
     bottom: 0;
   }
-}
+} */
 .footer-links ul li a {
   color: var(--null-white);
   font-weight: bold;
@@ -406,6 +406,7 @@ footer {
 }
 
 .order-card {
+  position: relative;
   display: flex;
   padding: 2%;
   height: 7rem;
@@ -415,8 +416,9 @@ footer {
   border: 2px var(--dark-col) solid;
 }
 .order-card img {
+  aspect-ratio: 1;
+  margin-left: 0.5rem;
   height: 100%;
-  width: 100%;
 }
 .order-info {
   display: flex;
@@ -425,6 +427,13 @@ footer {
   margin-left: 7%;
   align-items: center;
   align-items: flex-start;
+}
+.position-cart {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  margin-right: auto;
+  color: var(--dark-col);
 }
 
 .review {

@@ -7,7 +7,7 @@ const Empty = () => {
       <div className="order-card">
         <img src={emptycart} alt="image"></img>
         <div className="order-info">
-          <span style={{ color: "gray", fontWeight: '700'}}>This List is Empty</span>
+          <span style={{ color: "gray", fontWeight: '800', fontSize: 'x-large'}}>This List is Empty</span>
         </div>
       </div>
     </>

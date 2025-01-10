@@ -8,6 +8,9 @@ import Empty from "../Components/Empty.jsx";
 const Cart = () => {
   const data = [{ id: "123" }, { id: "12323" }, { id: "12345" }];
   const [total, setTotal] = useState(0);
+
+  // call all items from this page then send data to component, 
+  // other wise you will have too many requests to backend
   return (
     <div className="cart">
       <div className="main-cart">

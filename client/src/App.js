@@ -6,6 +6,7 @@ import Home from "./View/Home";
 import Contact from "./View/Contact";
 import Cart from "./View/Cart";
 import Error from "./View/Error";
+import Wishlist from "./View/Wishlist";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/connectwithus" element={<Contact />} />
         {/* <Route exact path="/cart:user_id" element={<Cart />} /> */}
         <Route exact path="/cart" element={<Cart />} />
+        <Route exact path="/wishlist" element={<Wishlist />} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
