@@ -10,7 +10,7 @@ const Error = () => {
         <img src={pagenotfound} alt="Page Not Found" />
         <h1>Page Not Found</h1>
       </div>
-      <Footer className='footer'/>
+      <Footer/>
     </div>
   );
 };

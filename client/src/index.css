@@ -203,6 +203,12 @@ footer {
   justify-content: space-around;
   padding: 2rem 0rem;
 }
+@media (max-width: 700px) {
+  footer {
+    position: absolute;
+    bottom: 0;
+  }
+}
 .footer-links ul li a {
   color: var(--null-white);
   font-weight: bold;
@@ -228,7 +234,6 @@ footer {
   padding: 4px 15px;
   border-radius: 12px;
   text-align: center;
-  -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   text-decoration: none;
   overflow: hidden;
@@ -692,11 +697,4 @@ footer {
   border-radius: 20px;
   padding: 5px 20px;
   box-shadow:0 12px 20px -12px rgba(0,0,0,.35)
-}
-
-@media (max-width: 700px) {
-  .footer {
-    position: absolute;
-    bottom: 0;
-  }
 }

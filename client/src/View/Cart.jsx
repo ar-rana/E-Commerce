@@ -3,6 +3,7 @@ import OrderCard from "../Components/OrderCard";
 import Button3 from "../Components/Buttons/Button3";
 import Productview from "../Components/ProductView.jsx";
 import Footer from "../Components/Footer.jsx";
+import Empty from "../Components/Empty.jsx";
 
 const Cart = () => {
   const data = [{ id: "123" }, { id: "12323" }, { id: "12345" }];
@@ -14,6 +15,7 @@ const Cart = () => {
           {data.map((obj) => (
             <OrderCard key={obj.id} id={obj.id} />
           ))}
+          <Empty />
         </div>
         <div className="checkout">
           <h2>Total: ₹{total}</h2>
