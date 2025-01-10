@@ -202,6 +202,7 @@ footer {
   display: flex;
   justify-content: space-around;
   padding: 2rem 0rem;
+  margin-top: auto;
 }
 .footer-links ul li a {
   color: var(--null-white);
@@ -450,7 +451,6 @@ footer {
   background: var(--null-white);
   padding: 25px;
   padding-right: 25px;
-  cursor: pointer;
   display: flex;
   flex-shrink: 0;
   width: 50%;
@@ -569,6 +569,7 @@ footer {
 
 .contact {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
 }
@@ -647,6 +648,7 @@ footer {
 
 .cart {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
 }
@@ -680,6 +682,11 @@ footer {
   }
 }
 
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .error-container {
   display: flex;
   flex-direction: column;
@@ -695,13 +702,18 @@ footer {
   text-decoration: double;
   font-weight: bolder;
   font-size: xx-large;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   border-radius: 20px;
   padding: 5px 20px;
   box-shadow: 0 12px 20px -12px rgba(0,0,0,.35)
 }
 
 .search {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.search-container {
   display: flex;
 }
 .filter {
@@ -720,6 +732,7 @@ footer {
 
 .product-page {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;

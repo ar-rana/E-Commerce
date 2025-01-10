@@ -11,7 +11,7 @@ const Wishlist = () => {
   // call all items from this page then send data to component,
   // other wise you will have too many requests to backend
   return (
-    <div>
+    <div className="wishlist">
       <div className="cart">
         <div className="main-cart">
           <div className="cart-products">

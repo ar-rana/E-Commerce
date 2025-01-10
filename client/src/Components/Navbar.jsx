@@ -59,6 +59,9 @@ const Navbar = () => {
                 <li className="underline">
                   <a href="/wishlist">Wishlist</a>
                 </li>
+                <li className="underline">
+                  <a href="/orders">Orders</a>
+                </li>
                 <li>
                   <Button1 text={"Logout"} />
                 </li>
@@ -95,9 +98,14 @@ const Navbar = () => {
           <li className="underline">
             <a href="/cart">Cart</a>
           </li>
+
           <li className="underline">
-            <a href="#">WishList</a>
+            <a href="/wishlist">WishList</a>
           </li>
+          <li className="underline">
+            <a href="/orders">Orders</a>
+          </li>
+          
           <li>
             <Button1 text={"Logout"} />
           </li>

@@ -18,8 +18,8 @@ const Search = () => {
     { id: "05765" },
   ];
   return (
-    <>
-      <div className="search">
+    <div className="search">
+      <div className="search-container">
         <div className="filter">
           <h2 className="">Filters</h2>
           <form action="" style={{ paddingLeft: "8px" }}>
@@ -67,7 +67,7 @@ const Search = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
