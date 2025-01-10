@@ -7,6 +7,7 @@ import Contact from "./View/Contact";
 import Cart from "./View/Cart";
 import Error from "./View/Error";
 import Wishlist from "./View/Wishlist";
+import Search from "./View/Search";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         {/* <Route exact path="/cart:user_id" element={<Cart />} /> */}
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/wishlist" element={<Wishlist />} />
+        {/* <Route exact path="/search:id" element={<Search />} /> */}
+        <Route exact path="/search" element={<Search />} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

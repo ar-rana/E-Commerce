@@ -12,7 +12,6 @@ const ContactForm = () => {
           <textarea
             rows={8}
             placeholder="Send us Your Query or Feedback"
-            defaultValue={""}
             required
           />
           <Button1 text="Submit" type="submit"/>

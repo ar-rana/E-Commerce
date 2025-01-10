@@ -8,9 +8,9 @@ const Error = () => {
     <div className="errorPage">
       <div className="error-container">
         <img src={pagenotfound} alt="Page Not Found" />
-        <h1>Page Not Found</h1>
+        <h1 className="heading3">Page Not Found</h1>
       </div>
-      <Footer/>
+      <Footer className="footer"/>
     </div>
   );
 };
