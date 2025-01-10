@@ -1,5 +1,6 @@
 import React from "react";
 import Button2 from "./Buttons/Button2";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -28,10 +29,18 @@ const Footer = () => {
           </ul>
         </div>
         <div className="footer-socials">
-          <div className="fa fa-linkedin"></div>
-          <div className="fa fa-github"></div>
+          <a
+            href="https://www.linkedin.com/in/-aryan-rana/"
+            target="_blank"
+            className="fa fa-linkedin"
+          ></a>
+          <a
+            href="https://github.com/ar-rana"
+            target="_blank"
+            className="fa fa-github"
+          ></a>
           <div>
-            <Button2 text={"Back to top"} onClick={scrollToTop}/>
+            <Button2 text={"Back to top"} onClick={scrollToTop} />
           </div>
         </div>
       </footer>

@@ -203,12 +203,6 @@ footer {
   justify-content: space-around;
   padding: 2rem 0rem;
 }
-@media (max-width: 700px) {
-  .footer {
-    position: absolute;
-    bottom: 0;
-  }
-}
 .footer-links ul li a {
   color: var(--null-white);
   font-weight: bold;
@@ -446,12 +440,11 @@ footer {
 .review-container {
   width: 85%;
   margin: auto;
-  padding-top: 100px;
   text-align: center;
 }
 .review-col {
   border-radius: 10px;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
   margin-right: 30px;
   text-align: left;
   background: var(--null-white);
@@ -475,11 +468,11 @@ footer {
   margin-top: 15px;
   text-align: left;
 }
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   .review-container {
-    width: auto;
+    overflow: hidden;
   }
-}
+} */
 
 .hero {
   min-height: calc(100vh - 3.5rem);
@@ -723,4 +716,78 @@ footer {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 8px;
   margin: 4px;
+}
+
+.product-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.product-info {
+  display: flex;
+  margin: 2.5rem;
+  width: 95%;
+  justify-content: space-around;
+  align-items: center;
+}
+.product-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3px;
+  box-shadow:0 0 15px 0 #e7cca391;
+  background-color: var(--null-white);
+  border-radius: 20px;
+}
+.product-images img {
+  max-width: 350px;
+  height: auto;
+  border: 2px solid var(--primary-col);
+}
+.images-list {
+  max-width: 350px;
+  width: 100%;
+}
+.images-list ul {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-top: 0.5rem;
+  padding: 0;
+  gap: 7px;
+  max-height: 4rem;
+}
+.images-list ul li {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+}
+.images-list ul li img {
+  width: 100%;
+  height: 100%;
+}
+.images-list ul li img:hover {
+  scale: 1.2;
+}
+.product-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.product-options {
+  padding: 10px;
+  display: flex;
+  margin-top: auto;
+  gap: 10px;
+  align-items: flex-start;
+}
+@media (max-width: 700px) {
+  .product-info {
+    flex-direction: column;
+  }
+}
+
+.message {
+  color: var(--dark-col);
 }
