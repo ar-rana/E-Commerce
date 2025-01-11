@@ -9,6 +9,7 @@ import Error from "./View/Error.jsx";
 import Wishlist from "./View/Wishlist.jsx";
 import Search from "./View/Search.jsx";
 import ProductPage from "./View/ProductPage.jsx"
+import Orders from "./View/Orders.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/search" element={<Search />} />
         {/* <Route exact path="/product:id" element={<ProductPage />} /> */}
         <Route exact path="/product" element={<ProductPage />} />
+        <Route exact path="/orders" element={<Orders />} />
         <Route exact path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,7 @@
 import React from "react";
 import Button2 from "./Buttons/Button2";
 
-const Card = () => {
+const Card = (props) => {
   return (
     <div className="card">
       <div className="img-container">
@@ -15,7 +15,11 @@ const Card = () => {
           </span>
           <p>₹XXXX</p>
         </div>
-        <Button2 text={"Checkout"} />
+        {props.ordered ? (
+          <Button2 text={"Leave a Review"} onClick={props.onClick}/>
+        ) : (
+          <Button2 text={"Checkout"} onClick={props.onClick}/>
+        )}
       </div>
     </div>
   );

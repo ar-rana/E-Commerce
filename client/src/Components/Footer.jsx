@@ -26,6 +26,9 @@ const Footer = () => {
             <li>
               <a href="/wishlist">WishList</a>
             </li>
+            <li>
+              <a href="/orders">Orders</a>
+            </li>
           </ul>
         </div>
         <div className="footer-socials">

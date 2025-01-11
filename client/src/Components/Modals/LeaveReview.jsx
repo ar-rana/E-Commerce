@@ -8,7 +8,7 @@ const LeaveReview = (props) => {
 
   const reviewSubmithandler = (e) => {
     e.preventDefault();
-    console.log('rating: ', rating, 'text: ', text);
+    console.log('rating: ', rating, 'text: ', text, 'id', props.id);
     props.setOpen(false);
   };
 
@@ -18,6 +18,7 @@ const LeaveReview = (props) => {
         className="modal"
         isOpen={props.open}
         onRequestClose={() => props.setOpen(false)}
+        ariaHideApp={false}
       >
         <div className="modal-container">
           <div className="">
