@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import Button1 from "../Buttons/Button1";
+import Button1 from "../Buttons/Button1.jsx";
 
 const SignIn = (props) => {
   const [email, setEmail] = useState("");

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Button1 from "./Buttons/Button1";
-import SignIn from "./Modals/SignIn";
+import Button1 from "./Buttons/Button1.jsx";
+import SignIn from "./Modals/SignIn.jsx";
 
 const Navbar = () => {
   const [open, setOpen] = new useState(false);

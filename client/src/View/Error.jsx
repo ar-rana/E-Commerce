@@ -1,6 +1,7 @@
 import React from "react";
 import pagenotfound from "../Assets/pagenotfound.svg";
 import Footer from "../Components/Footer";
+import LeaveReview from "../Components/Modals/LeaveReview";
 
 const Error = () => {
   return (

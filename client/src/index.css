@@ -808,6 +808,7 @@ footer {
 }
 
 .modal {
+  z-index: 100;
   max-width: 300px;
   height: auto;
   width: 90%;

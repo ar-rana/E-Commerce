@@ -22,7 +22,7 @@ const ProductPage = () => {
     <div className="product-page">
       <div className="product-info">
         <div className="product-images">
-          <img src="https://picsum.photos/200/300" alt="Product_Image" />
+          <img src="https://picsum.photos/200" alt="Product_Image" />
           <div className="images-list">
             <ul>
               {images.map((obj, i) => (
