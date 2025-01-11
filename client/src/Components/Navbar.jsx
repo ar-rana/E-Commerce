@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button1 from "./Buttons/Button1";
+import SignIn from "./Modals/SignIn";
 
 const Navbar = () => {
   const [open, setOpen] = new useState(false);
+  const [modalOpen, setmodalOpen] = new useState(false);
 
   const toggleMenu = () => {
     setOpen((prev) => !prev);
@@ -129,6 +131,7 @@ const Navbar = () => {
         </svg>
         <input className="search-input" type="text" placeholder="Search..." />
       </div>
+      <SignIn open={modalOpen} setOpen={setmodalOpen}/>
     </>
   );
 };
