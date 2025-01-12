@@ -18,7 +18,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/connectwithus" element={<Contact />} />
-        {/* <Route exact path="/cart:user_id" element={<Cart />} /> */}
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/wishlist" element={<Wishlist />} />
         {/* <Route exact path="/search:id" element={<Search />} /> */}

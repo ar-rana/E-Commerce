@@ -4,8 +4,16 @@ import Button1 from "./Buttons/Button1.jsx";
 import SignIn from "./Modals/SignIn.jsx";
 
 const Navbar = () => {
-  const [open, setOpen] = new useState(false);
-  const [modalOpen, setmodalOpen] = new useState(false);
+  const [open, setOpen] = useState(false);
+  const [modalOpen, setmodalOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const quickSearch = [
+    "All Items",
+    "Home decore",
+    "Outdoor decore",
+    "Aesthetic Art",
+  ];
 
   const toggleMenu = () => {
     setOpen((prev) => !prev);
@@ -14,7 +22,9 @@ const Navbar = () => {
     <>
       <nav className="nav-container">
         <div className="nav-name">
-          <h2>E-Commerce</h2>
+          <a href="/">
+            <h2>E-Commerce</h2>
+          </a>
         </div>
         <div className="nav-search">
           <svg
@@ -32,7 +42,20 @@ const Navbar = () => {
               d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
             />
           </svg>
-          <input className="search-input" type="text" placeholder="Search..." />
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <ul className="searchable-list">
+            {quickSearch.map((item, i) => (
+              <li key={i} onClick={() => setSearch(item)} value={item}>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="nav-menu">
           <ul className="nav-options">
@@ -107,7 +130,6 @@ const Navbar = () => {
           <li className="underline">
             <a href="/orders">Orders</a>
           </li>
-          
           <li>
             <Button1 text={"Logout"} />
           </li>
@@ -129,9 +151,21 @@ const Navbar = () => {
             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
           />
         </svg>
-        <input className="search-input" type="text" placeholder="Search..." />
+        <input
+          className="search-input"
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <ul className="responsive-searchable searchable-list">
+          <li onClick={() => setSearch("All Items")}>All Items</li>
+          <li onClick={() => setSearch("Home Decore")}>Home Decore</li>
+          <li onClick={() => setSearch("Outdoor decore")}>Outdoor decore</li>
+          <li onClick={() => setSearch("Aesthetic Art")}>Aesthetic Art</li>
+        </ul>
       </div>
-      <SignIn open={modalOpen} setOpen={setmodalOpen}/>
+      <SignIn open={modalOpen} setOpen={setmodalOpen} />
     </>
   );
 };
