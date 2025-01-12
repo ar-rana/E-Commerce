@@ -48,7 +48,7 @@ const LeaveReview = (props) => {
               </div>
               <textarea
                 rows={6}
-                cols={37}
+                cols={36}
                 placeholder="leave a review"
                 style={{marginTop: '4px'}}
                 onChange={(e) => setText(e.target.value)}

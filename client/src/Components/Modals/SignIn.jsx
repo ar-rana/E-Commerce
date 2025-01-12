@@ -36,11 +36,12 @@ const SignIn = (props) => {
         className="modal"
         isOpen={props.open}
         onRequestClose={() => props.setOpen(false)}
+        ariaHideApp={false}
       >
         <div className="modal-container">
           <div className="">
             <div className="modal-close">
-              <p>Login</p>
+              <p>Login Using OTP</p>
               <span
                 className="fa fa-times"
                 onClick={() => props.setOpen(false)}

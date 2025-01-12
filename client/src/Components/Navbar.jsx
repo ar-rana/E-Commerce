@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button1 from "./Buttons/Button1.jsx";
 import SignIn from "./Modals/SignIn.jsx";
+import { useUser } from "../UserContext.js";
 
 const Navbar = () => {
+  const { user, token, setUser, setToken } = useUser();
+
   const [open, setOpen] = useState(false);
   const [modalOpen, setmodalOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -18,6 +21,16 @@ const Navbar = () => {
   const toggleMenu = () => {
     setOpen((prev) => !prev);
   };
+
+  const searchItem = () => {
+    if (search.trim() === "") return;
+    console.log("Searching.....", search);
+  };
+
+  useEffect(() => {
+    console.log("user: ", user, "token: ", token);
+  }, []);
+
   return (
     <>
       <nav className="nav-container">
@@ -28,6 +41,7 @@ const Navbar = () => {
         </div>
         <div className="nav-search">
           <svg
+            onClick={searchItem}
             className="search-icon"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
@@ -68,30 +82,40 @@ const Navbar = () => {
             <li className="underline">
               <Link to="/cart">
                 <span
+                  title="cart"
                   style={{ color: "#b4846c", fontSize: "24px" }}
                   className="fa fa-shopping-cart"
                 ></span>
               </Link>
             </li>
-            <li className="dropdown">
-              <Link to="#">
+            {user != null && token != null ? (
+              <li className="dropdown">
                 <span
                   style={{ color: "#b4846c", fontSize: "24px" }}
                   className="fa fa-user-circle-o"
                 ></span>
-              </Link>
-              <ul className="dropdown-menu">
-                <li className="underline">
-                  <a href="/wishlist">Wishlist</a>
-                </li>
-                <li className="underline">
-                  <a href="/orders">Orders</a>
-                </li>
-                <li>
-                  <Button1 text={"Logout"} />
-                </li>
-              </ul>
-            </li>
+                <ul className="dropdown-menu">
+                  <li className="underline">
+                    <a href="/wishlist">Wishlist</a>
+                  </li>
+                  <li className="underline">
+                    <a href="/orders">Orders</a>
+                  </li>
+                  <li>
+                    <Button1 text={"Logout"} />
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <span
+                  style={{ color: "#b4846c", fontSize: "24px" }}
+                  className="fa fa-sign-in underline"
+                  title="SignIn"
+                  onClick={() => setmodalOpen((prev) => !prev)}
+                ></span>
+              </li>
+            )}
           </ul>
         </div>
         <button onClick={toggleMenu} className="menu-pop">
@@ -123,20 +147,34 @@ const Navbar = () => {
           <li className="underline">
             <a href="/cart">Cart</a>
           </li>
-
-          <li className="underline">
-            <a href="/wishlist">WishList</a>
-          </li>
-          <li className="underline">
-            <a href="/orders">Orders</a>
-          </li>
-          <li>
-            <Button1 text={"Logout"} />
-          </li>
+          {user != null && token != null ? (
+            <>
+              <li className="underline">
+                <a href="/wishlist">WishList</a>
+              </li>
+              <li className="underline">
+                <a href="/orders">Orders</a>
+              </li>
+              <li>
+                <Button1 text={"Logout"} />
+              </li>
+            </>
+          ) : (
+            <li>
+              <a
+                className="underline"
+                title="SignIn"
+                onClick={() => setmodalOpen((prev) => !prev)}
+              >
+                SignIn
+              </a>
+            </li>
+          )}
         </ul>
       </div>
       <div className="responsive-search">
         <svg
+          onClick={searchItem}
           className="search-icon"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"

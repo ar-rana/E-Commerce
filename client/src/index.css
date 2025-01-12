@@ -35,6 +35,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 textarea {
   background-color: var(--light-col);
+  border: none;
+  outline: none;
+  padding-left: 10px;
 }
 
 .nav-container {
@@ -673,6 +676,22 @@ footer {
   }
 }
 
+.delivery-to {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+  border: 1px solid var(--beige-col);
+  padding: 5px;
+  margin-bottom: 2px;
+}
+.delivery-to span {
+  position: absolute;
+  right: 0.5rem;
+  color: red;
+  cursor: pointer;
+}
+
 .cart {
   display: flex;
   min-height: 100vh;
@@ -690,9 +709,19 @@ footer {
   flex: 5;
   flex-direction: column;
 }
+.cart-info {
+  flex: 2;
+}
+.user-info {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 2px solid var(--primary-col);
+  min-height: 4rem;
+  padding: 0.5rem;
+}
 .checkout {
   display: flex;
-  flex: 2;
   flex-direction: column;
   min-width: 9rem;
   height: 6rem;
@@ -837,8 +866,8 @@ footer {
   max-width: 300px;
   height: auto;
   width: 90%;
-  position: absolute;
-  top: 10rem;
+  position: fixed;
+  top: 12rem;
   left: 50%;
   translate: -50%;
   border: 2px solid var(--dark-col);
