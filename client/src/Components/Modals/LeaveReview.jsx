@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import Button1 from "../Buttons/Button1";
 
 const LeaveReview = (props) => {
+  const [user, setUser] = useState("User");
   const [text, setText] = useState("");
   const [rating, setRating] = useState("");
 
@@ -46,10 +47,12 @@ const LeaveReview = (props) => {
                 <input type="radio" id="five" name="rating" value="5" onChange={(e) => setRating(e.target.value)}/>
                 <label htmlFor="five">5</label>
               </div>
+              <input type="text" value={user} placeholder="Enter name" className="modal-input" onChange={(e) => setUser(e.target.value)} /> 
               <textarea
                 rows={6}
                 cols={36}
-                placeholder="leave a review"
+                placeholder="leave a review (char: 250)"
+                maxlength="250"
                 style={{marginTop: '4px'}}
                 onChange={(e) => setText(e.target.value)}
               />

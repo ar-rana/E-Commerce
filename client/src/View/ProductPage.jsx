@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Button1 from "../Components/Buttons/Button1.jsx";
 import Reviews from "../Components/Reviews.jsx";
 import ProductView from "../Components/ProductView.jsx";
 import Footer from "../Components/Footer";
 
 const ProductPage = () => {
+  const [spotLightImg, setSpotLightImg] = useState('https://picsum.photos/200');
+
   const images = [
     { id: "123" },
     { id: "12323" },
@@ -22,11 +24,11 @@ const ProductPage = () => {
     <div className="product-page">
       <div className="product-info">
         <div className="product-images">
-          <img src="https://picsum.photos/200" alt="Product_Image" />
+          <img src={spotLightImg} alt="Product_Image" style={{borderRadius: '20px'}}/>
           <div className="images-list">
             <ul>
               {images.map((obj, i) => (
-                <li key={i}><img src="https://picsum.photos/200/300" alt="Product_Image" /></li>
+                <li key={i}><img src="https://picsum.photos/200/300" alt="Product_Image" onClick={() => setSpotLightImg(images[i].id)}/></li>
               ))}
             </ul>
           </div>

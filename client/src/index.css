@@ -810,8 +810,9 @@ footer {
   border-radius: 20px;
 }
 .product-images img {
-  max-width: 350px;
+  max-width: 340px;
   height: auto;
+  width: 100%; 
   border: 2px solid var(--primary-col);
 }
 .images-list {
