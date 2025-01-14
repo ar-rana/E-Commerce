@@ -12,11 +12,9 @@ import org.springframework.data.annotation.Id;
 @Entity
 public class User {
 
-    public User() { }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     @Column(unique = true, nullable = false)
     private String identifier;
@@ -24,7 +22,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
