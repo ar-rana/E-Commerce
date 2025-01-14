@@ -7,14 +7,16 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
 import org.springframework.data.annotation.Id;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String identifier;
@@ -22,7 +24,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -34,7 +36,7 @@ public class User {
         return type;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

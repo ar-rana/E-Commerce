@@ -1,25 +1,41 @@
 package com.practice.ecommerce.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int productId;
+    @Column(name = "product_id")
+    public Integer productId;
     public String name;
-    public int basicPrice;
+    public Integer basicPrice;
     public String thumbnail;
 
-    public int getProductId() {
+    // parent to 'Price'
+    // we dont want to keep the price if the product is deleted,
+    // so to keep both table tightly coupled we use 'CascadeType.ALL'
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Price price;
+
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -31,11 +47,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getBasicPrice() {
+    public Integer getBasicPrice() {
         return basicPrice;
     }
 
-    public void setBasicPrice(int basicPrice) {
+    public void setBasicPrice(Integer basicPrice) {
         this.basicPrice = basicPrice;
     }
 
