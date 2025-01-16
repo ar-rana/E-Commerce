@@ -13,8 +13,8 @@ import jakarta.persistence.Table;
 public class Price {
 
     @Id
-    public int productId;
-    public int currentPrice;
+    public Integer productId;
+    public Integer currentPrice;
 
     // this is child entity to 'Product'
     @OneToOne
@@ -35,19 +35,19 @@ public class Price {
         this.product = product;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
-    public int getCurrentPrice() {
+    public Integer getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(int currentPrice) {
+    public void setCurrentPrice(Integer currentPrice) {
         this.currentPrice = currentPrice;
     }
 }
