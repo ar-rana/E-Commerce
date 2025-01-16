@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 public class Price {
 
     @Id
-    @Column(name = "product_id")
     public int productId;
     public int currentPrice;
 
@@ -22,6 +21,19 @@ public class Price {
     @MapsId
     @JoinColumn(name = "product_id")
     public Product product;
+
+    public Price(int productId, int currentPrice) {
+        this.productId = productId;
+        this.currentPrice = currentPrice;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public int getProductId() {
         return productId;

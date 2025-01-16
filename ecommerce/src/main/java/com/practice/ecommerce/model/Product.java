@@ -1,8 +1,10 @@
 package com.practice.ecommerce.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,16 +22,28 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     public Integer productId;
+
     public String name;
     public Integer basicPrice;
     public String thumbnail;
+    public String category;
+    public Integer stock;
 
     // parent to 'Price'
     // we dont want to keep the price if the product is deleted,
     // so to keep both table tightly coupled we use 'CascadeType.ALL'
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Price price;
+
+    public Product(Integer productId, String name, Integer basicPrice, String thumbnail, String category, Price price) {
+        this.productId = productId;
+        this.name = name;
+        this.basicPrice = basicPrice;
+        this.thumbnail = thumbnail;
+        this.category = category;
+        this.price = price;
+    }
 
     public Integer getProductId() {
         return productId;
@@ -47,6 +61,22 @@ public class Product {
         this.name = name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
     public Integer getBasicPrice() {
         return basicPrice;
     }
@@ -61,6 +91,14 @@ public class Product {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     @Override
