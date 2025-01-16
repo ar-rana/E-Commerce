@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 public class Price {
 
     @Id
-    public Integer productId;
+    public Integer productId; // shares this with 'Product'
     public Integer currentPrice;
 
     // this is child entity to 'Product'

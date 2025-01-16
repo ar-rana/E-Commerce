@@ -1,8 +1,11 @@
 package com.practice.ecommerce.model;
 
+import com.practice.ecommerce.model.Enums.ProductCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,8 +26,9 @@ public class Product {
     public String name;
     public Integer basicPrice;
     public String thumbnail;
-    public String category;
     public Integer stock;
+    @Enumerated(EnumType.STRING)
+    public ProductCategory category;
 
     // parent to 'Price'
     // we dont want to keep the price if the product is deleted,
@@ -33,7 +37,7 @@ public class Product {
     @PrimaryKeyJoinColumn
     private Price price;
 
-    public Product(Integer productId, String name, Integer basicPrice, String thumbnail, String category, Price price) {
+    public Product(Integer productId, String name, Integer basicPrice, String thumbnail, ProductCategory category, Price price) {
         this.productId = productId;
         this.name = name;
         this.basicPrice = basicPrice;
@@ -58,11 +62,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
@@ -105,6 +109,9 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", basicPrice=" + basicPrice +
                 ", thumbnail='" + thumbnail + '\'' +
+                ", category='" + category + '\'' +
+                ", stock=" + stock +
+                ", price=" + price +
                 '}';
     }
 }
