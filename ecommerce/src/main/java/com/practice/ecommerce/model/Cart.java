@@ -3,9 +3,12 @@ package com.practice.ecommerce.model;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import com.practice.ecommerce.model.Enums.ListType;
 
 @Entity
 @Table(name = "cart")

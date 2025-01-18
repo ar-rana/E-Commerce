@@ -1,5 +1,6 @@
 package com.practice.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -34,17 +36,19 @@ public class Product {
     // we dont want to keep the price if the product is deleted,
     // so to keep both table tightly coupled we use 'CascadeType.ALL'
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
+    @PrimaryKeyJoinColumn // they share the same PK and PK of child is also foreign key to parent
+    @JsonManagedReference // to avoid infinite recursion in bi-direction relation
     private Price price;
 
-    public Product(Integer productId, String name, Integer basicPrice, String thumbnail, ProductCategory category, Price price) {
-        this.productId = productId;
+    public Product(String name, Integer basicPrice, String thumbnail, ProductCategory category, Integer stock) {
         this.name = name;
         this.basicPrice = basicPrice;
         this.thumbnail = thumbnail;
         this.category = category;
-        this.price = price;
+        this.stock = stock;
     }
+
+    public Product() { }
 
     public Integer getProductId() {
         return productId;

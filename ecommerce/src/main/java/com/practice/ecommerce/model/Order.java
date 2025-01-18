@@ -21,8 +21,8 @@ public class Order {
     @Column(nullable = false)
     private String userIdentifier;
 
-    @ManyToMany
-    private List<Product> product;
+    @Column(nullable = false)
+    private Integer productId;
 
     public Order(String userIdentifier) {
         this.userIdentifier = userIdentifier;
@@ -36,12 +36,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public List<Product> getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(List<Product> product) {
-        this.product = product;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getUserIdentifier() {

@@ -8,9 +8,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +25,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    public User(String identifier, UserType type) {
+        this.identifier = identifier;
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -34,16 +38,16 @@ public class User {
         return identifier;
     }
 
-    public UserType getType() {
-        return type;
-    }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public UserType getType() {
+        return type;
     }
 
     public void setType(UserType type) {
