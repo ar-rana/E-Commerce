@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -16,7 +17,7 @@ public class Cart {
 
     @Id
     private String userIdentifier;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products;
 
     public Cart(String userIdentifier) {

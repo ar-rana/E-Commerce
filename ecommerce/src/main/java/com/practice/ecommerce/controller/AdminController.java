@@ -50,7 +50,7 @@ public class AdminController {
         );
         Price price = new Price(product, Integer.valueOf(item.get("currentPrice")));
         product.setPrice(price);
-        if (productService.addProduct(product)) return new ResponseEntity<>("Product saved successfully!!" + product.toString(), HttpStatus.OK);
+        if (productService.addProduct(product)) return new ResponseEntity<>("Product saved successfully!! " + product.toString(), HttpStatus.OK);
         return new ResponseEntity<>("Product saved successfully!!" + product.toString(), HttpStatus.BAD_REQUEST);
     }
 

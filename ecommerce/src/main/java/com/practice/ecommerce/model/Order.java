@@ -2,12 +2,19 @@ package com.practice.ecommerce.model;
 
 import java.util.List;
 
+import com.practice.ecommerce.model.Enums.DeliveryStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,12 +28,12 @@ public class Order {
     @Column(nullable = false)
     private String userIdentifier;
 
-    @Column(nullable = false)
-    private Integer productId;
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
 
-    public Order(String userIdentifier) {
-        this.userIdentifier = userIdentifier;
-    }
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     public Integer getOrderId() {
         return orderId;
@@ -36,14 +43,6 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
     public String getUserIdentifier() {
         return userIdentifier;
     }
@@ -51,4 +50,22 @@ public class Order {
     public void setUserIdentifier(String userIdentifier) {
         this.userIdentifier = userIdentifier;
     }
+
+    public DeliveryStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(DeliveryStatus status) {
+        this.status = status;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Order() { }
 }
