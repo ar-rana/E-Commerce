@@ -9,6 +9,7 @@ import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.SavedProduct;
 import com.practice.ecommerce.repository.SavedProductsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,22 +29,36 @@ public class SavedProductsService {
         if (savedProduct != null) {
             savedProduct.getProducts().add(product);
             savedProductsRepo.save(savedProduct);
-            return product;
         } else {
             SavedProduct newCustomer = new SavedProduct(listId.getIdentifier(), listId.getListType());
             newCustomer.getProducts().add(product);
             savedProductsRepo.save(newCustomer);
-            return product;
         }
+        return product;
     }
 
     public List<Product> getListItems(ListType listType, String identifier) {
-        System.out.println(identifier + listType.toString());
         SavedProduct savedProduct = savedProductsRepo.findByIdentifierAndListType(identifier, listType);
         if (savedProduct == null) {
             return null;
         }
-        System.out.println("savedProduct: " + savedProduct.toString());
         return savedProduct.getProducts();
     }
+
+    public boolean deleteListItem(ListType listType, String identifier, Integer productId) {
+        List<Product> products = getListItems(listType, identifier);
+        if (products == null || products.isEmpty()) {
+            return false;
+        }
+        SavedProduct savedProduct = new SavedProduct(identifier, listType);
+        for (Product pr : products) {
+            if (pr.getProductId() != productId) {
+                savedProduct.getProducts().add(pr);
+            }
+        }
+        savedProductsRepo.save(savedProduct);
+        return true;
+    }
+
+//    public ResponseEntity<String> moveToCart();
 }

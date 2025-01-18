@@ -13,6 +13,7 @@ import com.practice.ecommerce.service.SavedProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,4 +50,14 @@ public class SavedItemsController {
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{listType}")
+    public ResponseEntity<String> deleteListItem(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
+        if (savedProductsService.deleteListItem(listType, item.get("identifier"), Integer.valueOf(item.get("productId")))) {
+            return new ResponseEntity<>("DELETED", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    //    public ResponseEntity<String> moveToCart();
 }

@@ -1,5 +1,6 @@
 package com.practice.ecommerce.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ public class Cart {
     @Id
     private String userIdentifier;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     public Cart(String userIdentifier) {
         this.userIdentifier = userIdentifier;
@@ -39,4 +40,6 @@ public class Cart {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    public Cart() { }
 }
