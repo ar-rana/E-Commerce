@@ -14,8 +14,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import org.hibernate.mapping.ToOne;
 
 @Entity
 @Table(name = "orders")
@@ -31,7 +33,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -64,6 +66,12 @@ public class Order {
     }
 
     public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Order(String userIdentifier, DeliveryStatus status, Product product) {
+        this.userIdentifier = userIdentifier;
+        this.status = status;
         this.product = product;
     }
 

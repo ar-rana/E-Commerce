@@ -1,14 +1,19 @@
 package com.practice.ecommerce.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.practice.ecommerce.model.Enums.UserType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +29,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserType type;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> order = new ArrayList<>();
 
     public User(String identifier, UserType type) {
         this.identifier = identifier;
@@ -53,6 +61,16 @@ public class User {
     public void setType(UserType type) {
         this.type = type;
     }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
+    public User() { }
 
     @Override
     public String toString() {

@@ -42,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/getPrice")
     public ResponseEntity<Price> getPrice(@RequestParam Integer id) {
-        Price price = productService.getPrice(id);
+        Price price = productService.getPriceOnly(id);
         if (price == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

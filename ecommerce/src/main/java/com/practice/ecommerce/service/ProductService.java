@@ -22,29 +22,19 @@ public class ProductService {
     @Autowired
     private PriceRepository priceRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public boolean addProduct(Product product) {
-        return productRepository.save(product) != null;
-    }
-
     public Product getProduct(Integer id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
     }
 
-    public Price getPrice(Integer id) {
-        Optional<Price> price = priceRepository.findById(id);
+    public Price getPriceProduct(Integer id) {
+        Optional<Price> price = priceRepository.findByIdAndProduct(id);
         return  price.orElse(null);
     }
 
-    public boolean changePrice(Price price) {
-        return priceRepository.save(price) != null;
-    }
-
-    public boolean addAdmin(User user) {
-        return userRepository.save(user) != null;
+    public Price getPriceOnly(Integer id) {
+        Optional<Price> price = priceRepository.findById(id);
+        return  price.orElse(null);
     }
 
     public List<Product> getProductByCategory(ProductCategory category) {

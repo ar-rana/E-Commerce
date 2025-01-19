@@ -3,6 +3,7 @@ package com.practice.ecommerce.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -19,7 +20,7 @@ public class Price {
     public Integer currentPrice;
 
     // this is child entity to 'Product'
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId // maps PK of parent
     @JsonBackReference // to avoid infinite recursion in bi-direction relation
     public Product product;
