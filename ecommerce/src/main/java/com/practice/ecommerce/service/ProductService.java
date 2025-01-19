@@ -34,6 +34,7 @@ public class ProductService {
 
     public Price getPriceOnly(Integer id) {
         Optional<Price> price = priceRepository.findById(id);
+        System.out.println(getPriceProduct(id).getProduct().toString()); // checked, works
         return  price.orElse(null);
     }
 

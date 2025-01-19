@@ -21,6 +21,9 @@ public class SavedProductsService {
     @Autowired
     private ProductController productController;
 
+    @Autowired
+    private CartService cartService;
+
     public Product addToList(ListId listId, Integer productId) {
         Product product = productController.getProduct(productId).getBody();
         if (product == null) return null;
@@ -60,5 +63,12 @@ public class SavedProductsService {
         return true;
     }
 
-//    public ResponseEntity<String> moveToCart();
+    public String moveToCart(ListType listType, String identifier, Integer productId) {
+        Product temp = cartService.addToCart(identifier, productId);
+        if (temp != null) {
+            deleteListItem(listType, identifier, productId);
+            return temp.name + " Moved to CART";
+        }
+        return "FAILED to move" + productId;
+    }
 }

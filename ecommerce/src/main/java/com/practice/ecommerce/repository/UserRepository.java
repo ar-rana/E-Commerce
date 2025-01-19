@@ -1,7 +1,16 @@
 package com.practice.ecommerce.repository;
 
+import java.util.Optional;
+
 import com.practice.ecommerce.model.User;
+import com.practice.ecommerce.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
+
+    @Query("SELECT u FROM User u JOIN FETCH u.orders WHERE u.identifier = ?1")
+    Optional<User> findByIdentifierAndGetOrder(String identifier);
+
+    Optional<User> findByIdentifier(String identifier);
 }

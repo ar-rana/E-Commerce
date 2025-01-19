@@ -26,7 +26,7 @@ public class CartController {
     public ResponseEntity<Cart> getCart(@RequestBody Map<String, String> identifier) {
         Cart cart = cartService.getCart(identifier.get("identifier"));
         if (cart == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }

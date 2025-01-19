@@ -2,12 +2,10 @@ package com.practice.ecommerce.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.practice.ecommerce.model.Enums.ListType;
 import com.practice.ecommerce.model.ListId;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.model.SavedProduct;
 import com.practice.ecommerce.repository.SavedProductsRepo;
 import com.practice.ecommerce.service.SavedProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/list")
-public class SavedItemsController {
+public class SavedProductsController {
 
     @Autowired
     private SavedProductsRepo savedProductsRepo;
@@ -59,5 +57,9 @@ public class SavedItemsController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //    public ResponseEntity<String> moveToCart();
+    @PostMapping("/move/{listType}")
+    public ResponseEntity<String> moveToCart(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
+        String response = savedProductsService.moveToCart(listType, item.get("identifier"), Integer.valueOf(item.get("productId")));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

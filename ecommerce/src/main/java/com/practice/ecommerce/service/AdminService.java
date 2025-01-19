@@ -1,6 +1,7 @@
 package com.practice.ecommerce.service;
 
 import com.practice.ecommerce.controller.AdminController;
+import com.practice.ecommerce.model.Enums.UserType;
 import com.practice.ecommerce.model.Price;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
@@ -32,7 +33,8 @@ public class AdminService {
         return priceRepository.save(price) != null;
     }
 
-    public boolean addAdmin(User user) {
-        return userRepository.save(user) != null;
+    public User addAdmin(String user, UserType userType) {
+        User admin = new User(user, userType);
+        return userRepository.save(admin);
     }
 }

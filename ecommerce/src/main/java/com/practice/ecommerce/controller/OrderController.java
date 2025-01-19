@@ -31,10 +31,10 @@ public class OrderController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Order> getOrders(@RequestParam Integer orderId) {
-        Order order = orderService.getOrders(orderId);
+    public ResponseEntity<Order> getOrders(@RequestParam Integer orderId, @RequestBody Map<String, String> identifier) {
+        Order order = orderService.getOrders(orderId, identifier.get("identifier"));
         if (order != null) {
-            return new ResponseEntity<>(order, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(order, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

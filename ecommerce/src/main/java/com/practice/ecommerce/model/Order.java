@@ -28,7 +28,7 @@ public class Order {
     private Integer orderId;
 
     @Column(nullable = false)
-    private String userIdentifier;
+    public String userIdentifier;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;

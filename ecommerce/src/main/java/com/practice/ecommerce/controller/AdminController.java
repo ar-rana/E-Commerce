@@ -32,14 +32,14 @@ public class AdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 //Demo Product format
-//    {
+// {
 //    "name": "someName",
 //    "basicPrice": 500,
-//    "thumbnail": "xyzxyzxyzxyzxyz",
+//    "thumbnail": "base64",
 //    "category": "homedecore",
 //    "stock": 100,
 //    "currentPrice": 450
-//    }
+//  }
     @PostMapping("/add/product")
     public ResponseEntity<String> addProduct(@RequestBody Map<String, String> item) {
         Product product = new Product(
@@ -56,13 +56,13 @@ public class AdminController {
     }
 
     @PostMapping("/add/admin")
-    public String addAdmin(@RequestBody Map<String, String> user) {
-        User customer = new User();
-        if (adminService.addAdmin(customer)) {
-            logger.info("NEW ADMIN: " + customer.getIdentifier());
-            return customer.toString() + " added successfully!!";
+    public ResponseEntity<User> addAdmin(@RequestBody Map<String, String> user) {
+        User admin = adminService.addAdmin(user.get("user"), UserType.admin);
+        if (admin !=  null) {
+            logger.info("NEW ADMIN: " + admin.toString());
+            return new ResponseEntity<>(admin, HttpStatus.OK);
         }
-        return "Failed to add: " + customer.toString();
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/alter/price")

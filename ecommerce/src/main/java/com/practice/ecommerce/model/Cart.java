@@ -18,6 +18,7 @@ public class Cart {
 
     @Id
     private String userIdentifier;
+    // join two rowws id and identifier
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 

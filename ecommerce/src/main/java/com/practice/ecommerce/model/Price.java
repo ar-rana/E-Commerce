@@ -63,4 +63,12 @@ public class Price {
         }
         this.currentPrice = currentPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "productId=" + productId +
+                ", currentPrice=" + currentPrice +
+                '}';
+    }
 }
