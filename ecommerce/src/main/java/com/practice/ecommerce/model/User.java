@@ -3,6 +3,9 @@ package com.practice.ecommerce.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.practice.ecommerce.model.Enums.UserType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +15,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -31,34 +33,13 @@ public class User {
     private UserType type;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     public List<Order> orders = new ArrayList<>();
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Cart> cart = new ArrayList<>();
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Product> cart = new ArrayList<>();
 
     public User(String identifier, UserType type) {
         this.identifier = identifier;
         this.type = type;
     }
-
-//    public List<Cart> getCart() {
-//        return cart;
-//    }
-//
-//    public void setCart(List<Cart> cart) {
-//        this.cart = cart;
-//    }
-
-//    public List<Product> getCart() {
-//        return cart;
-//    }
-//
-//    public void setCart(List<Product> cart) {
-//        this.cart = cart;
-//    }
 
     public Integer getId() {
         return id;
@@ -97,9 +78,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", identifier='" + identifier + '\'' +
                 ", type=" + type +
+                ", orders=" + orders +
                 '}';
     }
 }

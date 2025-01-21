@@ -40,7 +40,7 @@ public class AdminController {
 //    "stock": 100,
 //    "currentPrice": 450
 //  }
-    @PostMapping("/add/product")
+    @PostMapping("/add/product") // checked
     public ResponseEntity<String> addProduct(@RequestBody Map<String, String> item) {
         Product product = new Product(
                 item.get("name"),
@@ -55,7 +55,7 @@ public class AdminController {
         return new ResponseEntity<>("Product saved successfully!!" + product.toString(), HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/add/admin")
+    @PostMapping("/add/admin") // checked
     public ResponseEntity<User> addAdmin(@RequestBody Map<String, String> user) {
         User admin = adminService.addAdmin(user.get("user"), UserType.admin);
         if (admin !=  null) {
@@ -65,7 +65,7 @@ public class AdminController {
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/alter/price")
+    @PostMapping("/alter/price") // checked
     public String changePrice(@RequestBody Map<String, Integer> newPrice) {
         Price price = new Price(newPrice.get("productId"), newPrice.get("currentPrice"));
         if (adminService.changePrice(price)) return "Changed price to " + price;

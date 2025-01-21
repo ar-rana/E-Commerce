@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.practice.ecommerce.model.Enums.ListType;
-import jakarta.persistence.Column;
+import com.practice.ecommerce.model.compositeId.ListId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,7 +12,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 
 @Entity
 @IdClass(ListId.class)

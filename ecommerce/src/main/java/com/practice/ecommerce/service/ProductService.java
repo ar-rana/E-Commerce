@@ -34,8 +34,16 @@ public class ProductService {
 
     public Price getPriceOnly(Integer id) {
         Optional<Price> price = priceRepository.findById(id);
-        System.out.println(getPriceProduct(id).getProduct().toString()); // checked, works
         return  price.orElse(null);
+    }
+
+    public Integer getTotalPrice(List<Integer> ids) {
+        List<Price> prices = priceRepository.findAllById(ids);
+        Integer total = 0;
+        for (Price price: prices) {
+            total += price.getCurrentPrice();
+        }
+        return total;
     }
 
     public List<Product> getProductByCategory(ProductCategory category) {

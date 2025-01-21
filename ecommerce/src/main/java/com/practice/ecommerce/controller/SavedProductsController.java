@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.practice.ecommerce.model.Enums.ListType;
-import com.practice.ecommerce.model.ListId;
+import com.practice.ecommerce.model.compositeId.ListId;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.repository.SavedProductsRepo;
 import com.practice.ecommerce.service.SavedProductsService;
@@ -29,7 +29,7 @@ public class SavedProductsController {
     @Autowired
     private SavedProductsService savedProductsService;
 
-    @PostMapping("/add/{listType}")
+    @PostMapping("/add/{listType}") // checked for cart & wish
     public ResponseEntity<Product> addToWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> addProduct) {
         ListId listId = new ListId(addProduct.get("identifier"), listType);
         Product product = savedProductsService.addToList(listId, Integer.valueOf(addProduct.get("productId")));
@@ -40,16 +40,16 @@ public class SavedProductsController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/{listType}")
+    @GetMapping("/{listType}") // checked for cart & wish
     public ResponseEntity<List<Product>> getWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> identifier) {
         List<Product> products = savedProductsService.getListItems(listType, identifier.get("identifier"));
-        if (products == null) {
+        if (products == null || products.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{listType}")
+    @DeleteMapping("/{listType}")  // checked for cart & wish
     public ResponseEntity<String> deleteListItem(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
         if (savedProductsService.deleteListItem(listType, item.get("identifier"), Integer.valueOf(item.get("productId")))) {
             return new ResponseEntity<>("DELETED", HttpStatus.OK);
@@ -57,9 +57,9 @@ public class SavedProductsController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/move/{listType}")
-    public ResponseEntity<String> moveToCart(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
-        String response = savedProductsService.moveToCart(listType, item.get("identifier"), Integer.valueOf(item.get("productId")));
+    @PostMapping("/move/{listType}") // checked
+    public ResponseEntity<Boolean> moveToCart(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
+        boolean response = savedProductsService.moveToCart(listType, item.get("identifier"), Integer.valueOf(item.get("productId")));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

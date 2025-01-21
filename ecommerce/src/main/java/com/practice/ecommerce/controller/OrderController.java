@@ -22,7 +22,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/new")
+    @PostMapping("/new") // checked
     public String newOrder(@RequestBody Map<String, String> item) {
         if (orderService.newOrder(item.get("identifier"), Integer.valueOf(item.get("productId")))) {
             return "Order Received!";
@@ -30,7 +30,7 @@ public class OrderController {
         return "Error Processing Order!!";
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get") // checked
     public ResponseEntity<Order> getOrders(@RequestParam Integer orderId, @RequestBody Map<String, String> identifier) {
         Order order = orderService.getOrders(orderId, identifier.get("identifier"));
         if (order != null) {
@@ -39,9 +39,9 @@ public class OrderController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/getCost")
+    @GetMapping("/getCost") // checked
     public ResponseEntity<Integer> getCost(@RequestBody Map<String, List<Integer>> list) {
         Integer total = orderService.getTotal(list.get("productId"));
-        return new ResponseEntity<>(total, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(total, HttpStatus.OK);
     }
 }

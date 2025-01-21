@@ -1,7 +1,9 @@
 package com.practice.ecommerce.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.practice.ecommerce.model.Order;
 import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;

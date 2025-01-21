@@ -22,7 +22,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/getProduct")
+    @GetMapping("/getProduct") // checked
     public ResponseEntity<Product> getProduct(@RequestParam Integer id) {
         Product product = productService.getProduct(id);
         if (product == null) {
@@ -31,7 +31,7 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/getProduct/{category}")
+    @GetMapping("/getProduct/{category}") // checked
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable ProductCategory category) {
         List<Product> product = productService.getProductByCategory(category);
         if (product == null) {
@@ -40,7 +40,7 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/getPrice")
+    @GetMapping("/getPrice") // checked
     public ResponseEntity<Price> getPrice(@RequestParam Integer id) {
         Price price = productService.getPriceOnly(id);
         if (price == null) {

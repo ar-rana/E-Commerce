@@ -1,4 +1,4 @@
-package com.practice.ecommerce.model;
+package com.practice.ecommerce.model.compositeId;
 
 import com.practice.ecommerce.model.Enums.ListType;
 

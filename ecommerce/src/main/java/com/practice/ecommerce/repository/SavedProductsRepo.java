@@ -1,10 +1,7 @@
 package com.practice.ecommerce.repository;
 
-import java.util.Optional;
-
 import com.practice.ecommerce.model.Enums.ListType;
-import com.practice.ecommerce.model.ListId;
-import com.practice.ecommerce.model.Product;
+import com.practice.ecommerce.model.compositeId.ListId;
 import com.practice.ecommerce.model.SavedProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -26,7 +26,7 @@ public class OrderService {
     public boolean newOrder(String identifier, Integer productId) {
         Product product = productService.getProduct(productId);
         if (product == null) return false;
-        User user = userService.getUserByIdentifier(identifier);
+        User user = userService.getUserObject(identifier);
         if (user == null) return false;
 
         Order order = new Order(identifier, DeliveryStatus.pending, product);
@@ -51,10 +51,6 @@ public class OrderService {
     }
 
     public Integer getTotal(List<Integer> productIds) {
-        Integer total = 0;
-        for (Integer i : productIds) {
-            total += productService.getPriceOnly(i).currentPrice;
-        }
-        return total;
+        return productService.getTotalPrice(productIds);
     }
 }

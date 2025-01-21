@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/add/customer")
+    @PostMapping("/add/customer") // checked
     public ResponseEntity<User> addCustomer(@RequestBody Map<String, String> user) {
         User customer = userService.addCustomer(user.get("user"), UserType.customer);
         if (customer !=  null) {
@@ -34,7 +34,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/view")
+    @GetMapping("/view") // checked
     public ResponseEntity<User> getUser(@RequestBody Map<String, String> identifier) {
         User user = userService.getUserByIdentifier(identifier.get("identifier"));
         if (user != null) {
@@ -43,7 +43,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orders") // checked
     public ResponseEntity<List<Order>> getOrders(@RequestBody Map<String, String> identifier) {
         List<Order> orders = userService.getCustomerOrders(identifier.get("identifier"));
         return new ResponseEntity<>(orders, HttpStatus.OK);

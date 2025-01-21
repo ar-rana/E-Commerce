@@ -25,25 +25,23 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getUserById(Integer id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
     public User getUserByIdentifier(String identifier) {
         return userRepository.findByIdentifier(identifier).orElse(null);
     }
 
-    public User getUserObject(String identifier) {
-        return userRepository.findByIdentifierAndGetOrder(identifier).orElse(null);
-    }
-
-    public List<Order> getCustomerOrders(String identifier) {
+    public List<Order> getCustomerOrders(String identifier) { // order
         Optional<User> user = userRepository.findByIdentifierAndGetOrder(identifier);
-        System.out.println(user);
         if (user.isPresent()) {
             return user.get().getOrders();
         }
         return null;
     }
 
+    public User getUserObject(String identifier) {
+        return userRepository.findByIdentifierAndGetOrder(identifier).orElse(null);
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }
