@@ -53,4 +53,8 @@ public class OrderService {
     public Integer getTotal(List<Integer> productIds) {
         return productService.getTotalPrice(productIds);
     }
+
+    public Order getOrderById(Integer orderId) {
+        return orderRepository.findById(orderId).orElse(null);
+    }
 }
