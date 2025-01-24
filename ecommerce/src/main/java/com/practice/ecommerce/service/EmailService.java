@@ -25,7 +25,7 @@ import com.practice.ecommerce.model.Enums.EmailMessages;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Enums.UserType;
 import com.practice.ecommerce.model.Order;
-import com.practice.ecommerce.model.Price;
+import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
 import jakarta.mail.internet.MimeMessage;
@@ -38,8 +38,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import static java.awt.Color.gray;
 
 @Service
 public class EmailService {
@@ -160,9 +158,9 @@ public class EmailService {
 
     public void generateReceipt(String path, List<Order> orders) {
         User user = new User("tempUser", UserType.customer);
-        Product product = new Product("tempProduct", 500, "xyzxyz", ProductCategory.aesthtic, 10);
+        Product product = new Product("tempProduct", 500, 300, "xyxyxyxxyy", 10, ProductCategory.aesthtic);
         product.setProductId(20);
-        product.setPrice(new Price(product, 350));
+        product.setVirtualStock(new Stock(product, 5));
         Integer total = 0;
 
         try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(path));
@@ -195,7 +193,7 @@ public class EmailService {
                 mainTable.addCell(new Cell().add(String.valueOf(i+1)));
                 mainTable.addCell(new Cell().add(orders.get(i).getOrderId().toString()));
                 mainTable.addCell(new Cell().add(orders.get(i).getProduct().getName()));
-                Integer currPrice = orders.get(i).getProduct().getPrice().getCurrentPrice();
+                Integer currPrice = orders.get(i).getProduct().getVirtualStock().getVirtualStock();
                 mainTable.addCell(new Cell().add(currPrice.toString()));
                 total += currPrice;
             }

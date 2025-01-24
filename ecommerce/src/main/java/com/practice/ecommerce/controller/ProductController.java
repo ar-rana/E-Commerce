@@ -3,7 +3,7 @@ package com.practice.ecommerce.controller;
 import java.util.List;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
-import com.practice.ecommerce.model.Price;
+import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,8 @@ public class ProductController {
     }
 
     @GetMapping("/getPrice") // checked
-    public ResponseEntity<Price> getPrice(@RequestParam Integer id) {
-        Price price = productService.getPriceOnly(id);
+    public ResponseEntity<Integer> getPrice(@RequestParam Integer id) {
+        Integer price = productService.getPriceOnly(id);
         if (price == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

@@ -1,23 +1,20 @@
 package com.practice.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Check;
 
 @Entity
-@Table(name = "prices")
-public class Price {
+@Table(name = "stock")
+public class Stock {
 
     @Id
     public Integer productId; // shares this with 'Product'
-    public Integer currentPrice;
+    public Integer virtualStock;
 
     // this is child entity to 'Product'
     @OneToOne(fetch = FetchType.LAZY)
@@ -25,17 +22,17 @@ public class Price {
     @JsonBackReference // to avoid infinite recursion in bi-direction relation
     public Product product;
 
-    public Price(Product product, Integer currentPrice) {
+    public Stock(Product product, Integer virtualStock) {
         this.product = product;
-        this.currentPrice = currentPrice;
+        this.virtualStock = virtualStock;
     }
 
-    public Price(Integer productId, Integer currentPrice) {
+    public Stock(Integer productId, Integer virtualStock) {
         this.productId = productId;
-        this.currentPrice = currentPrice;
+        this.virtualStock = virtualStock;
     }
 
-    public Price() { }
+    public Stock() { }
 
     public Product getProduct() {
         return product;
@@ -53,22 +50,22 @@ public class Price {
         this.productId = productId;
     }
 
-    public Integer getCurrentPrice() {
-        return currentPrice;
+    public Integer getVirtualStock() {
+        return virtualStock;
     }
 
-    public void setCurrentPrice(Integer currentPrice) throws Exception {
-        if (this.currentPrice > product.basicPrice) {
+    public void setVirtualStock(Integer virtualStock) throws Exception {
+        if (this.virtualStock > product.basicPrice) {
             throw new Exception("Value Currrent Price less than Basic Price not allowed");
         }
-        this.currentPrice = currentPrice;
+        this.virtualStock = virtualStock;
     }
 
     @Override
     public String toString() {
         return "Price{" +
                 "productId=" + productId +
-                ", currentPrice=" + currentPrice +
+                ", virtualStock=" + virtualStock +
                 '}';
     }
 }

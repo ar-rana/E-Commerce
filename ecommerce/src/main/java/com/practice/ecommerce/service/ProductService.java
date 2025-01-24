@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
-import com.practice.ecommerce.model.Price;
+import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.model.User;
-import com.practice.ecommerce.repository.PriceRepository;
+import com.practice.ecommerce.repository.StockRepository;
 import com.practice.ecommerce.repository.ProductRepository;
-import com.practice.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,33 +18,38 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private PriceRepository priceRepository;
+    private StockRepository stockRepository;
 
     public Product getProduct(Integer id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
     }
 
-    public Price getPriceProduct(Integer id) {
-        Optional<Price> price = priceRepository.findByIdAndProduct(id);
-        return  price.orElse(null);
+    @Deprecated
+    public Stock getVirtualStock(Integer id) {
+        Optional<Stock> stock = stockRepository.findById(id);
+        return  stock.orElse(null);
     }
 
-    public Price getPriceOnly(Integer id) {
-        Optional<Price> price = priceRepository.findById(id);
+    public Integer getPriceOnly(Integer id) {
+        Optional<Integer> price = productRepository.findCurrentPriceById(id);
         return  price.orElse(null);
     }
 
     public Integer getTotalPrice(List<Integer> ids) {
-        List<Price> prices = priceRepository.findAllById(ids);
+        List<Integer> prices = productRepository.findAllByIdAndGetCurrentPrice(ids);
         Integer total = 0;
-        for (Price price: prices) {
-            total += price.getCurrentPrice();
+        for (Integer price: prices) {
+            total += price;
         }
         return total;
     }
 
     public List<Product> getProductByCategory(ProductCategory category) {
         return productRepository.findByCategory(category);
+    }
+
+    public Product updateProductStock(Product product) {
+        return productRepository.save(product);
     }
 }

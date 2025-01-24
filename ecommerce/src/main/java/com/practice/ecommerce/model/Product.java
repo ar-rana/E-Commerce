@@ -11,7 +11,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -27,6 +26,7 @@ public class Product {
 
     public String name;
     public Integer basicPrice;
+    public Integer currentPrice;
     public String thumbnail;
     public Integer stock;
     @Enumerated(EnumType.STRING)
@@ -38,14 +38,15 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn // they share the same PK and PK of child is also foreign key to parent
     @JsonManagedReference // to avoid infinite recursion in bi-direction relation
-    private Price price;
+    private Stock virtualStock;
 
-    public Product(String name, Integer basicPrice, String thumbnail, ProductCategory category, Integer stock) {
+    public Product(String name, Integer basicPrice, Integer currentPrice, String thumbnail, Integer stock, ProductCategory category) {
         this.name = name;
         this.basicPrice = basicPrice;
+        this.currentPrice = currentPrice;
         this.thumbnail = thumbnail;
-        this.category = category;
         this.stock = stock;
+        this.category = category;
     }
 
     public Product() { }
@@ -74,12 +75,12 @@ public class Product {
         this.category = category;
     }
 
-    public Price getPrice() {
-        return price;
+    public Stock getVirtualStock() {
+        return virtualStock;
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setVirtualStock(Stock virtualStock) {
+        this.virtualStock = virtualStock;
     }
 
     public Integer getBasicPrice() {
@@ -106,16 +107,24 @@ public class Product {
         this.stock = stock;
     }
 
+    public Integer getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Integer currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
                 ", name='" + name + '\'' +
                 ", basicPrice=" + basicPrice +
+                ", currentPrice=" + currentPrice +
                 ", thumbnail='" + thumbnail + '\'' +
-                ", category='" + category + '\'' +
                 ", stock=" + stock +
-                ", price=" + price +
+                ", category=" + category +
                 '}';
     }
 }

@@ -23,7 +23,6 @@ public class SavedProductsService {
     public Product addToList(ListId listId, Integer productId) {
         Product product = productService.getProduct(productId);
         if (product == null) return null;
-//        SavedProduct savedProduct = savedProductsRepo.findByIdentifierAndListType(listId.getIdentifier(), listId.getListType());
         Optional<SavedProduct> savedProduct = savedProductsRepo.findById(listId);
 
         if (savedProduct.isPresent()) {
@@ -38,7 +37,6 @@ public class SavedProductsService {
     }
 
     public List<Product> getListItems(ListType listType, String identifier) {
-//        SavedProduct savedProduct = savedProductsRepo.findByIdentifierAndListType(identifier, listType);
         Optional<SavedProduct> savedProduct = savedProductsRepo.findById(new ListId(identifier, listType));
         if (savedProduct.isEmpty()) {
             return null;

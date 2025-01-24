@@ -1,26 +1,21 @@
 package com.practice.ecommerce.controller;
 
 import java.util.Map;
-import java.util.Optional;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Enums.UserType;
-import com.practice.ecommerce.model.Price;
+import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
-import com.practice.ecommerce.repository.ProductRepository;
 import com.practice.ecommerce.service.AdminService;
-import com.practice.ecommerce.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,20 +33,23 @@ public class AdminController {
 //    "thumbnail": "base64",
 //    "category": "homedecore",
 //    "stock": 100,
-//    "currentPrice": 450
+//    "currentPrice": 450,
 //  }
     @PostMapping("/add/product") // checked
     public ResponseEntity<String> addProduct(@RequestBody Map<String, String> item) {
+        int stock = Integer.parseInt(item.get("stock"));
         Product product = new Product(
                 item.get("name"),
                 Integer.valueOf(item.get("basicPrice")),
+                Integer.valueOf(item.get("currentPrice")),
                 item.get("thumbnail"),
-                ProductCategory.valueOf(item.get("category")),
-                Integer.valueOf(item.get("stock"))
+                stock,
+                ProductCategory.valueOf(item.get("category"))
         );
-        Price price = new Price(product, Integer.valueOf(item.get("currentPrice")));
-        product.setPrice(price);
-        if (adminService.addProduct(product)) return new ResponseEntity<>("Product saved successfully!! " + product.toString(), HttpStatus.OK);
+        Stock virtualStock = new Stock(product, stock-10);
+        product.setVirtualStock(virtualStock);
+        Product newProduct = adminService.addProduct(product);
+        if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + newProduct.toString(), HttpStatus.OK);
         return new ResponseEntity<>("Product saved successfully!!" + product.toString(), HttpStatus.BAD_REQUEST);
     }
 
@@ -67,8 +65,8 @@ public class AdminController {
 
     @PostMapping("/alter/price") // checked
     public String changePrice(@RequestBody Map<String, Integer> newPrice) {
-        Price price = new Price(newPrice.get("productId"), newPrice.get("currentPrice"));
-        if (adminService.changePrice(price)) return "Changed price to " + price;
-        return "Failed to alter price for product: " + price.getProductId();
+        Integer setPrice = newPrice.get("currentPrice");
+        if (adminService.changePrice(setPrice, newPrice.get("productId"))) return "Changed price to " + setPrice;
+        return "Failed to alter price for product: " + newPrice.get("productId");
     }
 }
