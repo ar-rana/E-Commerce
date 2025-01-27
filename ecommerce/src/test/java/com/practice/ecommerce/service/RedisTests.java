@@ -6,12 +6,12 @@ import java.util.concurrent.TimeUnit;
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.redis.Publisher;
-import com.practice.ecommerce.service.redis.Receiver;
 import com.practice.ecommerce.service.redis.RedisCacheService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,9 +25,6 @@ public class RedisTests {
 
     @Autowired
     private RedisCacheService redisCacheService;
-
-    @Autowired
-    private Receiver receiver;
 
     @Autowired
     private Publisher publisher;
@@ -62,8 +59,9 @@ public class RedisTests {
     }
 
     @Test
-    public void testPublisherAndSubscriber() {
-        String attempt = publisher.publishToQueue("message from TEST");
+    @Rollback
+    public void testPublisherAndListener() {
+        String attempt = publisher.publishToStream(uniqueKey);
 
         assertNotNull(attempt);
         assertEquals("SUCCESS", attempt);

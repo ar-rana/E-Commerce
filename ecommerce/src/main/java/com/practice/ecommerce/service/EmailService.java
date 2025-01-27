@@ -78,7 +78,7 @@ public class EmailService {
         try {
             javaMailSender.send(simpleMailMessage);
         } catch (MailException ex) {
-            logger.info("Failed to send email: " + ex.getMessage());
+            logger.error("Failed to send email: " + ex.getMessage());
         }
     }
 
@@ -93,7 +93,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (Exception ex) {
-            logger.info("Failed to send MimeMessage: " + ex.getMessage());
+            logger.error("Failed to send MimeMessage: " + ex.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (Exception ex) {
-            logger.info("Failed to send MimeMessage: " + ex.getMessage());
+            logger.error("Failed to send MimeMessage: " + ex.getMessage());
         }
     }
 
@@ -136,7 +136,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (Exception ex) {
-            logger.info("Failed to send MimeMessage with Attachment: " + ex.getMessage());
+            logger.error("Failed to send MimeMessage with Attachment: " + ex.getMessage());
         }
     }
 
@@ -150,7 +150,7 @@ public class EmailService {
                 sb.append(line);
             }
         } catch (Exception ex) {
-            System.out.println("Failed to load file: " + ex.getMessage());
+            logger.error("Failed to load file: " + ex.getMessage());
         }
 
         return sb.toString();
@@ -217,8 +217,8 @@ public class EmailService {
                     .setFixedPosition(0f, 15f, UnitValue.createPercentValue(100));
 
             document.add(lastLine);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            logger.error("Failed to load file: " + ex.getMessage());
         }
     }
 }

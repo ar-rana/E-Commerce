@@ -2,6 +2,8 @@ package com.practice.ecommerce.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Stock;
@@ -20,9 +22,16 @@ public class ProductService {
     @Autowired
     private StockRepository stockRepository;
 
+    @Autowired
+    private SearchService searchService;
+
     public Product getProduct(Integer id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
+    }
+
+    public List<Product> getProducts(List<Integer> ids) {
+        return productRepository.findAllById(ids);
     }
 
     @Deprecated
@@ -47,6 +56,15 @@ public class ProductService {
 
     public List<Product> getProductByCategory(ProductCategory category) {
         return productRepository.findByCategory(category);
+    }
+
+    public List<Product> getSearchProducts(String search) {
+        List<Integer> productIds = searchService.searchProduct(Stream.of(search.trim().split(" "))
+                                                                     .map(val -> val.trim().toLowerCase())
+                                                                     .collect(Collectors.toList())
+        );
+        if (productIds.isEmpty()) return null;
+        return getProducts(productIds);
     }
 
     public Product updateProductStock(Product product) {

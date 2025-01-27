@@ -24,9 +24,9 @@ public class RedisCacheService {
         try {
             return mapper.readValue(o.toString(), entityClass);
         } catch (JsonProcessingException ex) {
-            logger.info("Failed to parse Object: " + ex.getMessage());
+            logger.error("Failed to PARSE OBJECT: " + ex.getMessage());
         } catch (NullPointerException ex) {
-            logger.info("Object is NULL: " + ex.getMessage());
+            logger.error("Object is NULL: " + ex.getMessage());
         }
 
         return null;
@@ -37,7 +37,7 @@ public class RedisCacheService {
             String jsonValue = new ObjectMapper().writeValueAsString(o);
             redisTemplate.opsForValue().set(key, jsonValue, ttl, TimeUnit.MINUTES);
         } catch (Exception ex) {
-            logger.info("Failed to save in cache: " + ex.getMessage());
+            logger.info("Failed to SAVE in cache: " + ex.getMessage());
         }
     }
 
@@ -45,8 +45,9 @@ public class RedisCacheService {
         try {
             redisTemplate.delete(key);
         } catch (Exception ex) {
-            logger.info("Failed to save in cache: " + ex.getMessage());
+            logger.error("Failed to DELETE cache: " + ex.getMessage());
         }
+        logger.warn("DELETED " + key + " from cache");
     }
 
     public void writeThroughCache(String key) {

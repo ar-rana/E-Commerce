@@ -53,6 +53,4 @@ public class UserRepoTest {
         assertEquals(identifier.get().getIdentifier(), username);
         assertEquals(identifier.get().getType(), type);
     }
-
-
 }

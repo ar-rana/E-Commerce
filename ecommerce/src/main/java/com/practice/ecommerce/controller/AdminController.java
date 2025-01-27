@@ -1,5 +1,6 @@
 package com.practice.ecommerce.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
@@ -13,10 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/admin")
@@ -48,7 +52,7 @@ public class AdminController {
         );
         Stock virtualStock = new Stock(product, stock-10);
         product.setVirtualStock(virtualStock);
-        Product newProduct = adminService.addProduct(product);
+        Product newProduct = adminService.addProduct(product, item.get("tags")) ;
         if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + newProduct.toString(), HttpStatus.OK);
         return new ResponseEntity<>("Product saved successfully!!" + product.toString(), HttpStatus.BAD_REQUEST);
     }
@@ -68,5 +72,12 @@ public class AdminController {
         Integer setPrice = newPrice.get("currentPrice");
         if (adminService.changePrice(setPrice, newPrice.get("productId"))) return "Changed price to " + setPrice;
         return "Failed to alter price for product: " + newPrice.get("productId");
+    }
+
+    @PostMapping("/upload")
+    public String addImageOfProduct(@RequestParam Integer id, @RequestBody MultipartFile file) {
+        if (file.isEmpty()) return "NOT FILE SELECTED";
+        logger.info("FILE RECEIVED for STORAGE = {}", file.getName());
+        return adminService.addToFirebaseStorage(id, file);
     }
 }
