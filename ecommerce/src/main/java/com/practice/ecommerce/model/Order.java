@@ -33,6 +33,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
+    public String address;
+    public String phone;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -47,6 +50,22 @@ public class Order {
 
     public String getUserIdentifier() {
         return userIdentifier;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setUserIdentifier(String userIdentifier) {

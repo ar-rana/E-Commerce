@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "stock")
+@Deprecated(forRemoval = true)
 public class Stock {
 
     @Id
@@ -63,7 +64,7 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Price{" +
+        return "Stock {" +
                 "productId=" + productId +
                 ", virtualStock=" + virtualStock +
                 '}';

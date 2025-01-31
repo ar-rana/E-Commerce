@@ -6,7 +6,6 @@ import java.util.Optional;
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.model.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,15 @@ public class ProductRepoTest {
             DefaultModels.currentPrice1,
             DefaultModels.thumbnail,
             DefaultModels.stock,
-            ProductCategory.homedecore
+            ProductCategory.homedecore,
+            DefaultModels.stock - 10,
+            "PNG"
     );
-    Stock virtualStock = new Stock(product, DefaultModels.stock-10);
 
     private Product savedProduct;
 
     @BeforeEach
     public void setUp() {
-        product.setVirtualStock(virtualStock);
         savedProduct = productRepository.save(product);
     }
 
@@ -113,24 +112,20 @@ public class ProductRepoTest {
         assertEquals(originalStock-1, product1.get().getStock());
     }
 
-    // STOCK Repository Tests
-
     @Test
     public void testSTOCKFindById() {
-        Optional<Stock> currStock = stockRepository.findById(savedProduct.getProductId());
-
-        System.out.println("curr: " + currStock.toString());
+        Optional<Integer> currStock = productRepository.findAllByIdAndGetVirtualStock(savedProduct.getProductId());
 
         assertTrue(currStock.isPresent());
-        assertEquals(virtualStock, currStock.get());
+        assertEquals(savedProduct.getVirtualStock(), currStock.get());
     }
 
     @Test
     public void testAdjustVirtualStockIncrement() {
-        int originalStock = savedProduct.getStock() - 10;
+        int originalStock = savedProduct.getVirtualStock();
 
-        Integer incrementedRows = stockRepository.adjustVirtualStock(1, savedProduct.getProductId());
-        Optional<Stock> stock = stockRepository.findById(savedProduct.getProductId());
+        Integer incrementedRows = productRepository.adjustVirtualStock(1, savedProduct.getProductId());
+        Optional<Product> stock = productRepository.findById(savedProduct.getProductId());
 
         assertTrue(stock.isPresent());
         assertEquals(1, incrementedRows);
@@ -139,10 +134,10 @@ public class ProductRepoTest {
 
     @Test
     public void testAdjustVirtualStockDecrement() {
-        int originalStock = savedProduct.getStock() - 10;
+        int originalStock = savedProduct.getVirtualStock();
 
-        Integer incrementedRows = stockRepository.adjustVirtualStock(-1, savedProduct.getProductId());
-        Optional<Stock> stock = stockRepository.findById(savedProduct.getProductId());
+        Integer incrementedRows = productRepository.adjustVirtualStock(-1, savedProduct.getProductId());
+        Optional<Product> stock = productRepository.findById(savedProduct.getProductId());
 
         assertTrue(stock.isPresent());
         assertEquals(1, incrementedRows);

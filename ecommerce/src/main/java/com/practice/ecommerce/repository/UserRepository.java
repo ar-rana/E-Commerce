@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("SELECT u FROM User u JOIN FETCH u.orders WHERE u.identifier = ?1")
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.identifier = ?1")
     Optional<User> findByIdentifierAndGetOrder(String identifier);
 
     Optional<User> findByIdentifier(String identifier);

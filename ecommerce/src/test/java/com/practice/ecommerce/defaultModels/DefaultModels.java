@@ -2,7 +2,6 @@ package com.practice.ecommerce.defaultModels;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.model.Stock;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +26,9 @@ public class DefaultModels {
             DefaultModels.currentPrice1,
             DefaultModels.thumbnail,
             DefaultModels.stock,
-            ProductCategory.homedecore
+            ProductCategory.homedecore,
+            stock - 10,
+            "PNG"
     );
     public static Product alternateProduct = new Product(
             DefaultModels.productName2,
@@ -35,7 +36,8 @@ public class DefaultModels {
             DefaultModels.currentPrice2,
             DefaultModels.thumbnail,
             DefaultModels.stock,
-            ProductCategory.outdoordecore
+            ProductCategory.outdoordecore,
+            stock - 10,
+            "PNG"
     );
-    public static Stock virtualStock = new Stock(product, DefaultModels.stock-10);
 }

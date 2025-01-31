@@ -6,7 +6,6 @@ import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.DeliveryStatus;
 import com.practice.ecommerce.model.Order;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.model.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +23,13 @@ public class OrderRepoTest {
     private OrderRepository orderRepository;
 
     private Product product = DefaultModels.product;
-    private Stock stock = DefaultModels.virtualStock;
+//    private Stock stock = DefaultModels.virtualStock;
     private Order order;
     Order savedOrder;
 
     @BeforeEach
     public void setUp() {
-        product.setVirtualStock(stock);
+//        product.setVirtualStock(stock);
         order = new Order(DefaultModels.username, DeliveryStatus.pending, product);
 
         savedOrder = orderRepository.save(order);

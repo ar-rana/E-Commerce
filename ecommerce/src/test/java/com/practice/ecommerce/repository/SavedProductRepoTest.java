@@ -4,7 +4,6 @@ import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.ListType;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.SavedProduct;
-import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.compositeId.ListId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,16 +22,16 @@ public class SavedProductRepoTest {
     private SavedProductsRepo savedProductsRepo;
 
     private Product product;
-    private Stock virtualStock;
-    private ListId wishlist = new ListId(DefaultModels.username, ListType.wishlist);
-    private ListId cart = new ListId(DefaultModels.username, ListType.cart);
+//    private Stock virtualStock;
+    private ListId wishlist = new ListId(DefaultModels.username, ListType.WISHLIST);
+    private ListId cart = new ListId(DefaultModels.username, ListType.CART);
 
     @BeforeEach
     public void setUp() {
         product = DefaultModels.product;
-        virtualStock = DefaultModels.virtualStock;
+//        virtualStock = DefaultModels.virtualStock;
 
-        product.setVirtualStock(virtualStock);
+//        product.setVirtualStock(virtualStock);
     }
 
     @Test

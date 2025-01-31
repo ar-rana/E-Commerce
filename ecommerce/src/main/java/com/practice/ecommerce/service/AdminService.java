@@ -22,7 +22,6 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.SetOptions;
 
 import com.practice.ecommerce.model.Enums.UserType;
-import com.practice.ecommerce.model.Stock;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.repository.StockRepository;

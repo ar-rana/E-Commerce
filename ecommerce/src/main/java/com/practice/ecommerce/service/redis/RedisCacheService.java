@@ -2,7 +2,9 @@ package com.practice.ecommerce.service.redis;
 
 import java.util.concurrent.TimeUnit;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +22,32 @@ public class RedisCacheService {
 
     public <T> T getCache(String key, Class<T> entityClass) {
         Object o = redisTemplate.opsForValue().get(key);
+        if (o == null) {
+            logger.info("Object Null in Cache with key: {}", key);
+            return null;
+        }
         ObjectMapper mapper = new ObjectMapper();
+        logger.info("Object as String from Cache: {}", o);
         try {
-            return mapper.readValue(o.toString(), entityClass);
+            return mapper.readValue((String) o, entityClass);
+        } catch (Exception ex) {
+            logger.error("Failed to PARSE OBJECT: " + ex.getMessage());
+        }
+        return null;
+    }
+    public <T> T getCache(String key, TypeReference<T> typeReference) {
+        Object o = redisTemplate.opsForValue().get(key);
+        if (o == null) {
+            logger.info("Object Null in Cache with key: {}", key);
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        logger.info("Object as String from Cache: {}", o);
+        try {
+            return mapper.readValue((String) o, typeReference);
         } catch (JsonProcessingException ex) {
             logger.error("Failed to PARSE OBJECT: " + ex.getMessage());
-        } catch (NullPointerException ex) {
-            logger.error("Object is NULL: " + ex.getMessage());
         }
-
         return null;
     }
 

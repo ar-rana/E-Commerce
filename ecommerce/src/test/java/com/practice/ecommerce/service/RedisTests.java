@@ -7,15 +7,20 @@ import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.redis.Publisher;
 import com.practice.ecommerce.service.redis.RedisCacheService;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.annotation.Rollback;
 
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class RedisTests {
@@ -46,14 +51,16 @@ public class RedisTests {
 
         Product fetchedProduct = redisCacheService.getCache("parsingTest", Product.class);
 
-        assertEquals(product.toString(), fetchedProduct.toString());
+        MatcherAssert.assertThat(fetchedProduct, samePropertyValuesAs(product)); // Hamcrest reflection to check objects are equal
+        assertTrue(new ReflectionEquals(product).matches(fetchedProduct)); // Mockito
     }
 
     @Test
     public void testObjectDeletion() {
-        redisCacheService.deleteCache("parsingTest");
+        redisCacheService.setCache("deleteTest", product, 1);
+        redisCacheService.deleteCache("deleteTest");
 
-        Product fetchedProduct = redisCacheService.getCache("parsingTest", Product.class);
+        Product fetchedProduct = redisCacheService.getCache("deleteTest", Product.class);
 
         assertNull(fetchedProduct);
     }

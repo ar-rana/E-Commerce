@@ -1,9 +1,11 @@
 package com.practice.ecommerce.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.UserType;
+import com.practice.ecommerce.model.Order;
 import com.practice.ecommerce.model.User;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;

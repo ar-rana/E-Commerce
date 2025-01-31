@@ -29,7 +29,7 @@ public class SavedProductsController {
     @Autowired
     private SavedProductsService savedProductsService;
 
-    @PostMapping("/add/{listType}") // checked for cart & wish
+    @PostMapping("/add/{listType}") // checked for CART & wish
     public ResponseEntity<Product> addToWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> addProduct) {
         ListId listId = new ListId(addProduct.get("identifier"), listType);
         Product product = savedProductsService.addToList(listId, Integer.valueOf(addProduct.get("productId")));
@@ -40,7 +40,7 @@ public class SavedProductsController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/{listType}") // checked for cart & wish
+    @GetMapping("/{listType}") // checked for CART & wish
     public ResponseEntity<List<Product>> getWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> identifier) {
         List<Product> products = savedProductsService.getListItems(listType, identifier.get("identifier"));
         if (products == null || products.isEmpty()) {
@@ -49,7 +49,7 @@ public class SavedProductsController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{listType}")  // checked for cart & wish
+    @DeleteMapping("/{listType}")  // checked for CART & wish
     public ResponseEntity<String> deleteListItem(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
         if (savedProductsService.deleteListItem(listType, item.get("identifier"), Integer.valueOf(item.get("productId")))) {
             return new ResponseEntity<>("DELETED", HttpStatus.OK);
