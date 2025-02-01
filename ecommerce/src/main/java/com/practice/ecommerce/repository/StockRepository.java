@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+@Deprecated(forRemoval = true)
 public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     @Query("SELECT s FROM Stock s JOIN FETCH s.product WHERE s.productId = ?1")

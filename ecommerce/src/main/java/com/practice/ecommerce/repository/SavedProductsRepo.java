@@ -5,7 +5,9 @@ import com.practice.ecommerce.model.compositeId.ListId;
 import com.practice.ecommerce.model.SavedProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SavedProductsRepo extends JpaRepository<SavedProduct, ListId> {
 
     SavedProduct findByIdentifierAndListType(String identifier, ListType listType);

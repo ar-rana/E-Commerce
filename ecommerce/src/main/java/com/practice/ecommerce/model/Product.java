@@ -77,6 +77,14 @@ public class Product {
         this.productId = productId;
     }
 
+    public String getThumbnailType() {
+        return thumbnailType;
+    }
+
+    public void setThumbnailType(String thumbnailType) {
+        this.thumbnailType = thumbnailType;
+    }
+
     public String getName() {
         return name;
     }

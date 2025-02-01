@@ -8,7 +8,8 @@ public enum Keys {
     SEARCH("search/%s"),
     CART("CART/%s"),
     WISHLIST("WISHLIST/%s"),
-    USER("user/%s");
+    USER("user/%s"),
+    ETAG("etag/%s");
 
     private final String prefixKey;
     Keys(String key) {

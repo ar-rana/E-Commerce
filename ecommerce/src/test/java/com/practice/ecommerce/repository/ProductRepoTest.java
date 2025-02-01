@@ -25,9 +25,6 @@ public class ProductRepoTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
-
     Product product = new Product(
             DefaultModels.productName1,
             DefaultModels.basicPrice1,

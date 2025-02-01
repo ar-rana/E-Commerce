@@ -1,13 +1,9 @@
 package com.practice.ecommerce.controller;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
-import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Enums.UserType;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.ProductDTO;
@@ -41,7 +37,7 @@ public class AdminController {
     private ProductService productService;
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
-//Demo Product format
+//Demo Product format (Form Data)
 // {
 //    "name": "someName",
 //    "basicPrice": 500,
@@ -68,7 +64,7 @@ public class AdminController {
                 extension
         );
         Product newProduct = adminService.addProduct(product, productDTO.getTags());
-        if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + "id: " + newProduct.getProductId() + "stock: " + newProduct.getName(), HttpStatus.OK);
+        if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + "id: " + newProduct.getProductId() + " name: " + newProduct.getName(), HttpStatus.OK);
         return new ResponseEntity<>("Product save unsuccessfully!!" + product, HttpStatus.BAD_REQUEST);
     }
 
@@ -89,11 +85,11 @@ public class AdminController {
         return "Failed to alter price for product: " + newPrice.get("productId");
     }
 
-    @PostMapping("/upload")
-    public String addImageOfProduct(@RequestParam Integer id, @RequestBody MultipartFile file) {
+    @PostMapping("/upload/{id}")
+    public String addImageOfProduct(@PathVariable Integer id,  @RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) return "NOT FILE SELECTED";
-        logger.info("FILE RECEIVED for STORAGE = {}", file.getName());
-        return adminService.addToFirebaseStorage(id, file);
+        logger.info("FILE RECEIVED for Product = {}, file = {}", id, file.getOriginalFilename());
+        return adminService.uploadImage(id, file, getMediaType(file));
     }
 
     private String encodeThumbnail(MultipartFile file) {
@@ -114,7 +110,7 @@ public class AdminController {
         for (int j=i+1;j<name.length();j++) {
             sb.append(name.charAt(j));
         }
-        return sb.toString().toUpperCase();
+        return sb.toString();
     }
 
     @GetMapping("/product/{id}/image")
@@ -127,7 +123,7 @@ public class AdminController {
 
         byte[] imageBytes = Base64.getDecoder().decode(product.getThumbnail());
         return ResponseEntity.ok()
-                             .contentType(MediaType.IMAGE_JPEG) // Adjust based on image type
+                             .contentType(MediaType.valueOf("image/" + product.getThumbnailType())) // Adjust based on image type
                              .body(imageBytes);
     }
 }

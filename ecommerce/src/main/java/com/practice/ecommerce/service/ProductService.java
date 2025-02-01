@@ -9,8 +9,9 @@ import java.util.stream.Stream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.practice.ecommerce.model.Enums.Keys;
 import com.practice.ecommerce.model.Enums.ProductCategory;
+import com.practice.ecommerce.model.Image;
 import com.practice.ecommerce.model.Product;
-import com.practice.ecommerce.repository.StockRepository;
+import com.practice.ecommerce.repository.ImagesRepository;
 import com.practice.ecommerce.repository.ProductRepository;
 import com.practice.ecommerce.service.redis.RedisCacheService;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private StockRepository stockRepository;
+    private ImagesRepository imagesRepository;
 
     @Autowired
     private SearchService searchService;
@@ -127,6 +128,15 @@ public class ProductService {
         );
         if (productIds.isEmpty()) return null;
         return getProducts(productIds);
+    }
+
+    public List<Integer> getImagesForProduct(Integer productId) {
+        return imagesRepository.findByProductIdAndGetImageId(productId);
+    }
+
+    public Image getImagesById(Integer imageId) {
+        logger.info("Image Fetched ID: {}", imageId);
+        return imagesRepository.findById(imageId).orElse(null);
     }
 
     public Product updateProductStock(Product product) {
