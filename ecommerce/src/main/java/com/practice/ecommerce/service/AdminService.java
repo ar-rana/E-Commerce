@@ -16,7 +16,6 @@ import com.practice.ecommerce.model.Image;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.repository.ImagesRepository;
-import com.practice.ecommerce.repository.StockRepository;
 import com.practice.ecommerce.repository.ProductRepository;
 import com.practice.ecommerce.repository.UserRepository;
 import org.slf4j.Logger;
@@ -27,9 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AdminService {
-
-    @Autowired
-    private StockRepository stockRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,8 +39,8 @@ public class AdminService {
     @Autowired
     private ImagesRepository imagesRepository;
 
-//    @Autowired
-//    private Bucket storage;
+    @Autowired
+    private JwtService jwtService;
 
     private static final String SEARCH_DB = "search";
     private static final String STORAGE_ADD = "images";
@@ -60,9 +56,13 @@ public class AdminService {
         return productRepository.alterCurrentPrice(price, productId) > 0;
     }
 
-    public User addAdmin(String user, UserType userType) {
+    public String addAdmin(String user, UserType userType) {
         User admin = new User(user, userType);
-        return userRepository.save(admin);
+        User savedAdmin = userRepository.save(admin);
+        if (savedAdmin != null) {
+            return jwtService.generateToken(savedAdmin.getIdentifier(), savedAdmin.getType());
+        }
+        return null;
     }
 
     public String addToFirestore(List<String> tags, Integer productId) {

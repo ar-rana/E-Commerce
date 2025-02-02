@@ -35,13 +35,9 @@ public class PublicServicesTests {
 
     private Product product1 = DefaultModels.product;
     private Product product2 = DefaultModels.alternateProduct;
-//    private Stock virtualStock = DefaultModels.virtualStock;
 
     @BeforeEach
     public void setUp() {
-//        product1.setVirtualStock(virtualStock);
-//        product2.setVirtualStock(virtualStock);
-
         product1.setProductId(DefaultModels.DEFAULT_ID);
         product2.setProductId(DefaultModels.DEFAULT_ID+1);
     }

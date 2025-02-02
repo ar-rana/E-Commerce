@@ -18,16 +18,13 @@ public class Publisher {
 	private static final String STREAM = "notification";
 
 	@Autowired
-	private RedisTemplate redisTemplate;
+	private RedisTemplate<String, String> redisTemplate;
 
-	public String publishToStream(String input) {
+	public String publishToStream(Map<String, String> message) {
 		try {
-			Map<String, String> message = new HashMap<>();
-			message.put("emailService", input);
-
 			StringRecord record = StreamRecords.string(message).withStreamKey(STREAM);
 			redisTemplate.opsForStream().add(record);
-			LOGGER.info("Data - " + input + " - sent to Redis STREAM" );
+			LOGGER.info("Data sent to Redis STREAM" );
 			return "SUCCESS";
 		} catch (Exception ex) {
 			LOGGER.error("Failed to publish STREAM - " + ex.getMessage());

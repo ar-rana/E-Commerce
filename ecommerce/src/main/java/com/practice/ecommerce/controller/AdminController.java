@@ -7,12 +7,13 @@ import java.util.Map;
 import com.practice.ecommerce.model.Enums.UserType;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.ProductDTO;
-import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.service.AdminService;
 import com.practice.ecommerce.service.ProductService;
+import com.practice.ecommerce.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,12 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserService userService;
+
+    @Value("${app.secret.key}")
+    private String adminSecretKey;
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 //Demo Product format (Form Data)
@@ -69,11 +77,18 @@ public class AdminController {
     }
 
     @PostMapping("/add/admin") // checked
-    public ResponseEntity<User> addAdmin(@RequestBody Map<String, String> user) {
-        User admin = adminService.addAdmin(user.get("user"), UserType.admin);
-        if (admin !=  null) {
-            logger.info("NEW ADMIN: " + admin.toString());
-            return new ResponseEntity<>(admin, HttpStatus.OK);
+    public ResponseEntity<String> addAdmin(@RequestBody Map<String, String> user, @RequestHeader("Key") String key) {
+        if (!key.equals(adminSecretKey)) {
+            return new ResponseEntity<>("UNAUTHORIZED USER", HttpStatus.UNAUTHORIZED);
+        }
+        String identifier = user.get("identifier");
+        if (!userService.validateEmail(identifier)) {
+            return new ResponseEntity<>("Invalid Email!!", HttpStatus.BAD_REQUEST);
+        }
+        String token = adminService.addAdmin(identifier, UserType.admin);
+        if (token !=  null) {
+            logger.info("NEW ADMIN: " + token);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }

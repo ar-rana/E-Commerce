@@ -1,5 +1,7 @@
 package com.practice.ecommerce.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -70,7 +72,9 @@ public class RedisTests {
     @Test
     @Rollback
     public void testPublisherAndListener() {
-        String attempt = publisher.publishToStream(uniqueKey);
+        Map<String, String> map = new HashMap<>();
+        map.put("key", uniqueKey);
+        String attempt = publisher.publishToStream(map);
 
         assertNotNull(attempt);
         assertEquals("SUCCESS", attempt);

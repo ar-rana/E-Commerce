@@ -32,15 +32,15 @@ public class RedisConfig {
     }
 //    Streams
     @Bean(initMethod = "start", destroyMethod = "stop") // destroyMethod to shut down the stream before closing the app, and avoid 'Connection is already closed' exception
-    public StreamMessageListenerContainer streamMessageListenerContainer(RedisConnectionFactory connectionFactory) {
+    public StreamMessageListenerContainer streamMessageListenerContainer(RedisConnectionFactory connectionFactory, RedisStreamListener redisStreamListener) {
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, MapRecord<String, String, String>> containerOptions =
                 StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder().pollTimeout(Duration.ofMillis(2000)).build();
 
         StreamMessageListenerContainer<String, MapRecord<String, String, String>> container =
                 StreamMessageListenerContainer.create(connectionFactory, containerOptions);
 
-        container.receive(StreamOffset.fromStart("notification"), new RedisStreamListener());
-//        container.start(); // necessary to start the container
+        container.receive(StreamOffset.fromStart("notification"), redisStreamListener);
+        container.start(); // necessary to start the container
 
         return container;
     }

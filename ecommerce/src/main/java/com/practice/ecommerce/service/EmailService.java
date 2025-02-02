@@ -55,6 +55,7 @@ public class EmailService {
         messagesSubject.put(EmailMessages.welcomeMessage, "Welcome to E-Commerce!! \uD83C\uDF89 \uD83C\uDF89");
         messagesSubject.put(EmailMessages.orderPlaced, "We have received your order!!");
         messagesSubject.put(EmailMessages.productStockOver, "Regarding stock for you product with ProductID:  ");
+        messagesSubject.put(EmailMessages.otpRequest, "Your One Time Password(OTP) for E-commerce Login");
 
         messages.put(EmailMessages.welcomeMessage, readFile("src/main/resources/templates/welcomeMessage.txt"));
         messages.put(EmailMessages.orderPlaced,
@@ -66,6 +67,12 @@ public class EmailService {
                 "<p>Dear Admin, </p>" +
                 "<span>Your stock for product with Product ID: " + " has been finished.</span>" +
                 "<p>Please replenish the stock as soon as possible</p>");
+        messages.put(EmailMessages.otpRequest,
+                "Dear User, \r\n" +
+                "Your One Time Password for the login into our website is: \r\n" +
+                "This OTP is only valid for 10 minutes only, please do not share this with anyone. \r\n" +
+                "It will be invalidated once you login. \r\n" +
+                "Thank You \r\n");
     }
 
     public void sendSimpleMail(String to, String subject, String content) {
@@ -81,6 +88,21 @@ public class EmailService {
         }
     }
 
+    public void sendOTPMail(String to, EmailMessages type, String otp) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(messagesSubject.get(type));
+        String content = new StringBuilder(messages.get(type))
+                .insert(messages.get(type).indexOf(":") + 2, otp).toString();
+        simpleMailMessage.setText(content);
+        try {
+            javaMailSender.send(simpleMailMessage);
+        } catch (MailException ex) {
+            logger.error("Failed to send OTP email: " + ex.getMessage());
+        }
+    }
+
     public void sendWelcomeMail(String to, EmailMessages type) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -92,7 +114,7 @@ public class EmailService {
 
             javaMailSender.send(message);
         } catch (Exception ex) {
-            logger.error("Failed to send MimeMessage: " + ex.getMessage());
+            logger.error("Failed to send WELCOME MimeMessage: " + ex.getMessage());
         }
     }
 
