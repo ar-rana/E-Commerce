@@ -40,18 +40,18 @@ public class SavedProductsController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/{listType}") // checked for CART & wish
-    public ResponseEntity<List<Product>> getWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> identifier) {
-        List<Product> products = savedProductsService.getListItems(listType, identifier.get("identifier"));
+    @GetMapping("/{listType}/{identifier}") // checked for CART & wish
+    public ResponseEntity<List<Product>> getWishlist(@PathVariable ListType listType, @PathVariable String identifier) {
+        List<Product> products = savedProductsService.getListItems(listType, identifier);
         if (products == null || products.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{listType}")  // checked for CART & wish
-    public ResponseEntity<String> deleteListItem(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
-        if (savedProductsService.deleteListItem(listType, item.get("identifier"), Integer.valueOf(item.get("productId")))) {
+    @DeleteMapping("/{listType}/{productId}/{identifier}")  // checked for CART & wish
+    public ResponseEntity<String> deleteListItem(@PathVariable ListType listType, @PathVariable Integer productId, @PathVariable String identifier) {
+        if (savedProductsService.deleteListItem(listType, identifier, productId)) {
             return new ResponseEntity<>("DELETED", HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

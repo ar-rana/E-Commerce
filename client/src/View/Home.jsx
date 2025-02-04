@@ -3,8 +3,16 @@ import Hero from "../Components/Hero";
 import ProductView from "../Components/ProductView";
 import CategoryCard from "../Components/CategoryCard";
 import Footer from "../Components/Footer";
+import homedecore from "../Assets/homedecore.png";
+import outdoordecore from "../Assets/outdoordecore.png";
+import aesthetic from "../Assets/aesthetic.png";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const onClickCategory = (category) => {
+    navigate("/search", {state : {category : category}})
+  }
   return (
     <div className="home">
       <Hero />
@@ -14,9 +22,9 @@ const Home = () => {
       </div>
       <h2 className="heading underline">Shop Based on Category</h2>
       <div className="home-category">
-        <CategoryCard text={"Home decore"} />
-        <CategoryCard text={"Outdoor decore"} />
-        <CategoryCard text={"Aesthetic Pieces"} />
+        <CategoryCard text={"Home decore"} url={homedecore} onClick={() => onClickCategory("homedecore")} />
+        <CategoryCard text={"Outdoor decore"} url={outdoordecore} onClick={() => onClickCategory("outdoordecore")} />
+        <CategoryCard text={"Aesthetic Pieces"} url={aesthetic} onClick={() => onClickCategory("aesthtic")} />
       </div>
       <Footer />
     </div>

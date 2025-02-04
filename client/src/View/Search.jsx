@@ -1,22 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../Components/Card.jsx";
 import Button1 from "../Components/Buttons/Button1.jsx";
 import Footer from "../Components/Footer.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
+import usePublicApi from "../Hooks/API/usePublicApi.js";
 
 const Search = () => {
-  const data = [
-    { id: "123" },
-    { id: "12323" },
-    { id: "12345" },
-    { id: "1222" },
-    { id: "11235" },
-    { id: "1133" },
-    { id: "23112" },
-    { id: "7895" },
-    { id: "44673" },
-    { id: "0784" },
-    { id: "05765" },
-  ];
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const query = location.state?.query || "";
+  const category = location.state?.category || "";
+  const [data, setData] = useState([]);
+  const [noResult, setNoResult] = useState(false);
+
+  const { data: productsByCategory } = usePublicApi( category ? `getProduct/${category}`: null);
+
+  const fetchSearch = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}public/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: query,
+        })
+      });
+      console.log(res.status);
+
+      if (res.ok) {
+        setNoResult(false);
+        const resJson = await res.json();
+        setData(resJson);
+        console.log("res: ", res);
+      } else if (res.status !== 200) {
+        setNoResult(true);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  console.log("category: ", category);
+  console.log("query: ", query);
+
+  useEffect(() => {
+    if (category) {
+      setData(productsByCategory);
+    } else {
+      fetchSearch();
+    }
+  }, [query, productsByCategory]);
+
   return (
     <div className="search">
       <div className="search-container">
@@ -61,8 +97,10 @@ const Search = () => {
           </form>
         </div>
         <div className="search-items">
-          {data.map((obj) => (
-            <Card key={obj.id} id={obj.id} />
+          {noResult ? (
+            <h2>No Product Found 🥺</h2>
+          ) : data?.map((product) => (
+            <Card key={product.productId} id={product.productId} product={product} onClick={() => navigate(`../product/${product.productId}`)}/>
           ))}
         </div>
       </div>

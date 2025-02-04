@@ -39,4 +39,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
     @Query("UPDATE Product p SET p.virtualStock = p.virtualStock + ?1 WHERE p.productId = ?2")
     Integer adjustVirtualStock(Integer value, Integer productId);
+
+    @Query(value = "SELECT p FROM Product p ORDER BY RANDOM() LIMIT ?1")
+    List<Product> findRandomProducts(Integer limit);
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import Button1 from "./Buttons/Button1.jsx";
 import SignIn from "./Modals/SignIn.jsx";
 import { useUser } from "../UserContext.js";
 
 const Navbar = () => {
   const { user, token, setUser, setToken } = useUser();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [modalOpen, setmodalOpen] = useState(false);
@@ -22,9 +23,11 @@ const Navbar = () => {
     setOpen((prev) => !prev);
   };
 
-  const searchItem = () => {
+  const searchItem = (e) => {
     if (search.trim() === "") return;
     console.log("Searching.....", search);
+    setSearch(e.target.value);
+    navigate("/search", { state: { query: search }, replace: true });
   };
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Navbar = () => {
         </div>
         <div className="nav-search">
           <svg
-            onClick={searchItem}
+            onClick={(e) => searchItem(e)}
             className="search-icon"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +177,7 @@ const Navbar = () => {
       </div>
       <div className="responsive-search">
         <svg
-          onClick={searchItem}
+          onClick={(e) => searchItem(e)}
           className="search-icon"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"

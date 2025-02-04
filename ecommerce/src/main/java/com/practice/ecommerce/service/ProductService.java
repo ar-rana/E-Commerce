@@ -40,7 +40,7 @@ public class ProductService {
         String key = Keys.key(Keys.PRODUCT, id);
         Product item = cache.getCache(key, Product.class);
         if (item != null) {
-            logger.info("Item from cache PRODUCT: {} - key: {}", item, key);
+            logger.info("Item from cache PRODUCT with key: {}", key);
             return item;
         }
         Optional<Product> product = productRepository.findById(id);
@@ -112,8 +112,8 @@ public class ProductService {
     public List<Product> getProductByCategory(ProductCategory category) { // cached
         String key = Keys.key(Keys.PRODUCT, category);
         List<Product> item = cache.getCache(key, new TypeReference<List<Product>>() {});
-        if (item != null) {
-            logger.info("Item from cache PRODUCT Category: {} - key: {}", item, key);
+        if (item != null && !item.isEmpty()) {
+            logger.info("Item from cache PRODUCT Category: {} - key: {}", category, key);
             return item;
         }
         List<Product> products = productRepository.findByCategory(category);
@@ -137,6 +137,20 @@ public class ProductService {
     public Image getImagesById(Integer imageId) {
         logger.info("Image Fetched ID: {}", imageId);
         return imagesRepository.findById(imageId).orElse(null);
+    }
+
+    public List<Product> getRandomProduct() {
+        Integer limit = 10;
+        List<Product> items = cache.getMatchers("product/*", Product.class, limit);
+        if (items != null) {
+            logger.info("Random Products From Cache: {} items", limit);
+            return items;
+        }
+        List<Product> products = productRepository.findRandomProducts(limit);
+        products.forEach(product -> {
+            cache.setCache(Keys.key(Keys.PRODUCT, product.getProductId()), product, 8);
+        });
+        return products;
     }
 
     public Product updateProductStock(Product product) {

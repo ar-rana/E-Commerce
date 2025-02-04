@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,8 @@ public class UserController {
     @Autowired
     private RedisCacheService cache;
 
-    @PostMapping("/request-otp") // checked
-    public ResponseEntity<String> requestOTP(@RequestBody Map<String, String> user) {
-        String identifier = user.get("identifier");
+    @GetMapping("/request-otp/{identifier}") // checked
+    public ResponseEntity<String> requestOTP(@PathVariable String identifier) {
         if (!userService.validateEmail(identifier)) {
             return new ResponseEntity<>("Invalid Email!!", HttpStatus.BAD_REQUEST);
         }
@@ -60,23 +60,24 @@ public class UserController {
         }
         String token = userService.addCustomer(identifier, UserType.customer);
         if (token !=  null) {
+            cache.deleteCache(Keys.key(Keys.USER, identifier + "otp"));
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/view") // checked
-    public ResponseEntity<User> getUser(@RequestBody Map<String, String> identifier) {
-        User user = userService.getUserByIdentifier(identifier.get("identifier"));
+    @GetMapping("/view/{identifier}") // checked
+    public ResponseEntity<User> getUser(@PathVariable String identifier) {
+        User user = userService.getUserByIdentifier(identifier);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/orders") // checked
-    public ResponseEntity<List<Order>> getOrders(@RequestBody Map<String, String> identifier) {
-        List<Order> orders = userService.getCustomerOrders(identifier.get("identifier"));
+    @GetMapping("/orders/{identifier}") // checked
+    public ResponseEntity<List<Order>> getOrders(@PathVariable String identifier) {
+        List<Order> orders = userService.getCustomerOrders(identifier);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

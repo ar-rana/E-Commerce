@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(new WebConfig().corsConfigurationSource()))
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**", "/user/customer", "/user/request-otp", "/admin/add/admin").permitAll()
+                        .requestMatchers("/public/**", "/user/customer", "/user/request-otp", "/admin/add/admin", "/admin/add/product").permitAll()
                         .anyRequest().authenticated()
                 );
 

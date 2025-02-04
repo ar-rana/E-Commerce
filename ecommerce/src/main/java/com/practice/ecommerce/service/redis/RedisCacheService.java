@@ -1,5 +1,11 @@
 package com.practice.ecommerce.service.redis;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +34,7 @@ public class RedisCacheService {
             return null;
         }
         ObjectMapper mapper = new ObjectMapper();
-        logger.info("Object as String from Cache: {}", o);
+        logger.info("Object as String from Cache for: {}", entityClass);
         try {
             return mapper.readValue((String) o, entityClass);
         } catch (Exception ex) {
@@ -42,13 +49,34 @@ public class RedisCacheService {
             return null;
         }
         ObjectMapper mapper = new ObjectMapper();
-        logger.info("Object as String from Cache: {}", o);
+        logger.info("Object as String from Cache for: {}", typeReference);
         try {
             return mapper.readValue((String) o, typeReference);
         } catch (JsonProcessingException ex) {
             logger.error("Failed to PARSE OBJECT: " + ex.getMessage());
         }
         return null;
+    }
+
+    public <T> List<T> getMatchers(String match, Class<T> entityClass, Integer limit) {
+        ScanOptions scanOptions = ScanOptions.scanOptions().match(match).count(limit).build();
+        Set<String> keys = new HashSet<>();
+
+        try (var cursor = redisTemplate.scan(scanOptions)) { // cursor is a ClosableIterator
+            while (cursor.hasNext() && keys.size() < limit) {
+                keys.add((String) cursor.next());
+            }
+        }
+
+        if (keys.size() < limit) {
+            return null;
+        }
+        List<T> items = new ArrayList<>();
+        for (String key: keys) {
+            items.add(getCache(key, entityClass));
+        }
+
+        return items;
     }
 
     public void setCache(String key, Object o, Integer ttl) {

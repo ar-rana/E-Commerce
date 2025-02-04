@@ -35,7 +35,7 @@ public class SearchService {
         for (String tag: tags) {
             String key = Keys.key(Keys.SEARCH, tag);
             List<Long> item = cache.getCache(key, new TypeReference<List<Long>>() {});
-            if (item != null) {
+            if (item != null && !item.isEmpty()) {
                 item.forEach((id) -> productIds.add(id.intValue()));
                 logger.info("FIRESTORE data from cacahe: {}", item);
                 continue;

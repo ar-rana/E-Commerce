@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,12 +63,19 @@ public class ProductController {
         return new ResponseEntity<>(price, HttpStatus.OK);
     }
 
-    @GetMapping("/search") // checked
+    @PostMapping("/search") // checked
     public ResponseEntity<List<Product>> getSearchedProducts(@RequestBody Map<String, String> query) {
         List<Product> products = productService.getSearchProducts(query.get("query"));
         if (products == null) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/random")
+    public ResponseEntity<List<Product>> getRandomProducts () {
+        List<Product> products = productService.getRandomProduct();
+        if (products.isEmpty()) return ResponseEntity.notFound().build();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

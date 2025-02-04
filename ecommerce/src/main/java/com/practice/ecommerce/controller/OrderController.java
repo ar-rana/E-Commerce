@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,16 +31,16 @@ public class OrderController {
         return "Error Processing Order!!";
     }
 
-    @GetMapping("/get") // checked
-    public ResponseEntity<Order> getOrders(@RequestParam Integer orderId, @RequestBody Map<String, String> identifier) {
-        Order order = orderService.getOrders(orderId, identifier.get("identifier"));
+    @GetMapping("/get/{identifier}") // checked
+    public ResponseEntity<Order> getOrders(@PathVariable String identifier, @RequestParam Integer orderId) {
+        Order order = orderService.getOrders(orderId, identifier);
         if (order != null) {
             return new ResponseEntity<>(order, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/getCost") // checked
+    @PostMapping("/getCost") // checked
     public ResponseEntity<Integer> getCost(@RequestBody Map<String, List<Integer>> list) {
         Integer total = orderService.getTotal(list.get("productId"));
         return new ResponseEntity<>(total, HttpStatus.OK);

@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button1 from "../Components/Buttons/Button1.jsx";
 import Reviews from "../Components/Reviews.jsx";
 import ProductView from "../Components/ProductView.jsx";
 import Footer from "../Components/Footer";
+import usePublicApi from "../Hooks/API/usePublicApi.js";
+import { useLocation, useParams } from "react-router-dom";
+import useImage from "../Hooks/useImage.js";
 
 const ProductPage = () => {
-  const [spotLightImg, setSpotLightImg] = useState('https://picsum.photos/200');
+  const { productId } = useParams();
+  console.log("productId", productId);
 
-  const images = [
-    { id: "123" },
-    { id: "12323" },
-    { id: "12345" },
-    { id: "13423" },
-    { id: "3587" },
-    { id: "1347" },
-    { id: "0783" },
-    { id: "13423" },
-    { id: "3587" },
-    { id: "1347" },
-    { id: "0783" }
-  ];
+  const { data : product } = usePublicApi(`getProduct?id=${productId}`);
+  const { url } = useImage(product?.thumbnail, product?.thumbnailType);
+  const { data : images } = usePublicApi(`images/${productId}`);
+
+  const [spotLightImg, setSpotLightImg] = useState("");
+
+  useEffect(() => {
+    setSpotLightImg(url);
+    window.scrollTo({
+      top: 0
+    });
+  }, [productId, url])
   return (
     <div className="product-page">
       <div className="product-info">
@@ -27,20 +30,21 @@ const ProductPage = () => {
           <img src={spotLightImg} alt="Product_Image" style={{borderRadius: '20px'}}/>
           <div className="images-list">
             <ul>
-              {images.map((obj, i) => (
-                <li key={i}><img src="https://picsum.photos/200/300" alt="Product_Image" onClick={() => setSpotLightImg(images[i].id)}/></li>
+              {images?.map((image, i) => (
+                <li key={i}><img src={`${process.env.REACT_APP_BASE_URL}${image}`} alt="Product_Image" onClick={() => setSpotLightImg(`${process.env.REACT_APP_BASE_URL}${image}`)}/></li>
               ))}
+              <li><img src={url} alt="Product_Image" onClick={() => setSpotLightImg(url)}/></li>
             </ul>
           </div>
         </div>
         <div className="product-details">
-          <h1>Product Name</h1>
-          <p>Product Category</p>
+          <h1>{product?.name}</h1>
+          <p>{product?.category}</p>
           <div className="">
             <span style={{ textDecoration: "line-through", color: "gray" }}>
-              ₹ XXXX
+              ₹ {product?.basicPrice}
             </span>
-            <p>₹ XXX</p>
+            <p>₹ {product?.currentPrice}</p>
           </div>
           <div className="product-options">
             <Button1 text={"Add to Cart"} />

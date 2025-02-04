@@ -1,6 +1,7 @@
 package com.practice.ecommerce.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -78,5 +79,30 @@ public class RedisTests {
 
         assertNotNull(attempt);
         assertEquals("SUCCESS", attempt);
+    }
+
+    @Test
+    @Rollback
+    public void testGetMatchers() {
+        redisCacheService.setCache("test/one", uniqueKey, 2);
+        redisCacheService.setCache("test/two", uniqueKey, 2);
+        redisCacheService.setCache("test/three", uniqueKey, 2);
+
+        List<String> items = redisCacheService.getMatchers("test/*", String.class, 10);
+
+        assertNull(items);
+    }
+
+    @Test
+    @Rollback
+    public void testGetMatchersAll() {
+        redisCacheService.setCache("test/one", uniqueKey, 2);
+        redisCacheService.setCache("test/two", uniqueKey, 2);
+        redisCacheService.setCache("test/three", uniqueKey, 2);
+
+        List<String> items = redisCacheService.getMatchers("test/*", String.class, 3);
+
+        assertNotNull(items);
+        assertEquals(3, items.size());
     }
 }

@@ -20,10 +20,9 @@ function App() {
         <Route exact path="/connectwithus" element={<Contact />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/wishlist" element={<Wishlist />} />
-        {/* <Route exact path="/search:id" element={<Search />} /> */}
         <Route exact path="/search" element={<Search />} />
-        {/* <Route exact path="/product:id" element={<ProductPage />} /> */}
-        <Route exact path="/product" element={<ProductPage />} />
+        <Route exact path="/product/:productId" element={<ProductPage />} />
+        {/* <Route exact path="/product" element={<ProductPage />} /> */}
         <Route exact path="/orders" element={<Orders />} />
         <Route exact path="*" element={<Error />} />
       </Routes>

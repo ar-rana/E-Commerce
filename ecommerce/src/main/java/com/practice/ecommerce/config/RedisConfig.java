@@ -20,8 +20,8 @@ public class RedisConfig {
     // this bean is so that the serializers of redis and springBoot are the same, otherwise there will be conflict
     // in the serializers, the value of SpringBoot will not be available in redis cli at 6379
     @Bean // beans are autodetect by redis and invoked, all values passed in the parameters of bean are auto-injected
-    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         redisTemplate.setKeySerializer(new StringRedisSerializer());

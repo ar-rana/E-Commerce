@@ -1,6 +1,7 @@
 package com.practice.ecommerce.customAuth.filter;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.practice.ecommerce.customAuth.authentication.CustomAuthentication;
 import com.practice.ecommerce.customAuth.manager.CustomAuthenticationManager;
@@ -37,6 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String userName = null;
         String requestURL = request.getRequestURI();
+        System.out.println("Request Received");
+
+        List<String> publicEndpoints = List.of("/public/", "/user/customer", "/user/request-otp", "/admin/add/admin", "/admin/add/product");
+        if (publicEndpoints.stream().anyMatch(requestURL::startsWith)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) { // all auth tokens start with "Bearer" like "Bearer ytfut6iitvtivi..."
             token = authHeader.substring(7); // removing "Bearer " to get token only
