@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link, replace, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button1 from "./Buttons/Button1.jsx";
 import SignIn from "./Modals/SignIn.jsx";
 import { useUser } from "../UserContext.js";
+import { useLoginContext } from "../Hooks/LoginContext.js";
 
 const Navbar = () => {
   const { user, token, setUser, setToken } = useUser();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [modalOpen, setmodalOpen] = useState(false);
+  const { modalOpen, setmodalOpen } = useLoginContext();
   const [search, setSearch] = useState("");
 
   const quickSearch = [
-    "All Items",
     "Home decore",
     "Outdoor decore",
     "Aesthetic Art",
@@ -24,15 +24,23 @@ const Navbar = () => {
   };
 
   const searchItem = (e) => {
-    if (search.trim() === "") return;
+    if (!search || search.trim() === "") return;
     console.log("Searching.....", search);
-    setSearch(e.target.value);
     navigate("/search", { state: { query: search }, replace: true });
   };
 
+  const logout = () => {
+    localStorage.removeItem(process.env.REACT_APP_TOKEN_KEY);
+    localStorage.removeItem(process.env.REACT_APP_USER_KEY);
+    setToken(null);
+    setUser(null);
+    setTimeout(() => window.location.reload, 500);
+  }
+
   useEffect(() => {
     console.log("user: ", user, "token: ", token);
-  }, []);
+    setSearch("");
+  }, [user, token]);
 
   return (
     <>
@@ -91,34 +99,27 @@ const Navbar = () => {
                 ></span>
               </Link>
             </li>
-            {user != null && token != null ? (
-              <li className="dropdown">
-                <span
-                  style={{ color: "#b4846c", fontSize: "24px" }}
-                  className="fa fa-user-circle-o"
-                ></span>
-                <ul className="dropdown-menu">
-                  <li className="underline">
-                    <a href="/wishlist">Wishlist</a>
-                  </li>
-                  <li className="underline">
-                    <a href="/orders">Orders</a>
-                  </li>
-                  <li>
-                    <Button1 text={"Logout"} />
-                  </li>
-                </ul>
-              </li>
-            ) : (
-              <li>
-                <span
-                  style={{ color: "#b4846c", fontSize: "24px" }}
-                  className="fa fa-sign-in underline"
-                  title="SignIn"
-                  onClick={() => setmodalOpen((prev) => !prev)}
-                ></span>
-              </li>
-            )}
+            <li className="dropdown">
+              <span
+                style={{ color: "#b4846c", fontSize: "24px" }}
+                className="fa fa-user-circle-o"
+              ></span>
+              <ul className="dropdown-menu">
+                <li className="underline">
+                  <a href="/wishlist">Wishlist</a>
+                </li>
+                <li className="underline">
+                  <a href="/orders">Orders</a>
+                </li>
+                <li>
+                  {user != null && token != null ? (
+                    <Button1 text="Logout" onClick={logout}/>
+                  ) : (
+                    <Button1 text="Login" onClick={() => setmodalOpen((prev) => !prev)}/>
+                  )}
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
         <button onClick={toggleMenu} className="menu-pop">
@@ -150,29 +151,19 @@ const Navbar = () => {
           <li className="underline">
             <a href="/cart">Cart</a>
           </li>
-          {user != null && token != null ? (
-            <>
-              <li className="underline">
-                <a href="/wishlist">WishList</a>
-              </li>
-              <li className="underline">
-                <a href="/orders">Orders</a>
-              </li>
-              <li>
-                <Button1 text={"Logout"} />
-              </li>
-            </>
-          ) : (
-            <li>
-              <a
-                className="underline"
-                title="SignIn"
-                onClick={() => setmodalOpen((prev) => !prev)}
-              >
-                SignIn
-              </a>
-            </li>
-          )}
+          <li className="underline">
+            <a href="/wishlist">WishList</a>
+          </li>
+          <li className="underline">
+            <a href="/orders">Orders</a>
+          </li>
+          <li>
+            {user != null && token != null ? (
+              <Button1 text="Logout" onClick={logout} />
+            ) : (
+              <Button1 text="Login" onClick={() => setmodalOpen((prev) => !prev)}/>
+            )}
+          </li>
         </ul>
       </div>
       <div className="responsive-search">
@@ -200,9 +191,8 @@ const Navbar = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <ul className="responsive-searchable searchable-list">
-          <li onClick={() => setSearch("All Items")}>All Items</li>
-          <li onClick={() => setSearch("Home Decore")}>Home Decore</li>
-          <li onClick={() => setSearch("Outdoor decore")}>Outdoor decore</li>
+          <li onClick={() => setSearch("homeDecore")}>Home Decore</li>
+          <li onClick={() => setSearch("outdoorDecore")}>Outdoor decore</li>
           <li onClick={() => setSearch("Aesthetic Art")}>Aesthetic Art</li>
         </ul>
       </div>

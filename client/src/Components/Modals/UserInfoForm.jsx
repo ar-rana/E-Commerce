@@ -82,7 +82,7 @@ const UserInfoForm = (props) => {
                 cols={36}
                 value={address}
                 placeholder="Enter address"
-                style={{ marginTop: "4px" }}
+                style={{ marginTop: "4px", backgroundColor: '#eee3cb' }}
                 onChange={(e) => setAddress(e.target.value)}
               />
               <Button2 type="submit" text="Ok"/>

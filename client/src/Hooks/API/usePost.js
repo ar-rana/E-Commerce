@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../UserContext";
 
-const usePost = (URL, reqBody) => {
+const usePost = (URL, reqBody) => { // unused
   const { user, token } = useUser();
 
   const [data, setData] = useState("");
@@ -9,10 +9,10 @@ const usePost = (URL, reqBody) => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const fetchRequest = async () => {
+  const postRequest = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_BASE_URL}${URL}/${user}`, {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}${URL}/${user}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,8 +23,8 @@ const usePost = (URL, reqBody) => {
       setStatus(res.status);
 
       if (res.ok) {
-        res.json();
-        setData(res);
+        const response = await res.json();
+        setData(response);
       }
     } catch (err) {
       setError(err.message);
@@ -34,7 +34,7 @@ const usePost = (URL, reqBody) => {
   };
 
   useEffect(() => {
-    fetchRequest();
+    postRequest();
   }, [URL, reqBody]);
 
   return {

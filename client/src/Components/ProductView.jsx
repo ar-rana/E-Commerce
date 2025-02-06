@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const ProductView = () => {
   const navigate = useNavigate();
   const { data, status } = usePublicApi("products/random");
-  console.log(status);
+  // console.log(status);
 
   const navigateToProduct = (productId) => {
     navigate(`/product/${productId}`);

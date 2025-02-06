@@ -4,6 +4,7 @@ import Button1 from "../Components/Buttons/Button1.jsx";
 import Footer from "../Components/Footer.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import usePublicApi from "../Hooks/API/usePublicApi.js";
+import loadingSvg from "../Assets/loadingSvg.svg";
 
 const Search = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const Search = () => {
   const [data, setData] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
-  const { data: productsByCategory } = usePublicApi( category ? `getProduct/${category}`: null);
+  const { data: productsByCategory, loading } = usePublicApi( category ? `getProduct/${category}`: null);
 
   const fetchSearch = async () => {
     try {
@@ -97,8 +98,11 @@ const Search = () => {
           </form>
         </div>
         <div className="search-items">
+          {loading ? (
+            <img className="loading-image" style={{ top: "12rem"}}src={loadingSvg} alt="Loading..." />
+          ): ""}
           {noResult ? (
-            <h2>No Product Found 🥺</h2>
+            <h2 style={{ marginTop: "2rem"}}>No Product Found 🥺</h2>
           ) : data?.map((product) => (
             <Card key={product.productId} id={product.productId} product={product} onClick={() => navigate(`../product/${product.productId}`)}/>
           ))}

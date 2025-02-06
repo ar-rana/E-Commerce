@@ -4,5 +4,6 @@ public enum EmailMessages {
     welcomeMessage,
     orderPlaced,
     productStockOver,
+    simpleMessage,
     otpRequest
 }

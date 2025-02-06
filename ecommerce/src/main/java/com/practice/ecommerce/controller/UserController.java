@@ -12,7 +12,6 @@ import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.service.EmailService;
 import com.practice.ecommerce.service.UserService;
 import com.practice.ecommerce.service.redis.RedisCacheService;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/orders/{identifier}") // checked
+    @GetMapping("/orders/{identifier}") // checked SAME AS ORDERCONTROLLER getOrders
     public ResponseEntity<List<Order>> getOrders(@PathVariable String identifier) {
         List<Order> orders = userService.getCustomerOrders(identifier);
         return new ResponseEntity<>(orders, HttpStatus.OK);

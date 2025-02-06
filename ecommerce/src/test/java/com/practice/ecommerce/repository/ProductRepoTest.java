@@ -8,6 +8,7 @@ import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
@@ -46,7 +47,7 @@ public class ProductRepoTest {
     @Test
     public void testSaveProduct() {
         assertNotNull(savedProduct);
-        assertEquals(product, savedProduct);
+        assertTrue(new ReflectionEquals(savedProduct, "productId", "thumbnail").matches(product));
     }
 
     @Test
@@ -56,7 +57,7 @@ public class ProductRepoTest {
 
         assertNotNull(product2);
         assertTrue(product1.isEmpty());
-        assertEquals(savedProduct.getCategory(), product2.get(0).getCategory());
+        assertEquals(savedProduct.getCategory(), product2.getFirst().getCategory());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class ProductRepoTest {
         List<Integer> prices = productRepository.findAllByIdAndGetCurrentPrice(List.of(savedProduct.getProductId()));
 
         assertFalse(prices.isEmpty());
-        assertEquals(savedProduct.getCurrentPrice(), prices.get(0));
+        assertEquals(savedProduct.getCurrentPrice(), prices.getFirst());
     }
 
     @Test

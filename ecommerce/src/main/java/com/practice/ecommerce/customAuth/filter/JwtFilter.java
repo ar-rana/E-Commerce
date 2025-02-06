@@ -38,9 +38,9 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String userName = null;
         String requestURL = request.getRequestURI();
-        System.out.println("Request Received");
+        System.out.println("Request Received to: " + requestURL);
 
-        List<String> publicEndpoints = List.of("/public/", "/user/customer", "/user/request-otp", "/admin/add/admin", "/admin/add/product");
+        List<String> publicEndpoints = List.of("/public/", "/user/customer", "/user/request-otp/*", "/admin/add/admin", "/admin/add/product");
         if (publicEndpoints.stream().anyMatch(requestURL::startsWith)) {
             filterChain.doFilter(request, response);
             return;

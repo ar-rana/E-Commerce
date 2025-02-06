@@ -31,9 +31,13 @@ public class OrderController {
         return "Error Processing Order!!";
     }
 
-    @GetMapping("/get/{identifier}") // checked
-    public ResponseEntity<Order> getOrders(@PathVariable String identifier, @RequestParam Integer orderId) {
-        Order order = orderService.getOrders(orderId, identifier);
+    @GetMapping("/get/{identifier}") // checked SAME AS USERCONTROLLER getOrder
+    public ResponseEntity<?> getOrders(@PathVariable String identifier, @RequestParam(required = false) Integer orderId) {
+        if (orderId == null) {
+            List<Order> orders = orderService.getOrders(identifier);
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        }
+        Order order = orderService.getOrderById(orderId);
         if (order != null) {
             return new ResponseEntity<>(order, HttpStatus.OK);
         }

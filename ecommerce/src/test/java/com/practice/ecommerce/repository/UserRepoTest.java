@@ -16,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Rollback // transaction is rolled back after the test completes
@@ -51,7 +52,7 @@ public class UserRepoTest {
 
         Optional<User> identifier = userRepository.findByIdentifier(username);
 
-        assertNotNull(identifier);
+        assertTrue(identifier.isPresent());
         assertEquals(identifier.get().getIdentifier(), username);
         assertEquals(identifier.get().getType(), type);
     }

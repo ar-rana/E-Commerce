@@ -2,17 +2,21 @@ package com.practice.ecommerce.repository;
 
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.ListType;
+import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.SavedProduct;
 import com.practice.ecommerce.model.compositeId.ListId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Rollback
@@ -21,17 +25,26 @@ public class SavedProductRepoTest {
     @Autowired
     private SavedProductsRepo savedProductsRepo;
 
-    private Product product;
-//    private Stock virtualStock;
+    @Autowired
+    private ProductRepository productRepository;
+
+    Product product = new Product(
+            DefaultModels.productName1,
+            DefaultModels.basicPrice1,
+            DefaultModels.currentPrice1,
+            DefaultModels.thumbnail,
+            DefaultModels.stock,
+            ProductCategory.homedecore,
+            DefaultModels.stock - 10,
+            "PNG"
+    );
+    private Product productRepoItem;
     private ListId wishlist = new ListId(DefaultModels.username, ListType.WISHLIST);
     private ListId cart = new ListId(DefaultModels.username, ListType.CART);
 
     @BeforeEach
     public void setUp() {
-        product = DefaultModels.product;
-//        virtualStock = DefaultModels.virtualStock;
-
-//        product.setVirtualStock(virtualStock);
+        productRepoItem = productRepository.save(product);
     }
 
     @Test
@@ -41,7 +54,6 @@ public class SavedProductRepoTest {
 
         assertEquals(savedProduct.getIdentifier(), newSavedProduct.getIdentifier());
         assertEquals(savedProduct.getListType(), newSavedProduct.getListType());
-        assertEquals(savedProduct.getProducts().size(), newSavedProduct.getProducts().size());
     }
 
     @Test
@@ -51,18 +63,17 @@ public class SavedProductRepoTest {
 
         assertEquals(savedProduct.getIdentifier(), newSavedProduct.getIdentifier());
         assertEquals(savedProduct.getListType(), newSavedProduct.getListType());
-        assertEquals(savedProduct.getProducts().size(), newSavedProduct.getProducts().size());
     }
 
     @Test
     public void testFindById() {
         SavedProduct savedProduct = new SavedProduct(cart.getIdentifier(), cart.getListType());
-        savedProduct.getProducts().add(product);
-        savedProduct.getProducts().add(DefaultModels.alternateProduct);
+        savedProduct.getProducts().add(productRepoItem);
 
         SavedProduct newSavedProduct = savedProductsRepo.save(savedProduct);
 
         assertNotNull(newSavedProduct);
-        assertEquals(savedProduct.getProducts().size(), newSavedProduct.getProducts().size());
+        assertIterableEquals(savedProduct.getProducts(), newSavedProduct.getProducts());
+        assertTrue(new ReflectionEquals(savedProduct, "productId").matches(newSavedProduct));
     }
 }

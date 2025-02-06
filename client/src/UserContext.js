@@ -10,12 +10,12 @@ export function UserProvider({ children }) {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("session_token");
     if (user) {
-      setUser(JSON.parse(user));
+      setUser(user);
     }
     if (token) {
-      setUser(JSON.parse(token));
+      setToken(token);
     }
-  }, []);
+  }, [user, token]);
 
   return (
     <UserContext.Provider value={{ user, token, setToken, setUser }}>

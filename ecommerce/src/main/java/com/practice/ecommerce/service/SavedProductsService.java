@@ -44,7 +44,7 @@ public class SavedProductsService {
             savedProductsRepo.save(newCustomer);
         }
         String key = Keys.key(Keys.valueOf(listId.getListType().name()), listId.getIdentifier());
-        cache.deleteCache(key);
+        cache.deleteCache(key); // write through cache
         return product;
     }
 
@@ -52,7 +52,7 @@ public class SavedProductsService {
         String key = Keys.key(Keys.valueOf(listType.name()), identifier);
         List<Product> item = cache.getCache(key, new TypeReference<List<Product>>() {});
         if (item != null) {
-            logger.info("Item from cache List<PRODUCT>: {} - key: {}", item, key);
+            logger.info("Item from cache List<PRODUCT>: key: {}", key);
             return item;
         }
         Optional<SavedProduct> savedProduct = savedProductsRepo.findById(new ListId(identifier, listType));
@@ -80,12 +80,12 @@ public class SavedProductsService {
         return true;
     }
 
-    public boolean moveToCart(ListType listType, String identifier, Integer productId) {
+    public boolean moveToCart(ListType listType, ListType from, String identifier, Integer productId) {
         String key = Keys.key(Keys.valueOf(listType.name()), identifier);
-        Product temp = addToList(new ListId(identifier, ListType.CART), productId);
+        Product temp = addToList(new ListId(identifier, listType), productId);
         if (temp != null) {
-            deleteListItem(listType, identifier, productId);
-            cache.deleteCache(key);
+            deleteListItem(from, identifier, productId);
+            cache.deleteCache(key); // write through cache
             return true;
         }
         return false;

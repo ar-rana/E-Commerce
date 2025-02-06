@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.practice.ecommerce.model.Enums.EmailMessages;
@@ -14,7 +15,8 @@ import com.practice.ecommerce.model.User;
 import com.practice.ecommerce.repository.UserRepository;
 import com.practice.ecommerce.service.redis.Publisher;
 import com.practice.ecommerce.service.redis.RedisCacheService;
-import org.apache.commons.validator.routines.EmailValidator;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class UserService {
         String token;
         User existingUser = getUserByIdentifier(user);
         if (existingUser != null) {
-            token = jwtService.generateToken(existingUser.getIdentifier(), UserType.customer);
+            token = jwtService.generateToken(existingUser.getIdentifier(), existingUser.getType());
             return token;
         }
         User customer = new User(user, userType);
@@ -72,7 +74,7 @@ public class UserService {
         }
         Optional<User> user = userRepository.findByIdentifier(identifier);
         if (user.isPresent()) {
-            cache.setCache(key, user.get(), 100);
+            cache.setCache(key, user.get(), 120);
             return user.get();
         }
         return null;
@@ -101,7 +103,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public boolean validateEmail(String identifier) {
-        return EmailValidator.getInstance().isValid(identifier);
+    public boolean validateEmail(String email) {
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return Pattern.matches(regexPattern, email);
     }
 }

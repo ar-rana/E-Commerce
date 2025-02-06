@@ -29,7 +29,7 @@ const usePublicApi = (url) => {
   };
   
   useEffect(() => {
-    if (url == null) return; 
+    if (!url) return; 
     fetchRequest(url);
   }, [url]);
 

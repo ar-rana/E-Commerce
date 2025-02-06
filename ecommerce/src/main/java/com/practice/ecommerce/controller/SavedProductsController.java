@@ -30,18 +30,17 @@ public class SavedProductsController {
     private SavedProductsService savedProductsService;
 
     @PostMapping("/add/{listType}") // checked for CART & wish
-    public ResponseEntity<Product> addToWishlist(@PathVariable ListType listType, @RequestBody Map<String, String> addProduct) {
+    public ResponseEntity<Product> addToList(@PathVariable ListType listType, @RequestBody Map<String, String> addProduct) {
         ListId listId = new ListId(addProduct.get("identifier"), listType);
         Product product = savedProductsService.addToList(listId, Integer.valueOf(addProduct.get("productId")));
         if (product == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping("/{listType}/{identifier}") // checked for CART & wish
-    public ResponseEntity<List<Product>> getWishlist(@PathVariable ListType listType, @PathVariable String identifier) {
+    public ResponseEntity<List<Product>> getList(@PathVariable ListType listType, @PathVariable String identifier) {
         List<Product> products = savedProductsService.getListItems(listType, identifier);
         if (products == null || products.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -57,9 +56,9 @@ public class SavedProductsController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/move/{listType}") // checked
-    public ResponseEntity<Boolean> moveToCart(@PathVariable ListType listType, @RequestBody Map<String, String> item) {
-        boolean response = savedProductsService.moveToCart(listType, item.get("identifier"), Integer.valueOf(item.get("productId")));
+    @PostMapping("/move/{from}/{listType}") // checked
+    public ResponseEntity<Boolean> moveToCart(@PathVariable ListType from, @PathVariable ListType listType, @RequestBody Map<String, String> item) {
+        boolean response = savedProductsService.moveToCart(listType, from, item.get("identifier"), Integer.valueOf(item.get("productId")));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

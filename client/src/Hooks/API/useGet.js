@@ -7,6 +7,7 @@ const useGet = (url) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
   const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
 
   const fetchRequest = async () => {
     setLoading(true);
@@ -19,10 +20,11 @@ const useGet = (url) => {
           },
         }
       );
+      setStatus(res.status);
 
       if (res.ok) {
-        res.json();
-        setData(res);
+        const responce = await res.json();
+        setData(responce);
       }
     } catch (err) {
       setError(err.message);
@@ -32,13 +34,15 @@ const useGet = (url) => {
   };
 
   useEffect(() => {
+    if (!url || !user || !token) return;
     fetchRequest();
-  }, [url]);
+  }, [url, user, token, status]);
 
   return {
     data,
     loading,
-    error
+    error,
+    status
   };
 };
 

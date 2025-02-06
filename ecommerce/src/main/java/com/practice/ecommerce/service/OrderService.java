@@ -3,6 +3,7 @@ package com.practice.ecommerce.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.practice.ecommerce.model.Enums.DeliveryStatus;
 import com.practice.ecommerce.model.Enums.Keys;
 import com.practice.ecommerce.model.Order;
@@ -49,25 +50,16 @@ public class OrderService {
         return true;
     }
 
-    public Order getOrders(Integer orderId, String identifier) { // cached
+    public List<Order> getOrders(String identifier) { // cached
         String key = Keys.key(Keys.ORDER, identifier);
-        Order item = cache.getCache(key, Order.class);
+        List<Order> item = cache.getCache(key, new TypeReference<List<Order>>() {});
         if (item != null) {
-            logger.info("Item from cache PRODUCT: {} - key: {}", item, key);
-            boolean belongsToUser = item.getUserIdentifier().equals(identifier);
-            if (belongsToUser) {
-                return item;
-            }
-            return null;
+            logger.info("Item from cache ORDERS - key: {}", key);
+            return item;
         }
-        Optional<Order> order = orderRepository.findById(orderId);
-        if (order.isPresent()) {
-            boolean belongsToUser = order.get().getUserIdentifier().equals(identifier);
-            if (belongsToUser) {
-                cache.setCache(key, order.get(),10);
-                return order.get();
-            }
-            return null;
+        List<Order> order = orderRepository.findByUserIdentifier(identifier);
+        if (!order.isEmpty()) {
+            return item;
         }
         return null;
     }
@@ -80,7 +72,7 @@ public class OrderService {
         String key = Keys.key(Keys.ORDER, orderId);
         Order item = cache.getCache(key, Order.class);
         if (item != null) {
-            logger.info("Item from cache PRODUCT: {} - key: {}", item, key);
+            logger.info("Item from cache ORDER - key: {}", key);
             return item;
         }
         Order order = orderRepository.findById(orderId).orElse(null);

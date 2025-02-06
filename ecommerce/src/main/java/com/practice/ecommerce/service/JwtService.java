@@ -26,7 +26,7 @@ public class JwtService {
     private String secretkey;
 
     public JwtService() {
-        secretkey = generateSecretKey();
+        secretkey = SECRET; // generateSecretKey(); TO-DO change back to generateSecretKey
     }
 
     private static final String SECRET = "uiegfiob4vbvry8347vbry4or7834tv034yron348ty349t8vn4yt498tblweytevit";
@@ -51,7 +51,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ 1000*60*3))
+                .setExpiration(new Date(System.currentTimeMillis()+ 1000*60*60))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

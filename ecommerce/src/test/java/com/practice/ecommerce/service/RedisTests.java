@@ -54,9 +54,9 @@ public class RedisTests {
 
         Product fetchedProduct = redisCacheService.getCache("parsingTest", Product.class);
 
-        // relies on JavaBean property getters like getXyz() methods
+        // relies on JavaBean property getters like getXyz() methods best for POJOs (does not check nested classes)
         MatcherAssert.assertThat(fetchedProduct, samePropertyValuesAs(product)); // Hamcrest reflection to check objects are equal
-        // does not require getters, work by using reflection
+        // does not require getters, work by using reflection, deeply checks object
         assertTrue(new ReflectionEquals(product).matches(fetchedProduct)); // Mockito
     }
 

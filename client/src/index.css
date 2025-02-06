@@ -34,7 +34,6 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0; 
 }
 textarea {
-  background-color: var(--light-col);
   border: none;
   outline: none;
   padding-left: 10px;
@@ -457,6 +456,7 @@ footer {
   aspect-ratio: 1;
   margin-left: 0.5rem;
   height: 100%;
+  cursor: pointer;
 }
 .order-info {
   display: flex;
@@ -913,6 +913,18 @@ footer {
   height: 1.5rem;
   margin: 2px;
 }
+.modal-table {
+  border-collapse: collapse;
+  border-color: var(--secondary-col);
+}
+.modal-table td, th {
+  border: 1px solid var(--light-col);
+  text-align: left;
+  padding: 6px;
+}
+.modal-table tr:nth-child(even) {
+  background-color: var(--light-col);
+}
 
 .orders {
   display: flex;
@@ -924,4 +936,12 @@ footer {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.loading-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 3rem;
 }

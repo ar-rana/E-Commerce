@@ -72,7 +72,7 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping("/products/random")
+    @GetMapping("/products/random") // TO-DO: implement browser side caching
     public ResponseEntity<List<Product>> getRandomProducts () {
         List<Product> products = productService.getRandomProduct();
         if (products.isEmpty()) return ResponseEntity.notFound().build();

@@ -7,14 +7,19 @@ import Empty from "../Components/Empty.jsx";
 import Button2 from "../Components/Buttons/Button2.jsx";
 import UserInfoForm from "../Components/Modals/UserInfoForm.jsx";
 import CustomerInfo from "../Components/CustomerInfo.jsx";
+import useGet from "../Hooks/API/useGet.js";
 
 const Cart = () => {
-  const data = [{ id: "123" }, { id: "12323" }, { id: "12345" }];
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
+  const [empty, setEmpty] = useState(false);
+  const [data, setData] = useState([]);
+  const [productIds, setProductIds] = useState([]);
 
   const [customers, setCustomers] = useState([]);
-  const [sendingto ,setSendingto] = useState();
+  const [sendingto, setSendingto] = useState();
+
+  const { data: products, status, loading } = useGet("list/CART");
 
   const toggleMenu = () => {
     setOpen((prev) => !prev);
@@ -26,6 +31,11 @@ const Cart = () => {
       setCustomers(newList);
       localStorage.setItem("customers", JSON.stringify(newList));
     }
+    setSendingto("");
+  };
+
+  const handleDelete = (productId) => {
+    setData((prev) => prev.filter((ele) => ele.productId !== productId));
   };
 
   useEffect(() => {
@@ -33,18 +43,29 @@ const Cart = () => {
     if (list) {
       setCustomers(JSON.parse(list));
     }
-  }, [open, customers.length]);
-  
-  // call all items from this page then send data to component,
-  // other wise you will have too many requests to backend
+    if (status === 404) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+    }
+
+    if (products) {
+      setData(products);
+      setProductIds([]);
+      setTotal(0);
+      setProductIds(products.map(product => product.productId));
+      setTotal(products.reduce((total, ele) => total + ele.currentPrice, 0)); //reduce returns single val without changing array
+    }
+  }, [open, customers.length, products, status]);
+
   return (
     <div className="cart">
       <div className="main-cart">
         <div className="cart-products">
-          {data.map((obj) => (
-            <OrderCard key={obj.id} id={obj.id} />
+          {data?.map((obj, i) => (
+            <OrderCard key={i} id={obj.productId} product={obj} handleDelete={handleDelete}/>
           ))}
-          <Empty />
+          {empty ? <Empty /> : ""}
         </div>
         <div className="cart-info">
           <div className="checkout">
@@ -56,14 +77,19 @@ const Cart = () => {
             {customers.length > 0 ? (
               <form className="">
                 {customers.map((obj, i) => (
-                  <div key={i} style={{display: 'flex', gap: '10px'}} onChange={(e) => setSendingto(e.target.value)} required>
+                  <div
+                    key={i}
+                    style={{ display: "flex", gap: "10px" }}
+                    onChange={(e) => setSendingto(e.target.value)}
+                    required
+                  >
                     <input
                       type="radio"
                       id={i}
                       name="customer"
                       value={JSON.stringify(obj)}
                     />
-                    <label htmlFor={i} style={{width: '100%'}}>
+                    <label htmlFor={i} style={{ width: "100%" }}>
                       <CustomerInfo
                         name={obj.name}
                         number={obj.number}

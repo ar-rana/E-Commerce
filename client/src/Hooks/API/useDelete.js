@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../../UserContext";
 
-const useDelete = () => {
+const useDelete = (url) => { // unused
   const { user, token } = useUser();
 
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const fetchRequest = async (url) => {
+  const deleteRequest = async () => {
+    setLoading(true);
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}${url}/${user}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -25,15 +26,9 @@ const useDelete = () => {
     }
   };
 
-  const combineUrlAndFetch = () => {
-    setLoading(true);
-    const url = `${process.env.REACT_APP_BASE_URL}${props.URL}/${user}`;
-    fetchRequest(url, body);
-  };
-
   useEffect(() => {
-    combineUrlAndFetch();
-  }, []);
+    fetchRequest();
+  }, [user, token, url]);
 
   return {
     status,

@@ -1,17 +1,13 @@
 package com.practice.ecommerce.config;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.storage.Bucket;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.cloud.StorageClient;
-import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,6 +16,8 @@ public class FirebaseConfig {
 
     @Bean
     FirebaseApp initializeFirebase() throws IOException {
+        // avoid 'FirebaseApp name [DEFAULT] already exists' Exception
+        if (!FirebaseApp.getApps().isEmpty()) return FirebaseApp.getInstance();
         FileInputStream serviceAccount = new FileInputStream("src/main/resources/static/serviceAccountKey.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -35,10 +33,4 @@ public class FirebaseConfig {
         Firestore db = FirestoreClient.getFirestore();
         return db;
     }
-
-//    @Bean
-//    Bucket getBucket(FirebaseApp firebaseApp) {
-//        Bucket storage = StorageClient.getInstance().bucket();
-//        return storage;
-//    }
 }

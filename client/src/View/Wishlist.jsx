@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductView from "../Components/ProductView";
 import Footer from "../Components/Footer";
-import Button3 from "../Components/Buttons/Button3";
 import Empty from "../Components/Empty";
 import OrderCard from "../Components/OrderCard";
+import useGet from "../Hooks/API/useGet";
 
 const Wishlist = () => {
-  const data = [{ id: "123" }, { id: "12323" }, { id: "12345" }];
+  const [empty, setEmpty] = useState(false);
+  const [data, setData] = useState([]);
+  
+  const { data: products, status, loading } = useGet("list/WISHLIST");
 
-  // call all items from this page then send data to component,
-  // other wise you will have too many requests to backend
+  const handleDelete = (productId) => {
+    setData((prev) => prev.filter((ele) => ele.productId !== productId));
+  };
+
+  useEffect(() => {
+    if (status === 404) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+    }
+    if (products) {
+      setData(products);
+    }
+  }, [status, products]);
   return (
     <div className="wishlist">
       <div className="cart">
         <div className="main-cart">
           <div className="cart-products">
-            {data.map((obj) => (
-              <OrderCard key={obj.id} id={obj.id} wish={true} />
+            {data?.map((obj, i) => (
+              <OrderCard key={i} id={obj.productId} wish={true} product={obj} handleDelete={handleDelete} />
             ))}
-            <Empty />
+            {empty ? <Empty /> : ""}
           </div>
         </div>
         <h2 className="heading">You may also like...</h2>

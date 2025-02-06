@@ -54,6 +54,11 @@ public class RedisStreamListener implements StreamListener<String, MapRecord<Str
                 } catch (JsonProcessingException ex) {
                     logger.error("ERROR Parsing Product in STREAM: {}", ex.getMessage());
                 }
+				break;
+			case EmailMessages.simpleMessage:
+				emailService.sendSimpleMail(to, map.get("subject"), map.get("content"));
+				redisTemplate.opsForStream().delete(STREAM, message.getId());
+				break;
             default:
 				emailService.sendSimpleMail(to, "Default Mail", "Test Mail");
 		}

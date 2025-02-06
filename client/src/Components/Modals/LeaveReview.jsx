@@ -53,7 +53,7 @@ const LeaveReview = (props) => {
                 cols={36}
                 placeholder="leave a review (char: 250)"
                 maxlength="250"
-                style={{marginTop: '4px'}}
+                style={{marginTop: '4px', backgroundColor: '#eee3cb'}}
                 onChange={(e) => setText(e.target.value)}
               />
               <Button1 type="submit" text="Submit" />
