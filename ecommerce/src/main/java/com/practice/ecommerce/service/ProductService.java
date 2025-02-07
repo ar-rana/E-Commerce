@@ -11,6 +11,7 @@ import com.practice.ecommerce.model.Enums.Keys;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Image;
 import com.practice.ecommerce.model.Product;
+import com.practice.ecommerce.model.Review;
 import com.practice.ecommerce.repository.ImagesRepository;
 import com.practice.ecommerce.repository.ProductRepository;
 import com.practice.ecommerce.service.redis.RedisCacheService;
@@ -30,6 +31,9 @@ public class ProductService {
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @Autowired
     private RedisCacheService cache;
@@ -148,9 +152,21 @@ public class ProductService {
         }
         List<Product> products = productRepository.findRandomProducts(limit);
         products.forEach(product -> {
-            cache.setCache(Keys.key(Keys.PRODUCT, product.getProductId()), product, 8);
+            cache.setCache(Keys.key(Keys.PRODUCT, product.getProductId()), product, 6);
         });
         return products;
+    }
+
+    public List<Review> getReviews(Integer productId) {
+        List<Review> reviews = reviewService.getReviews(productId);
+        if (reviews.isEmpty()) return null;
+        return reviews;
+    }
+
+    public List<Review> getNewReviews(Integer productId, List<String> reviewIds) {
+        List<Review> reviews = reviewService.getNewReviews(productId, reviewIds);
+        if (reviews.isEmpty()) return null;
+        return reviews;
     }
 
     public Product updateProductStock(Product product) {

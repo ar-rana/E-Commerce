@@ -1,7 +1,9 @@
 package com.practice.ecommerce.repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.ProductCategory;
@@ -15,6 +17,7 @@ import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,6 +39,17 @@ public class ProductRepoTest {
             DefaultModels.stock - 10,
             "PNG"
     );
+    Product product2 = new Product(
+            DefaultModels.productName2,
+            DefaultModels.basicPrice2,
+            DefaultModels.currentPrice2,
+            DefaultModels.thumbnail,
+            DefaultModels.stock,
+            ProductCategory.outdoordecore,
+            DefaultModels.stock - 10,
+            "PNG"
+    );
+
 
     private Product savedProduct;
 
@@ -140,5 +154,17 @@ public class ProductRepoTest {
         assertTrue(stock.isPresent());
         assertEquals(1, incrementedRows);
         assertEquals(originalStock-1, stock.get().getVirtualStock());
+    }
+
+    @Test
+    public void testFindRandomProduct() {
+        Product newSavedProduct = productRepository.save(product2);
+        List<Product> products = productRepository.findRandomProducts(2);
+
+        assertNotNull(products);
+        assertEquals(2, products.size());
+        // Sets so we dont have to worry about the order of the List returned
+        List<Product> compare = List.of(savedProduct, newSavedProduct);
+        assertIterableEquals(new HashSet<>(compare), new HashSet<>(products));
     }
 }

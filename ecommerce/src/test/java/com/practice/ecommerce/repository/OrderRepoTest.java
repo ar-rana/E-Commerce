@@ -1,7 +1,10 @@
 package com.practice.ecommerce.repository;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.DeliveryStatus;
@@ -21,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
+@Rollback
 public class OrderRepoTest {
 
     @Autowired
@@ -70,6 +74,6 @@ public class OrderRepoTest {
 
         assertFalse(orders.isEmpty());
         assertEquals(1, orders.size());
-        assertIterableEquals(List.of(order), orders);
+        assertIterableEquals(Set.of(order), new HashSet<>(orders));
     }
 }

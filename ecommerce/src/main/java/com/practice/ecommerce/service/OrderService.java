@@ -29,6 +29,9 @@ public class OrderService {
     private UserService userService;
 
     @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
     private RedisCacheService cache;
 
     private static final Logger logger = LoggerFactory.getLogger(Order.class);
@@ -78,5 +81,9 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElse(null);
         cache.setCache(key, order, 10);
         return null;
+    }
+
+    public boolean addReview(Integer productId, String identifier, String content, Integer rating) {
+        return reviewService.addReview(productId, identifier, content, rating);
     }
 }

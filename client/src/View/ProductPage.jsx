@@ -109,7 +109,7 @@ const ProductPage = () => {
         </div>
       </div>
       <h2 className="heading underline">Reviews</h2>
-      <Reviews />
+      <Reviews productId={productId}/>
       <h2 className="heading underline">Continue exploring...</h2>
       <div className="spacing">
         <ProductView />

@@ -9,6 +9,7 @@ import com.practice.ecommerce.model.Enums.Keys;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Image;
 import com.practice.ecommerce.model.Product;
+import com.practice.ecommerce.model.Review;
 import com.practice.ecommerce.service.ProductService;
 import com.practice.ecommerce.service.redis.RedisCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,5 +111,24 @@ public class ProductController {
                 .contentLength(image.getImage().length)
                 .eTag(entityTag)
                 .body(image.getImage());
+    }
+
+    @GetMapping("review/{productId}")
+    public ResponseEntity<List<Review>> getProductReviews(@PathVariable Integer productId) {
+        List<Review> reviews = productService.getReviews(productId);
+        if (reviews != null) {
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("review/new/{productId}")
+    public ResponseEntity<List<Review>> getNewReviews(@PathVariable Integer productId, @RequestBody Map<String, List<String>> Ids) {
+        List<String> reviewIds = Ids.get("reviewIds");
+        List<Review> reviews = productService.getNewReviews(productId, reviewIds);
+        if (reviews != null) {
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }

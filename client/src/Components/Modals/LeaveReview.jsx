@@ -1,17 +1,46 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import Button1 from "../Buttons/Button1";
+import { useUser } from "../../UserContext";
 
 const LeaveReview = (props) => {
-  const [user, setUser] = useState("User");
+  const { user, token } = useUser();
   const [text, setText] = useState("");
   const [rating, setRating] = useState("");
 
   const reviewSubmithandler = (e) => {
     e.preventDefault();
-    console.log('rating: ', rating, 'text: ', text, 'id', props.id);
-    props.setOpen(false);
+    console.log('rating: ', rating, 'text: ', text);
+    leaveReview();
   };
+
+  const leaveReview = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}orders/review/${user}`, 
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            productId: props?.productId,
+            rating: rating,
+            review: text,
+          })
+        }
+      );
+
+      if (res.ok) {
+        const responce = await res.text();
+        alert(responce);
+        setOpen(false);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
   return (
     <>
@@ -32,7 +61,7 @@ const LeaveReview = (props) => {
             </div>
           </div>
           <div className="modal-form">
-            <form onSubmit={reviewSubmithandler}>
+            <form>
               <p className="message">Select Rating</p>
               <div className="rating-options"
               style={{display: 'flex', gap: '5px' }}>
@@ -47,7 +76,6 @@ const LeaveReview = (props) => {
                 <input type="radio" id="five" name="rating" value="5" onChange={(e) => setRating(e.target.value)}/>
                 <label htmlFor="five">5</label>
               </div>
-              <input type="text" value={user} placeholder="Enter name" className="modal-input" onChange={(e) => setUser(e.target.value)} /> 
               <textarea
                 rows={6}
                 cols={36}
@@ -56,7 +84,7 @@ const LeaveReview = (props) => {
                 style={{marginTop: '4px', backgroundColor: '#eee3cb'}}
                 onChange={(e) => setText(e.target.value)}
               />
-              <Button1 type="submit" text="Submit" />
+              <Button1 type="submit" onClick={reviewSubmithandler} />
             </form>
           </div>
         </div>

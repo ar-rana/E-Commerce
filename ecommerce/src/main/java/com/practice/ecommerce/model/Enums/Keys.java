@@ -9,6 +9,7 @@ public enum Keys {
     CART("CART/%s"),
     WISHLIST("WISHLIST/%s"),
     USER("user/%s"),
+    REVIEW("review/%s"),
     ETAG("etag/%s");
 
     private final String prefixKey;

@@ -1,5 +1,8 @@
 package com.practice.ecommerce.repository;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.practice.ecommerce.defaultModels.DefaultModels;
 import com.practice.ecommerce.model.Enums.ListType;
 import com.practice.ecommerce.model.Enums.ProductCategory;
@@ -73,7 +76,7 @@ public class SavedProductRepoTest {
         SavedProduct newSavedProduct = savedProductsRepo.save(savedProduct);
 
         assertNotNull(newSavedProduct);
-        assertIterableEquals(savedProduct.getProducts(), newSavedProduct.getProducts());
+        assertIterableEquals(new HashSet<>(savedProduct.getProducts()), new HashSet<>(newSavedProduct.getProducts()));
         assertTrue(new ReflectionEquals(savedProduct, "productId").matches(newSavedProduct));
     }
 }

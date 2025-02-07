@@ -49,4 +49,13 @@ public class OrderController {
         Integer total = orderService.getTotal(list.get("productId"));
         return new ResponseEntity<>(total, HttpStatus.OK);
     }
+
+    @PostMapping("/review/{identifier}") // checked
+    public ResponseEntity<String> addReview(@PathVariable String identifier, @RequestBody Map<String, String> review) {
+        Integer productId = Integer.valueOf(review.get("productId"));
+        Integer rating = Integer.valueOf(review.get("rating"));
+        String content = review.get("review");
+        orderService.addReview(productId, identifier, content, rating);
+        return new ResponseEntity<>("ADDED REVIEW", HttpStatus.OK);
+    }
 }

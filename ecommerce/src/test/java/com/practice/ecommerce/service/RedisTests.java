@@ -11,6 +11,7 @@ import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.redis.Publisher;
 import com.practice.ecommerce.service.redis.RedisCacheService;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
@@ -104,5 +105,10 @@ public class RedisTests {
 
         assertNotNull(items);
         assertEquals(3, items.size());
+    }
+
+    @AfterAll
+    public static void takeDown() {
+
     }
 }

@@ -3,18 +3,20 @@ import Button2 from "./Buttons/Button2.jsx";
 import useImage from "../Hooks/useImage.js";
 import Status from "../Components/Modals/Status.jsx";
 import { useUser } from "../UserContext.js";
+import LeaveReview from "./Modals/LeaveReview.jsx";
 
 const Card = (props) => {
   const { url } = useImage(props.product?.thumbnail, props.product?.thumbnailType);
   const { user, token } = useUser();
 
   const [open, setOpen] = useState(false);
+  const [openreview, setOpenReview] = useState(false);
   const [order, setOrder] = useState(null);
 
   const getOrderStatus = async () => {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}orders/get/${user}?orderId=${props.product?.productId}`, 
+        `${process.env.REACT_APP_BASE_URL}orders/get/${user}?orderId=${props.product?.productId}`,
         {
           method: "GET",
           headers: {
@@ -32,7 +34,11 @@ const Card = (props) => {
     } catch (err) {
       console.log(err.message);
     }
-  }
+  };
+
+  const reviewHandler = () => {
+    setOpenReview(true);
+  };
 
   return (
     <div className="card">
@@ -53,7 +59,8 @@ const Card = (props) => {
               <Button2 text={"Leave a Review"} onClick={props.onClick} />
               <Button2 text={"Status"} onClick={getOrderStatus} />
             </span>
-            <Status open={open} setOpen={setOpen} order={order}/>
+            <Status open={open} setOpen={setOpen} order={order} />
+            <LeaveReview open={openreview} setOpen={setOpenReview} productId={props.product?.productId}/>
           </>
         ) : (
           <Button2 text={"Checkout"} onClick={props.onClick} />
