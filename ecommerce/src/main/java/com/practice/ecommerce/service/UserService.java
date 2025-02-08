@@ -81,7 +81,7 @@ public class UserService {
     }
 
     public List<Order> getCustomerOrders(String identifier) { // cached
-        String key = Keys.key(Keys.USER, identifier+"orders");
+        String key = Keys.key(Keys.ORDER, identifier);
         List<Order> item = cache.getCache(key, new TypeReference<List<Order>>() {});
         if (item != null) {
             logger.info("getCustomerOrders from cacahe: {}", item);

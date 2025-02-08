@@ -12,7 +12,9 @@ const Wishlist = () => {
   const { data: products, status, loading } = useGet("list/WISHLIST");
 
   const handleDelete = (productId) => {
-    setData((prev) => prev.filter((ele) => ele.productId !== productId));
+    const idx = data.findIndex((ele) => ele.productId === productId);
+    data.splice(idx, 1);
+    setData([...data]);
   };
 
   useEffect(() => {

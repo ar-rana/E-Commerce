@@ -73,11 +73,22 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping("/products/random") // TO-DO: implement browser side caching
-    public ResponseEntity<List<Product>> getRandomProducts () {
+    @GetMapping("/products/random")
+    public ResponseEntity<List<Product>> getRandomProducts (@RequestHeader(value = HttpHeaders.IF_NONE_MATCH, required = false) String eTag) {
+        if (eTag != null) {
+            long actualETag = Long.parseLong(eTag.replace("\"", ""));
+            if (actualETag + 1000*60*3 < System.currentTimeMillis()) {
+                System.out.println("Browser Cache");
+                 return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+        }
         List<Product> products = productService.getRandomProduct();
         if (products.isEmpty()) return ResponseEntity.notFound().build();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(4, TimeUnit.MINUTES)
+                        .cachePublic())
+                .eTag(String.valueOf(System.currentTimeMillis()))
+                .body(products);
     }
 
     @GetMapping("/images/{productId}")

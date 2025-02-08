@@ -23,15 +23,15 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/new") // checked
-    public String newOrder(@RequestBody Map<String, String> item) {
-        if (orderService.newOrder(item.get("identifier"), Integer.valueOf(item.get("productId")))) {
+    @GetMapping("/new/{identifier}") // checked
+    public String newOrder(@PathVariable String identifier) {
+        if (orderService.newOrder(identifier)) {
             return "Order Received!";
         }
         return "Error Processing Order!!";
     }
 
-    @GetMapping("/get/{identifier}") // checked SAME AS USERCONTROLLER getOrder
+    @GetMapping("/get/{identifier}") // checked for each separate order
     public ResponseEntity<?> getOrders(@PathVariable String identifier, @RequestParam(required = false) Integer orderId) {
         if (orderId == null) {
             List<Order> orders = orderService.getOrders(identifier);

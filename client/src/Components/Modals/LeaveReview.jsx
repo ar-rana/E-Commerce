@@ -35,7 +35,7 @@ const LeaveReview = (props) => {
       if (res.ok) {
         const responce = await res.text();
         alert(responce);
-        setOpen(false);
+        props.setOpen(false);
       }
     } catch (err) {
       console.log(err.message);

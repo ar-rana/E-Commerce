@@ -74,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/orders/{identifier}") // checked SAME AS ORDERCONTROLLER getOrders
+    @GetMapping("/orders/{identifier}") // checked for fetching all orders
     public ResponseEntity<List<Order>> getOrders(@PathVariable String identifier) {
         List<Order> orders = userService.getCustomerOrders(identifier);
         return new ResponseEntity<>(orders, HttpStatus.OK);

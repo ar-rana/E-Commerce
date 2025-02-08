@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +14,11 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.ecommerce.model.Product;
+import com.practice.ecommerce.model.SavedProduct;
+import com.practice.ecommerce.model.compositeId.ListId;
+import com.practice.ecommerce.repository.SavedProductsRepo;
+import com.practice.ecommerce.service.SavedProductsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +31,9 @@ public class RedisCacheService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private SavedProductsRepo savedProductsRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(RedisCacheService.class);
 
@@ -97,7 +107,22 @@ public class RedisCacheService {
         logger.warn("DELETED " + key + " from cache");
     }
 
-    public void writeThroughCache(String key) {
-
+    public void writeThroughCache(String key, Map<String, String> data) {
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<SavedProduct> savedProduct = null;
+        ListId listId = null;
+        try {
+            listId = mapper.readValue(data.get("listId"), ListId.class);
+            savedProduct = savedProductsRepo.findById(listId);
+        } catch (JsonProcessingException ex) {
+            logger.error("FAILED TO ADD DATA TO SAVEDPRODUCT REPO: {}", ex.getMessage());
+            deleteCache(key);
+            return;
+        }
+        if (savedProduct.isPresent()) {
+            List<Product> productList = getCache(key, new TypeReference<List<Product>>() {});
+            savedProduct.get().setProducts(productList);
+            savedProductsRepo.save(savedProduct.get());
+        }
     }
 }

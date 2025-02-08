@@ -35,7 +35,9 @@ const Cart = () => {
   };
 
   const handleDelete = (productId) => {
-    setData((prev) => prev.filter((ele) => ele.productId !== productId));
+    const idx = data.findIndex((ele) => ele.productId === productId);
+    data.splice(idx, 1);
+    setData([...data]);
   };
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const Cart = () => {
     if (list) {
       setCustomers(JSON.parse(list));
     }
-    if (status === 404) {
+    if (status === 404 || status === 403) {
       setEmpty(true);
     } else {
       setEmpty(false);

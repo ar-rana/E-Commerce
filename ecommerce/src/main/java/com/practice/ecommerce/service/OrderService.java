@@ -1,11 +1,12 @@
 package com.practice.ecommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.practice.ecommerce.model.Enums.DeliveryStatus;
 import com.practice.ecommerce.model.Enums.Keys;
+import com.practice.ecommerce.model.Enums.ListType;
 import com.practice.ecommerce.model.Order;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.User;
@@ -26,6 +27,9 @@ public class OrderService {
     private ProductService productService;
 
     @Autowired
+    private SavedProductsService savedProductsService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -36,19 +40,22 @@ public class OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(Order.class);
 
-    public boolean newOrder(String identifier, Integer productId) {
-        Product product = productService.getProduct(productId);
-        if (product == null) return false;
+    public boolean newOrder(String identifier) {
         User user = userService.getUserObject(identifier);
-        logger.info("Product: {} + User: {}", product, user);
         if (user == null) return false;
+        List<Product> cart = savedProductsService.getListItems(ListType.CART, identifier);
+        if (cart == null || cart.isEmpty()) return false;
+        Integer totalPrice = productService.getTotalPrice(cart.stream().map(item -> item.getCurrentPrice()).toList());
 
-        Order order = new Order(identifier, DeliveryStatus.pending, product);
-        orderRepository.save(order);
+        logger.info("Total: {} + for User: {}", totalPrice, identifier);
 
-        user.getOrders().add(order);
-        userService.updateUser(user);
+        List<Integer> orderIds = new ArrayList<>();
+        for (Product product: cart) {
+            Order order = new Order(identifier, DeliveryStatus.pending, product);
+            orderIds.add(orderRepository.save(order).getOrderId());
+        }
 
+        getOrders(user.getIdentifier());
         cache.deleteCache(Keys.key(Keys.USER, identifier+"orders"));
         return true;
     }
@@ -62,7 +69,7 @@ public class OrderService {
         }
         List<Order> order = orderRepository.findByUserIdentifier(identifier);
         if (!order.isEmpty()) {
-            return item;
+            return order;
         }
         return null;
     }
