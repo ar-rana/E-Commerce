@@ -6,10 +6,11 @@ import { useUser } from "../../UserContext";
 const LeaveReview = (props) => {
   const { user, token } = useUser();
   const [text, setText] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(null);
 
   const reviewSubmithandler = (e) => {
     e.preventDefault();
+    if(!rating) return;
     console.log('rating: ', rating, 'text: ', text);
     leaveReview();
   };
@@ -84,7 +85,7 @@ const LeaveReview = (props) => {
                 style={{marginTop: '4px', backgroundColor: '#eee3cb'}}
                 onChange={(e) => setText(e.target.value)}
               />
-              <Button1 type="submit" onClick={reviewSubmithandler} />
+              <Button1 text="Submit Review" type="submit" onClick={reviewSubmithandler} />
             </form>
           </div>
         </div>

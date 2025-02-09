@@ -1,7 +1,5 @@
 package com.practice.ecommerce.model;
 
-import java.util.List;
-
 import com.practice.ecommerce.model.Enums.DeliveryStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,15 +10,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import org.hibernate.mapping.ToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 public class Order {
 
     @Id
@@ -33,64 +31,26 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    public String address;
-    public String phone;
+    @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
+    private String contact;
+    @Column(nullable = false)
+    private String referenceNumber;
+
+    private String customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getUserIdentifier() {
-        return userIdentifier;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
+    public Order(String userIdentifier, DeliveryStatus status, Product product, String address, String contact, String name, String referenceNumber) {
+        this.userIdentifier = userIdentifier;
+        this.status = status;
         this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setUserIdentifier(String userIdentifier) {
-        this.userIdentifier = userIdentifier;
-    }
-
-    public DeliveryStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DeliveryStatus status) {
-        this.status = status;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Order(String userIdentifier, DeliveryStatus status, Product product) {
-        this.userIdentifier = userIdentifier;
-        this.status = status;
+        this.contact = contact;
+        this.customer = name;
+        this.referenceNumber = referenceNumber;
         this.product = product;
     }
 

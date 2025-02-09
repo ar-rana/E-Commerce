@@ -113,4 +113,9 @@ public class SavedProductsService {
         }
         return false;
     }
+
+    public boolean clearCart(String identifier) {
+        savedProductsRepo.deleteById(new ListId(identifier, ListType.CART));
+        return true;
+    }
 }

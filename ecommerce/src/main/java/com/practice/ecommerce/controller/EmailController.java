@@ -41,11 +41,6 @@ public class EmailController {
         emailService.sendWelcomeMail(to, EmailMessages.welcomeMessage);
     }
 
-    @GetMapping("/order") // for testing
-    public void sendOrderMail() {
-        emailService.sendMailWithAttachment(to, EmailMessages.orderPlaced, new ArrayList<>(Arrays.asList(orderService.getOrderById(1))));
-    }
-
     @GetMapping("/stock") // for testing
     public void sendProductMail() {
         emailService.sendHtmlMail(to, EmailMessages.productStockOver, productService.getProduct(2));

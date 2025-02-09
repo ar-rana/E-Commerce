@@ -1,6 +1,5 @@
 package com.practice.ecommerce.repository;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -43,14 +42,25 @@ public class OrderRepoTest {
             DefaultModels.stock - 10,
             "PNG"
     );
+    Product product2 = new Product(
+            DefaultModels.productName2,
+            DefaultModels.basicPrice1,
+            DefaultModels.currentPrice2,
+            DefaultModels.thumbnail,
+            DefaultModels.stock,
+            ProductCategory.outdoordecore,
+            DefaultModels.stock - 10,
+            "PNG"
+    );
     private Order order;
     private Order savedOrder;
+    private Product savedProduct;
 
     @BeforeEach
     public void setUp() {
-        Product savedProduct = productRepository.save(product);
+        savedProduct = productRepository.save(product);
 
-        order = new Order(DefaultModels.username, DeliveryStatus.pending, savedProduct);
+        order = new Order(DefaultModels.username, DeliveryStatus.pending, savedProduct, "address", "contact", "Name", "someRefNumber");
 
         savedOrder = orderRepository.save(order);
     }
@@ -75,5 +85,19 @@ public class OrderRepoTest {
         assertFalse(orders.isEmpty());
         assertEquals(1, orders.size());
         assertIterableEquals(Set.of(order), new HashSet<>(orders));
+    }
+
+    @Test
+    public void testFindOrderForUser() {
+        Product newProduct = productRepository.save(product2);
+        Order newOrder = new Order(DefaultModels.username, DeliveryStatus.pending, newProduct, "address", "contact", "Name", "someRefNumber");
+        orderRepository.save(newOrder);
+
+        Set<Order> compare = new HashSet<>(List.of(newOrder, savedOrder));
+        List<Order> orders = orderRepository.findOrderForUser(DefaultModels.username, List.of(savedProduct.getProductId(), newProduct.getProductId()));
+
+        assertFalse(orders.isEmpty());
+        assertEquals(2, orders.size());
+        assertIterableEquals(compare, new HashSet<>(orders));
     }
 }

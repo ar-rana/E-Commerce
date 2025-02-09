@@ -106,9 +106,4 @@ public class RedisTests {
         assertNotNull(items);
         assertEquals(3, items.size());
     }
-
-    @AfterAll
-    public static void takeDown() {
-
-    }
 }

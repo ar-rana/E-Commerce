@@ -5,7 +5,6 @@ import Modal from "react-modal";
 const UserInfoForm = (props) => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
   const userInfoHandler = (e) => {
@@ -13,7 +12,6 @@ const UserInfoForm = (props) => {
     const newCustomer = {
       name: name,
       number: number,
-      email: email,
       address: address
     }
     let newList = [];
@@ -69,13 +67,6 @@ const UserInfoForm = (props) => {
                 className="modal-input"
                 type="number"
                 placeholder="Enter contact number"
-              />
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="modal-input"
-                type="text"
-                placeholder="Enter email"
               />
               <textarea
                 rows={6}

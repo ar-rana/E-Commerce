@@ -7,7 +7,7 @@ const Status = (props) => {
       <Modal
         style={{
           content: {
-            top: "7rem",
+            top: "5rem",
           },
         }}
         className="modal"
@@ -26,38 +26,46 @@ const Status = (props) => {
             </div>
           </div>
           <table className="modal-table">
-            <tr>
-              <th>Item</th>
-              <th>Details</th>
-            </tr>
-            <tr>
-              <td>Order Id</td>
-              <td>{props.order?.orderId}</td>
-            </tr>
-            <tr>
-              <td>User</td>
-              <td>{props.order?.userIdentifier}</td>
-            </tr>
-            <tr>
-              <td>Contect</td>
-              <td>{props.order?.phone}</td>
-            </tr>
-            <tr>
-              <td>Address</td>
-              <td>{props.order?.address}</td>
-            </tr>
-            <tr>
-              <td>Product Name</td>
-              <td>{props.order?.product.name}</td>
-            </tr>
-            <tr>
-              <td>Product Current Price</td>
-              <td>{props.order?.product.currentPrice}</td>
-            </tr>
-            <tr>
-              <td>Status</td>
-              <td>{props.order?.status}</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Order Id</td>
+                <td>{props.order?.orderId}</td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td>{props.order?.customer}</td>
+              </tr>
+              <tr>
+                <td>User</td>
+                <td>{props.order?.userIdentifier}</td>
+              </tr>
+              <tr>
+                <td>Reference Id.</td>
+                <td>{props.order?.referenceNumber}</td>
+              </tr>
+              <tr>
+                <td>Contact</td>
+                <td>{props.order?.contact}</td>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td>{props.order?.address}</td>
+              </tr>
+              <tr>
+                <td>Product Name</td>
+                <td>{props.order?.product?.name}</td>
+              </tr>
+              <tr>
+                <td>Product Current Price</td>
+                <td>{props.order?.product?.currentPrice}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </Modal>

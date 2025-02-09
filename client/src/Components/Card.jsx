@@ -6,34 +6,15 @@ import { useUser } from "../UserContext.js";
 import LeaveReview from "./Modals/LeaveReview.jsx";
 
 const Card = (props) => {
-  const { url } = useImage(props.product?.thumbnail, props.product?.thumbnailType);
+  const { url } = useImage(props.product?.thumbnail || props.product?.product.thumbnail, 
+    props.product?.thumbnailType || props.product?.product.thumbnailType);
   const { user, token } = useUser();
 
   const [open, setOpen] = useState(false);
   const [openreview, setOpenReview] = useState(false);
-  const [order, setOrder] = useState(null);
 
   const getOrderStatus = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}orders/get/${user}?orderId=${props.product?.productId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (res.ok) {
-        const responce = await res.json();
-        setOrder(responce);
-        setOpen(true);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
+    setOpen(true);
   };
 
   const reviewHandler = () => {
@@ -46,21 +27,21 @@ const Card = (props) => {
         <img src={url || null} alt="Product_Image" />
       </div>
       <div className="card-info">
-        <span>{props.product?.name}</span>
+        <span>{props.product?.name || props.product?.product.name}</span>
         <div className="card-price">
           <span style={{ textDecoration: "line-through", color: "gray" }}>
-            ₹ {props.product?.basicPrice}
+            ₹ {props.product?.basicPrice || props.product?.product.basicPrice}
           </span>
-          <p>₹{props.product?.currentPrice}</p>
+          <p>₹{props.product?.currentPrice || props.product?.product.currentPrice}</p>
         </div>
         {props.ordered ? (
           <>
             <span>
-              <Button2 text={"Leave a Review"} onClick={props.onClick} />
+              <Button2 text={"Leave a Review"} onClick={reviewHandler} />
               <Button2 text={"Status"} onClick={getOrderStatus} />
             </span>
-            <Status open={open} setOpen={setOpen} order={order} />
-            <LeaveReview open={openreview} setOpen={setOpenReview} productId={props.product?.productId}/>
+            <Status open={open} setOpen={setOpen} order={props.product} />
+            <LeaveReview open={openreview} setOpen={setOpenReview} productId={props.product?.product.productId}/>
           </>
         ) : (
           <Button2 text={"Checkout"} onClick={props.onClick} />

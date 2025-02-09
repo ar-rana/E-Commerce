@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReviewsRepository extends JpaRepository<Review, ReviewId> {
-    @Transactional
-    @Query("SELECT r FROM Review r WHERE productId = ?1 ORDER BY RANDOM() LIMIT ?2")
+    @Transactional // so that it gets whatever it finds if no. of reviews is less than limit
+    @Query("SELECT r FROM Review r WHERE productId = ?1 ORDER BY FUNCTION('RANDOM') FETCH FIRST ?2 ROWS ONLY")
     List<Review> findRandomReviews(Integer productId, Integer limit);
 
     @Transactional

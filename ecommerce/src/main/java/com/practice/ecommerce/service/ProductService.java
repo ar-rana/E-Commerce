@@ -169,6 +169,22 @@ public class ProductService {
         return reviews;
     }
 
+    public void adjustStock(Integer amt, Integer productId) {
+        Product item = cache.getCache(Keys.key(Keys.PRODUCT, productId), Product.class);
+        if (item != null) {
+            item.setStock(item.getStock() + amt);
+            item.setVirtualStock(item.getVirtualStock() + amt);
+            productRepository.save(item);
+            return;
+        }
+        productRepository.adjustStock(amt, productId);
+        adjustVirtualStock(amt, productId);
+    }
+
+    public void adjustVirtualStock(Integer amt, Integer productId) {
+        productRepository.adjustVirtualStock(amt, productId);
+    }
+
     public Product updateProductStock(Product product) {
         return productRepository.save(product);
     }

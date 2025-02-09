@@ -5,9 +5,11 @@ import java.util.Base64;
 import java.util.Map;
 
 import com.practice.ecommerce.model.Enums.UserType;
+import com.practice.ecommerce.model.PaymentDetails;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.ProductDTO;
 import com.practice.ecommerce.service.AdminService;
+import com.practice.ecommerce.service.OrderService;
 import com.practice.ecommerce.service.ProductService;
 import com.practice.ecommerce.service.UserService;
 import org.slf4j.Logger;
@@ -41,13 +43,16 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderService orderService;
+
     @Value("${app.secret.key}")
     private String adminSecretKey;
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 //Demo Product format (Form Data)
 // {
-//    "name": "someName",
+//    "customer": "someName",
 //    "basicPrice": 500,
 //    "thumbnail": MultipartFile,
 //    "category": "homedecore",
@@ -72,7 +77,7 @@ public class AdminController {
                 extension
         );
         Product newProduct = adminService.addProduct(product, productDTO.getTags());
-        if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + "id: " + newProduct.getProductId() + " name: " + newProduct.getName(), HttpStatus.OK);
+        if (newProduct != null) return new ResponseEntity<>("Product saved successfully!! " + "id: " + newProduct.getProductId() + " customer: " + newProduct.getName(), HttpStatus.OK);
         return new ResponseEntity<>("Product save unsuccessfully!!" + product, HttpStatus.BAD_REQUEST);
     }
 
@@ -107,6 +112,16 @@ public class AdminController {
         return adminService.uploadImage(id, file, getMediaType(file));
     }
 
+    @GetMapping("/paymentdetails")
+    public ResponseEntity<PaymentDetails> getPayment(@RequestParam(required = false) String ref, @RequestParam(required = false) String id) {
+        if (id != null) {
+            PaymentDetails paymentDetails = orderService.getPaymentById(id);
+            return new ResponseEntity<>(paymentDetails, HttpStatus.OK);
+        }
+        PaymentDetails paymentDetails = orderService.getPaymentByRef(ref);
+        return new ResponseEntity<>(paymentDetails, HttpStatus.OK);
+    }
+
     private String encodeThumbnail(MultipartFile file) {
         String base64 = null;
         try {
@@ -120,7 +135,7 @@ public class AdminController {
     private String getMediaType(MultipartFile file) {
         String name = file.getResource().getFilename();
         int i = name.indexOf('.');
-        System.out.println("name: " + name);
+        System.out.println("customer: " + name);
         StringBuilder sb = new StringBuilder();
         for (int j=i+1;j<name.length();j++) {
             sb.append(name.charAt(j));

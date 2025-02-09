@@ -44,7 +44,7 @@ public class ReviewService {
         boolean hasDuplicate = reviews.stream().anyMatch(review -> reviewIds.contains(review.getIdentifier()));
         if (hasDuplicate) {
             String key = Keys.key(Keys.REVIEW, productId);
-            List<Review> reviewsFromRepo = reviewsRepository.findNewReviews(productId, reviewIds, 5);
+            List<Review> reviewsFromRepo = reviewsRepository.findNewReviews(productId, reviewIds, 3);
             for (Review review: reviewsFromRepo) {
                 cache.setCache(key + "/" + review.getIdentifier(),  review, 30);
             }

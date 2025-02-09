@@ -1,10 +1,13 @@
 package com.practice.ecommerce.service.redis;
 
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.ecommerce.model.Enums.EmailMessages;
+import com.practice.ecommerce.model.Order;
 import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.service.EmailService;
 import org.slf4j.Logger;
@@ -29,12 +32,13 @@ public class RedisStreamListener implements StreamListener<String, MapRecord<Str
 
     @Override
 	public void onMessage(MapRecord<String, String, String> message) {
-		logger.info("Received STREAM: " + message.getStream() + " ID: " + message.getId() +
-				" Message: " + message.getValue()
-		);
+		logger.info("Received STREAM: " + message.getStream() + " ID: " + message.getId());
 
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> map = message.getValue();
+		if (map.get("type") == null || map.get("to") == null) {
+			redisTemplate.opsForStream().delete(STREAM, message.getId());
+		}
 
 		EmailMessages type = EmailMessages.valueOf(map.get("type"));
 		String to = map.get("to");
@@ -45,14 +49,20 @@ public class RedisStreamListener implements StreamListener<String, MapRecord<Str
 				emailService.sendWelcomeMail(to, type);
 				redisTemplate.opsForStream().delete(STREAM, message.getId());
 				break;
-            case orderPlaced:
+            case EmailMessages.orderPlaced:
+                try {
+                    emailService.sendMailWithAttachment(to, type, mapper.readValue(map.get("orders"), new TypeReference<List<Order>>() {}), map.get("referenceId"), map.get("paymentId"));
+					redisTemplate.opsForStream().delete(STREAM, message.getId());
+                } catch (JsonProcessingException ex) {
+                    logger.error("ERROR Parsing Product in STREAM: {}, for: {}", ex.getMessage(), EmailMessages.orderPlaced);
+                }
                 break;
             case EmailMessages.productStockOver:
                 try {
                     emailService.sendHtmlMail(to, type, mapper.readValue(map.get("product"), Product.class));
 					redisTemplate.opsForStream().delete(STREAM, message.getId());
                 } catch (JsonProcessingException ex) {
-                    logger.error("ERROR Parsing Product in STREAM: {}", ex.getMessage());
+                    logger.error("ERROR Parsing Product in STREAM: {}, for: {}", ex.getMessage(), EmailMessages.productStockOver);
                 }
 				break;
 			case EmailMessages.simpleMessage:
@@ -60,7 +70,7 @@ public class RedisStreamListener implements StreamListener<String, MapRecord<Str
 				redisTemplate.opsForStream().delete(STREAM, message.getId());
 				break;
             default:
-				emailService.sendSimpleMail(to, "Default Mail", "Test Mail");
+				redisTemplate.opsForStream().delete(STREAM, message.getId());
 		}
 	}
 }

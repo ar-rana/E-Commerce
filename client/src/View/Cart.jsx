@@ -8,6 +8,7 @@ import Button2 from "../Components/Buttons/Button2.jsx";
 import UserInfoForm from "../Components/Modals/UserInfoForm.jsx";
 import CustomerInfo from "../Components/CustomerInfo.jsx";
 import useGet from "../Hooks/API/useGet.js";
+import CheckoutBtn from "../Components/Buttons/CheckoutBtn.jsx";
 
 const Cart = () => {
   const [total, setTotal] = useState(0);
@@ -32,12 +33,14 @@ const Cart = () => {
       localStorage.setItem("customers", JSON.stringify(newList));
     }
     setSendingto("");
+    setTotal(() => products.reduce((total, ele) => total + ele.currentPrice, 0));
   };
 
   const handleDelete = (productId) => {
     const idx = data.findIndex((ele) => ele.productId === productId);
     data.splice(idx, 1);
     setData([...data]);
+    setTotal(() => data.reduce((total, ele) => total + ele.currentPrice, 0));
   };
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const Cart = () => {
       setProductIds([]);
       setTotal(0);
       setProductIds(products.map(product => product.productId));
-      setTotal(products.reduce((total, ele) => total + ele.currentPrice, 0)); //reduce returns single val without changing array
+      setTotal(() => products.reduce((total, ele) => total + ele.currentPrice, 0)); //reduce returns single val without changing array
     }
   }, [open, customers.length, products, status]);
 
@@ -72,7 +75,7 @@ const Cart = () => {
         <div className="cart-info">
           <div className="checkout">
             <h2>Total: ₹{total}</h2>
-            <Button3 text={"Buy Now"} />
+            <CheckoutBtn data={sendingto} />
           </div>
           <div className="user-info">
             <h3 className="message">Customers: </h3>

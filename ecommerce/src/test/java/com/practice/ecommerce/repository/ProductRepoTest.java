@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -69,7 +68,7 @@ public class ProductRepoTest {
         List<Product> product1 = productRepository.findByCategory(ProductCategory.aesthtic);
         List<Product> product2 = productRepository.findByCategory(ProductCategory.homedecore);
 
-        assertNotNull(product2);
+        assertFalse(product2.isEmpty());
         assertTrue(product1.isEmpty());
         assertEquals(savedProduct.getCategory(), product2.getFirst().getCategory());
     }
@@ -161,7 +160,7 @@ public class ProductRepoTest {
         Product newSavedProduct = productRepository.save(product2);
         List<Product> products = productRepository.findRandomProducts(2);
 
-        assertNotNull(products);
+        assertFalse(products.isEmpty());
         assertEquals(2, products.size());
         // Sets so we dont have to worry about the order of the List returned
         List<Product> compare = List.of(savedProduct, newSavedProduct);

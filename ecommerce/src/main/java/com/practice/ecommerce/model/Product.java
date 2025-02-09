@@ -145,7 +145,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", name='" + name + '\'' +
+                ", customer='" + name + '\'' +
                 ", basicPrice=" + basicPrice +
                 ", currentPrice=" + currentPrice +
                 ", thumbnail='" + thumbnail + '\'' +

@@ -7,16 +7,9 @@ import LeaveReview from "../Components/Modals/LeaveReview";
 import useGet from "../Hooks/API/useGet";
 
 const Orders = () => {
-  const [open, setOpen] = useState(false);
-  const [id, setID] = useState("");
   const [empty, setEmpty] = useState(false);
 
   const { data, status, loading } = useGet("orders/get");
-
-  const openModel = (id) => {
-    setOpen((prev) => !prev);
-    setID(id);
-  };
 
   useEffect(() => {
     if (!data) {
@@ -31,18 +24,16 @@ const Orders = () => {
       <h2 className="heading underline">Your Orders</h2>
       <div className="order-items">
         <div className="search-items">
-          {data?.map((obj) => (
+          {data?.map((obj, i) => (
             <Card
-              key={obj.id}
+              key={i}
               ordered={true}
               product={obj}
-              onClick={() => openModel(obj.id)}
             />
           ))}
           {empty ? <Empty /> : ""}
         </div>
       </div>
-      <LeaveReview open={open} setOpen={setOpen} id={id} />
       <h2 className="heading underline">Continue Shopping...</h2>
       <ProductView />
       <Footer />

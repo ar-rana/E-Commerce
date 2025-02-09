@@ -16,7 +16,7 @@ public class FirebaseConfig {
 
     @Bean
     FirebaseApp initializeFirebase() throws IOException {
-        // avoid 'FirebaseApp name [DEFAULT] already exists' Exception
+        // avoid 'FirebaseApp customer [DEFAULT] already exists' Exception
         if (!FirebaseApp.getApps().isEmpty()) return FirebaseApp.getInstance();
         FileInputStream serviceAccount = new FileInputStream("src/main/resources/static/serviceAccountKey.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
@@ -26,7 +26,7 @@ public class FirebaseConfig {
     }
 
     // if we dont put the 'FirebaseApp firebaseApp' in parameter then these Beans get called early
-    // and throw the UnsatisfiedDependencyException FirebaseApp with name [DEFAULT] doesn't exist.
+    // and throw the UnsatisfiedDependencyException FirebaseApp with customer [DEFAULT] doesn't exist.
     // so to make sure they get called after the FirebaseApp init we set it as parameter
     @Bean
     Firestore getFirestore(FirebaseApp firebaseApp) {

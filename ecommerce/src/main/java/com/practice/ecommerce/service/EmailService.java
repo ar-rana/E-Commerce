@@ -141,16 +141,16 @@ public class EmailService {
         }
     }
 
-    public void sendMailWithAttachment(String to, EmailMessages type, List<Order> orders) {
+    public void sendMailWithAttachment(String to, EmailMessages type, List<Order> orders, String refNo, String paymentId) {
         MimeMessage message = javaMailSender.createMimeMessage();
-        generateReceipt(pathToReceipt, orders);
+        generateReceipt(pathToReceipt, orders, to, refNo, paymentId);
 
         try {
             MimeMessageHelper attachmentMail = new MimeMessageHelper(message, true);
 
             attachmentMail.setTo(to);
             attachmentMail.setSubject(messagesSubject.get(type));
-            attachmentMail.setText(messages.get(type));
+            attachmentMail.setText(messages.get(type), true);
 
             FileSystemResource file = new FileSystemResource(new File(pathToReceipt));
             attachmentMail.addAttachment("Receipt", file, Files.probeContentType(file.getFile().toPath()));
@@ -177,10 +177,7 @@ public class EmailService {
         return sb.toString();
     }
 
-    public void generateReceipt(String path, List<Order> orders) {
-        User user = new User("tempUser", UserType.customer);
-        Product product = new Product("tempProduct", 500, 300, "xyxyxyxxyy", 10, ProductCategory.aesthtic, 90, "jpeg");
-        product.setProductId(20);
+    public void generateReceipt(String path, List<Order> orders, String user, String refNo, String paymentId) {
         Integer total = 0;
 
         try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(path));
@@ -195,9 +192,13 @@ public class EmailService {
                     .setBorder(Border.NO_BORDER).setFontColor(Color.GRAY).setFontSize(12)
                     .setWidth(UnitValue.createPercentValue(100));
             topTable.addCell(new Cell().add("Ref. Id. :").setBorder(Border.NO_BORDER));
-            topTable.addCell(new Cell().add(UUID.randomUUID().toString()).setBorder(Border.NO_BORDER));
+            topTable.addCell(new Cell().add(refNo).setBorder(Border.NO_BORDER));
+            topTable.addCell(new Cell().add("Payment Id. :").setBorder(Border.NO_BORDER));
+            topTable.addCell(new Cell().add(paymentId).setBorder(Border.NO_BORDER));
             topTable.addCell(new Cell().add("Date : ").setBorder(Border.NO_BORDER));
             topTable.addCell(new Cell().add(String.valueOf(new Date())).setBorder(Border.NO_BORDER));
+            topTable.addCell(new Cell().add("Customer Identifier : ").setBorder(Border.NO_BORDER));
+            topTable.addCell(new Cell().add(user).setBorder(Border.NO_BORDER));
 
             document.add(topTable);
 

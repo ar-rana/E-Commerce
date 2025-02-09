@@ -11,7 +11,6 @@ const UserInfo = (props) => {
         ></span>
         <p>Name: {props.name}</p>
         <p>Number: {props.number}</p>
-        <p>Email: {props.email}</p>
         <p>Address: {props.address}</p>
       </div>
     </>
