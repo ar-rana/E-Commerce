@@ -1,10 +1,14 @@
 package com.practice.ecommerce.model;
 
 import com.practice.ecommerce.model.Enums.ProductCategory;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
+@Getter
+@Setter
 public class ProductDTO {
     private String name;
     private Integer basicPrice;
@@ -25,59 +29,4 @@ public class ProductDTO {
 
     public ProductDTO() { }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getBasicPrice() {
-        return basicPrice;
-    }
-
-    public void setBasicPrice(Integer basicPrice) {
-        this.basicPrice = basicPrice;
-    }
-
-    public Integer getCurrentPrice() {
-        return currentPrice;
-    }
-
-    public void setCurrentPrice(Integer currentPrice) {
-        this.currentPrice = currentPrice;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public ProductCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
-    public MultipartFile getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(MultipartFile thumbnail) {
-        this.thumbnail = thumbnail;
-    }
 }

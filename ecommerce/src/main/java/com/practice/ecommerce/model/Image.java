@@ -7,11 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "images")
+@Getter
+@Setter
 public class Image {
 
     @Id
@@ -34,35 +36,4 @@ public class Image {
 
     public Image() { }
 
-    public Integer getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

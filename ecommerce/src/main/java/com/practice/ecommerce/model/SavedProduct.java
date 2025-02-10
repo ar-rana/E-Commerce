@@ -12,9 +12,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @IdClass(ListId.class)
+@Getter
+@Setter
 public class SavedProduct {
 
     @Id
@@ -25,30 +29,6 @@ public class SavedProduct {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public ListType getListType() {
-        return listType;
-    }
-
-    public void setListType(ListType listType) {
-        this.listType = listType;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
 
     public SavedProduct(String identifier, ListType listType) {
         this.identifier = identifier;

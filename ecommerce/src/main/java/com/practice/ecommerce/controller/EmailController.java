@@ -11,6 +11,7 @@ import com.practice.ecommerce.service.OrderService;
 import com.practice.ecommerce.service.ProductService;
 import com.practice.ecommerce.service.redis.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,8 @@ public class EmailController {
     @Autowired
     private Publisher publisher;
 
-    public String to = "aryan.rana2005@gmail.com";
+    @Value("${app.admin.mail}")
+    public String to;
 
     @GetMapping("/welcome") // for testing
     public void sendWelcomeMail() {
@@ -43,7 +45,7 @@ public class EmailController {
 
     @GetMapping("/stock") // for testing
     public void sendProductMail() {
-        emailService.sendHtmlMail(to, EmailMessages.productStockOver, productService.getProduct(2));
+        emailService.sendHtmlMail(to, EmailMessages.productStockOver, "2");
     }
 
     @PostMapping("/feedback")

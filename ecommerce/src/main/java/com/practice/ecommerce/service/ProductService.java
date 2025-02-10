@@ -1,12 +1,15 @@
 package com.practice.ecommerce.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.practice.ecommerce.model.Enums.EmailMessages;
 import com.practice.ecommerce.model.Enums.Keys;
 import com.practice.ecommerce.model.Enums.ProductCategory;
 import com.practice.ecommerce.model.Image;
@@ -14,10 +17,12 @@ import com.practice.ecommerce.model.Product;
 import com.practice.ecommerce.model.Review;
 import com.practice.ecommerce.repository.ImagesRepository;
 import com.practice.ecommerce.repository.ProductRepository;
+import com.practice.ecommerce.service.redis.Publisher;
 import com.practice.ecommerce.service.redis.RedisCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,6 +42,12 @@ public class ProductService {
 
     @Autowired
     private RedisCacheService cache;
+
+    @Autowired
+    private Publisher publisher;
+
+    @Value("${app.admin.mail}")
+    private String admin;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
@@ -170,11 +181,20 @@ public class ProductService {
     }
 
     public void adjustStock(Integer amt, Integer productId) {
-        Product item = cache.getCache(Keys.key(Keys.PRODUCT, productId), Product.class);
+        String key = Keys.key(Keys.PRODUCT, productId);
+        Product item = cache.getCache(key, Product.class);
         if (item != null) {
             item.setStock(item.getStock() + amt);
             item.setVirtualStock(item.getVirtualStock() + amt);
-            productRepository.save(item);
+            Product product = productRepository.save(item);
+            if (product.getVirtualStock() == 0) {
+                Map<String, String> map = new HashMap<>();
+                map.put("type", EmailMessages.productStockOver.name());
+                map.put("to", admin);
+                map.put("productId", item.getProductId().toString());
+                publisher.publishToStream(map);
+            }
+            cache.setCache(key, item, 100);
             return;
         }
         productRepository.adjustStock(amt, productId);

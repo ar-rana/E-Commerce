@@ -4,7 +4,7 @@ import Reviews from "../Components/Reviews.jsx";
 import ProductView from "../Components/ProductView.jsx";
 import Footer from "../Components/Footer";
 import usePublicApi from "../Hooks/API/usePublicApi.js";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useImage from "../Hooks/useImage.js";
 import { useLoginContext } from "../Hooks/LoginContext.js";
 import { useUser } from "../UserContext.js";

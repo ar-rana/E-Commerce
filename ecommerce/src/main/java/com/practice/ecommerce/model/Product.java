@@ -15,9 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
+@Getter
+@Setter
 public class Product {
 
     @Id
@@ -68,78 +72,6 @@ public class Product {
     }
 
     public Product() { }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public String getThumbnailType() {
-        return thumbnailType;
-    }
-
-    public void setThumbnailType(String thumbnailType) {
-        this.thumbnailType = thumbnailType;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ProductCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
-    public Integer getVirtualStock() {
-        return virtualStock;
-    }
-
-    public void setVirtualStock(Integer virtualStock) {
-        this.virtualStock = virtualStock;
-    }
-
-    public Integer getBasicPrice() {
-        return basicPrice;
-    }
-
-    public void setBasicPrice(Integer basicPrice) {
-        this.basicPrice = basicPrice;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getCurrentPrice() {
-        return currentPrice;
-    }
-
-    public void setCurrentPrice(Integer currentPrice) {
-        this.currentPrice = currentPrice;
-    }
 
     @Override
     public String toString() {

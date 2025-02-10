@@ -3,7 +3,6 @@ import ProductView from "../Components/ProductView";
 import Footer from "../Components/Footer";
 import Card from "../Components/Card";
 import Empty from "../Components/Empty";
-import LeaveReview from "../Components/Modals/LeaveReview";
 import useGet from "../Hooks/API/useGet";
 
 const Orders = () => {

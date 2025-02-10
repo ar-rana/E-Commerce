@@ -118,7 +118,7 @@ public class EmailService {
         }
     }
 
-    public void sendHtmlMail(String to, EmailMessages type, Product product) {
+    public void sendHtmlMail(String to, EmailMessages type, String productId) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
@@ -126,11 +126,11 @@ public class EmailService {
             htmlMail.setTo(to);
 
             String str = messagesSubject.get(type);
-            String subject = new StringBuilder(str).insert(str.length()-1, product.getProductId()).toString();
+            String subject = new StringBuilder(str).insert(str.length()-1, productId).toString();
             htmlMail.setSubject(subject);
 
             String text = messages.get(type);
-            String content = new StringBuilder(text).insert(text.indexOf("ID:")+4, product.getProductId()).toString();
+            String content = new StringBuilder(text).insert(text.indexOf("ID:")+4, productId).toString();
             htmlMail.setText(content);
 
             htmlMail.setText(content, true);

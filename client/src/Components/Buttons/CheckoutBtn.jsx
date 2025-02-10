@@ -138,6 +138,7 @@ const CheckoutBtn = (props) => {
       console.log(ex.message);
     }
   }
+  
   return (
     <>
       <button className="button3" onClick={onClickHandler}>
