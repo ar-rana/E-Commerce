@@ -9,13 +9,15 @@ E-Commerce is a scalable and efficient online shopping platform built using mode
 ### **Frontend:**
 
 - React.js
+- CSS
 
 ### **Backend:**
 
 - Spring Boot
-- Firestore (Database)
+- Firestore
 - Redis (Caching & Streams for notifications)
 - JUnit (Unit Testing)
+- PostgreSQL (Database)
 
 ## Features
 
