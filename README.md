@@ -18,6 +18,7 @@ E-Commerce is a scalable and efficient online shopping platform built using mode
 - Redis (Caching & Streams for notifications)
 - JUnit (Unit Testing)
 - PostgreSQL (Database)
+- Spring Data JPA (JPA Repository)
 
 ## Features
 
@@ -32,18 +33,12 @@ E-Commerce is a scalable and efficient online shopping platform built using mode
 - **Performance Optimization**:
   - **Browser-Side Caching**: Reduces redundant API calls for a faster frontend experience.
   - **Server-Side Caching**: Optimized response times using Redis.
-
-## Project Highlights
-
-- **Scalable Notification Service**: Implemented using Redis Streams for real-time event-driven messaging.
-- **Payment Gateway Integration**: Ensures secure and smooth transactions for users.
-- **Caching Mechanisms**:
-  - Browser-side caching for quick UI interactions.
-  - Server-side caching for reducing database load and improving API response times.
-- **Custom OTP-Based Authentication**: Secure user authentication with OTP verification.
-- **Firestore-Powered Search API**: Fast and efficient product search functionality.
 - **Extensive Unit Testing**: 35 unit tests written using JUnit to ensure code reliability.
+- **User Feedback and Queries**: Users Feedback and queries feature.
 
+![image](https://github.com/user-attachments/assets/4e34f899-e14f-4681-8971-1fda478822bb)
+
+##
 ### **Backend Setup:**
 
 1. Clone the repository:
